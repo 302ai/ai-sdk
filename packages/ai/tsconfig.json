@@ -1,0 +1,6 @@
+{
+    "extends": "./node_modules/@302ai/ai-tsconfig/ts-library.json",
+    "include": ["."],
+    "exclude": ["*/dist", "dist", "build", "node_modules"]
+  }
+  
