@@ -70,8 +70,8 @@ importers:
         specifier: 1.0.4
         version: 1.0.4
       '@ai-sdk/provider-utils':
-        specifier: 2.0.7
-        version: 2.0.7(zod@3.23.8)
+        specifier: 2.0.8
+        version: 2.0.8(zod@3.23.8)
     devDependencies:
       '@302ai/ai-tsconfig':
         specifier: workspace:*
@@ -110,6 +110,15 @@ packages:
 
   '@ai-sdk/provider-utils@2.0.7':
     resolution: {integrity: sha512-4sfPlKEALHPXLmMFcPlYksst3sWBJXmCDZpIBJisRrmwGG6Nn3mq0N1Zu/nZaGcrWZoOY+HT2Wbxla1oTElYHQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.0.0
+    peerDependenciesMeta:
+      zod:
+        optional: true
+
+  '@ai-sdk/provider-utils@2.0.8':
+    resolution: {integrity: sha512-R/wsIqx7Lwhq+ogzkqSOek8foj2wOnyBSGW/CH8IPBla0agbisIE9Ug7R9HDTNiBbIIKVhduB54qQSMPFw0MZA==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
@@ -2809,6 +2818,15 @@ packages:
 snapshots:
 
   '@ai-sdk/provider-utils@2.0.7(zod@3.23.8)':
+    dependencies:
+      '@ai-sdk/provider': 1.0.4
+      eventsource-parser: 3.0.0
+      nanoid: 3.3.8
+      secure-json-parse: 2.7.0
+    optionalDependencies:
+      zod: 3.23.8
+
+  '@ai-sdk/provider-utils@2.0.8(zod@3.23.8)':
     dependencies:
       '@ai-sdk/provider': 1.0.4
       eventsource-parser: 3.0.0
