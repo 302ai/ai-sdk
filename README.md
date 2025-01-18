@@ -8,6 +8,6 @@ This SDK includes the following packages:
 
 ### Packages
 
-- `ai`: a [@302ai/ai](/packages/ai/README.md) The Core SDK for 302AI.
+- `ai`: a [@302ai/ai-sdk](/packages/ai/README.md) The Core SDK for 302AI.
 
 Each package is 100% [TypeScript](https://www.typescriptlang.org/).
