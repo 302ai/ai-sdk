@@ -1,4 +1,8 @@
-import { ImageModelV1 } from '@ai-sdk/provider';
+import {
+  EmbeddingModelV1,
+  ImageModelV1,
+  LanguageModelV1,
+} from '@ai-sdk/provider';
 import { AI302ImageModelId, AI302ImageSettings } from './ai302-image-settings';
 import {
   FetchFunction,
@@ -7,6 +11,28 @@ import {
 } from '@ai-sdk/provider-utils';
 import { AI302ImageModel } from './ai302-image-model';
 import { AI302Config } from './ai302-config';
+import {
+  OpenAICompatibleChatLanguageModel,
+  OpenAICompatibleEmbeddingModel,
+  ProviderErrorStructure,
+} from '@ai-sdk/openai-compatible';
+import { AI302ChatSettings, AI302ChatModelId } from './ai302-chat-settings';
+import { AI302EmbeddingModelId } from './ai302-embedding-settings';
+import { z } from 'zod';
+import { AI302EmbeddingSettings } from './ai302-embedding-settings';
+
+export type AI302ErrorData = z.infer<typeof ai302ErrorSchema>;
+
+const ai302ErrorSchema = z.object({
+  error: z.object({
+    message: z.string(),
+  }),
+});
+
+const ai302ErrorStructure: ProviderErrorStructure<AI302ErrorData> = {
+  errorSchema: ai302ErrorSchema,
+  errorToMessage: error => error.error.message,
+};
 
 export interface AI302ProviderSettings {
   /**
@@ -30,7 +56,34 @@ export interface AI302ProviderSettings {
 }
 
 export interface AI302Provider {
-  image(modelId: AI302ImageModelId, settings?: AI302ImageSettings): ImageModelV1;
+  /**
+    Creates a model for text generation.
+    */
+  (modelId: AI302ChatModelId, settings?: AI302ChatSettings): LanguageModelV1;
+
+  /**
+Creates a chat model for text generation.
+*/
+  chatModel(
+    modelId: AI302ChatModelId,
+    settings?: AI302ChatSettings,
+  ): LanguageModelV1;
+
+  /**
+  Creates a text embedding model for text generation.
+  */
+  textEmbeddingModel(
+    modelId: AI302EmbeddingModelId,
+    settings?: AI302EmbeddingSettings,
+  ): EmbeddingModelV1<string>;
+
+  /**
+  Creates a model for image generation.
+  */
+  image(
+    modelId: AI302ImageModelId,
+    settings?: AI302ImageSettings,
+  ): ImageModelV1;
 }
 
 const defaultBaseURL = 'https://api.302.ai';
@@ -55,7 +108,15 @@ export function createAI302(
 
   const getCommonModelConfig = (modelType: string): AI302Config => ({
     provider: `ai302.${modelType}`,
-    url: ({ path }) => `${baseURL}${path}`,
+    url: ({ modelId, path }) => {
+      if (modelType === 'embedding') {
+        if (modelId.includes('jina')) {
+          return `${baseURL}/jina/v1${path}`;
+        }
+        return `${baseURL}/v1${path}`;
+      }
+      return `${baseURL}${path}`;
+    },
     headers: getHeaders,
     fetch: options.fetch,
   });
@@ -71,7 +132,32 @@ export function createAI302(
     );
   };
 
-  const provider = () => {};
+  const createChatModel = (
+    modelId: AI302ChatModelId,
+    settings: AI302ChatSettings = {},
+  ) => {
+    return new OpenAICompatibleChatLanguageModel(modelId, settings, {
+      ...getCommonModelConfig('chat'),
+      errorStructure: ai302ErrorStructure,
+      defaultObjectGenerationMode: 'json',
+    });
+  };
+
+  const createTextEmbeddingModel = (
+    modelId: AI302EmbeddingModelId,
+    settings: AI302EmbeddingSettings = {},
+  ) =>
+    new OpenAICompatibleEmbeddingModel(modelId, settings, {
+      ...getCommonModelConfig('embedding'),
+      errorStructure: ai302ErrorStructure,
+    });
+
+  const provider = (modelId: AI302ChatModelId, settings?: AI302ChatSettings) =>
+    createChatModel(modelId, settings);
+
+  provider.languageModel = createChatModel;
+  provider.chatModel = createChatModel;
+  provider.textEmbeddingModel = createTextEmbeddingModel;
   provider.image = createImageModel;
 
   return provider as AI302Provider;
