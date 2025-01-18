@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.4
+
+### Patch Changes
+
+- 3e40f83: add docs for chat and embedding
+
 ## 0.0.3
 
 ### Patch Changes
