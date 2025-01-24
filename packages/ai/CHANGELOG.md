@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.5
+
+### Patch Changes
+
+- 750a4c0: feat: implemented a new method in MidjourneyHandler to split images into four parts using sharp
+
 ## 0.0.4
 
 ### Patch Changes
