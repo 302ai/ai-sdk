@@ -31,7 +31,8 @@
   "dependencies": {
     "@ai-sdk/openai-compatible": "^0.1.0",
     "@ai-sdk/provider": "1.0.4",
-    "@ai-sdk/provider-utils": "2.0.8"
+    "@ai-sdk/provider-utils": "2.0.8",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@302ai/ai-tsconfig": "workspace:*",

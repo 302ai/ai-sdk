@@ -113,6 +113,48 @@ export class MidjourneyHandler extends BaseModelHandler {
     return await this.pollTask(actionResponse.result, abortSignal);
   }
 
+  private async splitImageIntoFour(imageUrl: string): Promise<string[]> {
+    const image = await this.downloadImages([imageUrl]);
+    if (!image || image.length === 0) {
+      throw new Error("Failed to download original image");
+    }
+
+    // The base64 string from downloadImages doesn't include the data URL prefix
+    const buffer = Buffer.from(image[0], 'base64');
+
+    // Use sharp to process the image
+    const sharp = require('sharp');
+    const metadata = await sharp(buffer).metadata();
+
+    if (!metadata.width || !metadata.height) {
+      throw new Error("Failed to get image dimensions");
+    }
+
+    // Calculate dimensions for each part
+    const partWidth = Math.floor(metadata.width / 2);
+    const partHeight = Math.floor(metadata.height / 2);
+
+    // Extract four parts
+    const parts: string[] = [];
+    for (let row = 0; row < 2; row++) {
+      for (let col = 0; col < 2; col++) {
+        const partBuffer = await sharp(buffer)
+          .extract({
+            left: col * partWidth,
+            top: row * partHeight,
+            width: partWidth,
+            height: partHeight
+          })
+          .toBuffer();
+
+        // Convert to base64 without data URL prefix (to match downloadImages format)
+        parts.push(partBuffer.toString('base64'));
+      }
+    }
+
+    return parts;
+  }
+
   protected async processRequest({
     prompt,
     n,
@@ -174,10 +216,32 @@ export class MidjourneyHandler extends BaseModelHandler {
       abortSignal,
     );
 
-    const numImages = Math.min(n || 1, 4);
+    // Check if upscaleIndexes is provided in providerOptions
+    const upscaleIndexes = providerOptions?.ai302?.upscaleIndexes as number[] | undefined;
 
-    const upscalePromises = Array.from({ length: numImages }, (_, index) => {
-      return this.upscaleImage(submitResponse.result, initialResult, abortSignal, index + 1);
+    if (!upscaleIndexes || upscaleIndexes.length === 0) {
+      // If no upscale is requested, return the original image split into four parts
+      if (!initialResult.imageUrl) {
+        throw new Error("No image URL in the initial response");
+      }
+      return {
+        images: await this.splitImageIntoFour(initialResult.imageUrl),
+        warnings,
+      };
+    }
+
+    // Validate and filter upscale indexes
+    const validUpscaleIndexes = upscaleIndexes.filter(i => i >= 1 && i <= 4);
+    if (validUpscaleIndexes.length !== upscaleIndexes.length) {
+      warnings.push({
+        type: "other",
+        message: "Some upscale indexes were invalid. Valid indexes are 1-4.",
+      });
+    }
+
+    // Perform upscale for selected images
+    const upscalePromises = validUpscaleIndexes.map(index => {
+      return this.upscaleImage(submitResponse.result, initialResult, abortSignal, index);
     });
 
     const finalResults = await Promise.all(upscalePromises);
