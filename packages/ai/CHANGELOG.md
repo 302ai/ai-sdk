@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.6
+
+### Patch Changes
+
+- 7d13164: enhance SDXL Lightning model support and image generation
+
 ## 0.0.5
 
 ### Patch Changes
