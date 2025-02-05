@@ -6,6 +6,7 @@ import {
   statusCodeErrorResponseHandler,
 } from "../utils/api-handlers";
 import { BaseModelHandler } from "./base-model";
+import { modelToBackendConfig } from "../ai302-image-settings";
 
 const SUPPORTED_SIZES = [
   "1024x1024",
@@ -43,8 +44,16 @@ export class SDXLLightningHandler extends BaseModelHandler {
 
     let parsedSize =
     this.parseSize(size) || this.aspectRatioToSize(aspectRatio, 1024, warnings) || { width: 1024, height: 1024 };
+    const backendConfig = modelToBackendConfig[this.modelId];
 
-    parsedSize = this.validateSizeOption(parsedSize, SUPPORTED_SIZES, warnings);
+    if (backendConfig?.supportsSize) {
+      parsedSize = this.validateDimensionsMultipleOf32(
+        parsedSize,
+        warnings,
+        256,
+        1344,
+      );
+    }
 
     const { value: response } = await postJsonToApi<SDXLLightningResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/sdxl-lightning-v2' }),
@@ -52,6 +61,8 @@ export class SDXLLightningHandler extends BaseModelHandler {
       body: {
         prompt,
         image_size: parsedSize,
+        width: parsedSize.width,
+        height: parsedSize.height,
         format: "jpeg",
         ...(providerOptions.ai302 ?? {}),
       },

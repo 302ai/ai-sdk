@@ -42,7 +42,9 @@ export function createImageModelHandler(
     case 'recraftv3':
     case 'recraftv2':
       return new RecraftHandler(modelId, settings, config);
+    case 'sdxl-lightning':
     case 'sdxl-lightning-v2':
+    case 'sdxl-lightning-v3':
       return new SDXLLightningHandler(modelId, settings, config);
     case 'kolors':
       return new KolorsHandler(modelId, settings, config);

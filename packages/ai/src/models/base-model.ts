@@ -99,10 +99,13 @@ export abstract class BaseModelHandler {
     const [width, height] = validatedAspectRatio.split(':').map(Number);
     if (!width || !height) return undefined;
 
-    if (width >= height) {
-      return { width: baseSize, height: Math.round(baseSize * (height / width)) };
+    const ratio = width / height;
+
+    if (ratio > 1) {
+      return { width: baseSize, height: Math.round(baseSize / ratio) };
+    } else {
+      return { width: Math.round(baseSize * ratio), height: baseSize };
     }
-    return { width: Math.round(baseSize * (width / height)), height: baseSize };
   }
 
   protected async downloadImage(url: string): Promise<string> {
@@ -222,13 +225,27 @@ protected validateDimensionsMultipleOf32(size: ImageSize, warnings: ImageModelV1
 }
 
   protected findClosestSize(size: ImageSize, supportedSizes: string[]): string {
-    const area = size.width * size.height;
-    return supportedSizes.reduce((closest, current) => {
-      const [w, h] = current.split('x').map(Number);
-      const currentArea = w * h;
-      const [closestW, closestH] = closest.split('x').map(Number);
-      const closestArea = closestW * closestH;
-      return Math.abs(currentArea - area) < Math.abs(closestArea - area) ? current : closest;
+    const targetRatio = size.width / size.height;
+
+    const sizesByRatio = supportedSizes.slice().sort((a, b) => {
+        const [w1, h1] = a.split('x').map(Number);
+        const [w2, h2] = b.split('x').map(Number);
+        const ratio1 = w1 / h1;
+        const ratio2 = w2 / h2;
+        const diff1 = Math.abs(ratio1 - targetRatio);
+        const diff2 = Math.abs(ratio2 - targetRatio);
+        return diff1 - diff2;
+    });
+
+    const similarRatioSizes = sizesByRatio.slice(0, 2);
+    return similarRatioSizes.reduce((closest, current) => {
+        const [w1, h1] = current.split('x').map(Number);
+        const [w2, h2] = closest.split('x').map(Number);
+
+        const diff1 = Math.abs(Math.max(w1, h1) - 1024);
+        const diff2 = Math.abs(Math.max(w2, h2) - 1024);
+
+        return diff1 < diff2 ? current : closest;
     });
   }
 

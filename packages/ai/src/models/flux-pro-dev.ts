@@ -71,10 +71,16 @@ export class FluxProDevHandler extends BaseModelHandler {
     }
 
     const { value: response } = await postJsonToApi<FluxProDevResponse>({
-      url: this.config.url({ modelId: this.modelId, path: `/302/submit/${this.modelId}` }),
+      url: this.config.url({
+        modelId: this.modelId,
+        path: `/302/submit/${this.modelId}`,
+      }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
         prompt,
+        image_size: backendConfig?.supportsSize
+          ? { width: parsedSize.width, height: parsedSize.height }
+          : undefined,
         size: backendConfig?.supportsSize
           ? { width: parsedSize.width, height: parsedSize.height }
           : undefined,

@@ -21,7 +21,9 @@ const MODELS = [
   'dall-e-3',
   'recraftv3',
   'recraftv2',
+  'sdxl-lightning',
   'sdxl-lightning-v2',
+  'sdxl-lightning-v3',
   'kolors',
   'aura-flow',
   'photon-1',
@@ -52,7 +54,7 @@ async function testModel(modelId: string) {
     const result = await generateImage({
       model: model.image(modelId),
       prompt: TEST_PROMPT,
-      aspectRatio: '1:1',
+      aspectRatio: '3:4',
       seed: 0,
       n: 2,
     });

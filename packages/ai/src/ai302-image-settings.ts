@@ -11,7 +11,9 @@ export type AI302ImageModelId =
   | 'dall-e-3'
   | 'recraftv3'
   | 'recraftv2'
+  | 'sdxl-lightning'
   | 'sdxl-lightning-v2'
+  | 'sdxl-lightning-v3'
   | 'kolors'
   | 'aura-flow'
   | 'photon-1'
@@ -74,7 +76,13 @@ export const modelToBackendConfig: Partial<
   'recraftv2': {
     supportsSize: true,
   },
+  'sdxl-lightning': {
+    supportsSize: true,
+  },
   'sdxl-lightning-v2': {
+    supportsSize: true,
+  },
+  'sdxl-lightning-v3': {
     supportsSize: true,
   },
   'kolors': {
