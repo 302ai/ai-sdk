@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.7
+
+### Patch Changes
+
+- 2c04a0a: add size validation for Kolors model generation
+
 ## 0.0.6
 
 ### Patch Changes
