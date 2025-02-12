@@ -297,6 +297,12 @@ console.log(`Image saved to ${filename}`);
 - `midjourney/6.1`
 - `midjourney/6.0`
 - `nijijourney/6.0`
+- `google-imagen-3`
+- `google-imagen-3-fast`
+- `doubao-general-v2.1-l`
+- `doubao-general-v2.0-l`
+- `doubao-general-v2.0`
+- `lumina-image-v2`
 
 ## Documentation
 

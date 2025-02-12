@@ -17,6 +17,9 @@ import { SDXLHandler } from './sdxl';
 import { SDXLLightningHandler } from './sdxl-lightning';
 import { AI302Config } from '../ai302-config';
 import { SD35Handler } from './sd35';
+import { GoogleImagen3Handler } from './google-imagen-3';
+import { DoubaoHandler } from './doubao';
+import { LuminaImageHandler } from './lumina-image';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -65,6 +68,15 @@ export function createImageModelHandler(
     case 'midjourney/6.1':
     case 'nijijourney/6.0':
       return new MidjourneyHandler(modelId, settings, config);
+    case 'google-imagen-3':
+    case 'google-imagen-3-fast':
+      return new GoogleImagen3Handler(modelId, settings, config);
+    case 'doubao-general-v2.1-l':
+    case 'doubao-general-v2.0-l':
+    case 'doubao-general-v2.0':
+      return new DoubaoHandler(modelId, settings, config);
+    case 'lumina-image-v2':
+      return new LuminaImageHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

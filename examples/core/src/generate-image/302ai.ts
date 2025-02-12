@@ -37,6 +37,12 @@ const MODELS = [
   'midjourney/6.0',
   'midjourney/6.1',
   'nijijourney/6.0',
+  'google-imagen-3',
+  'google-imagen-3-fast',
+  'doubao-general-v2.1-l',
+  'doubao-general-v2.0-l',
+  'doubao-general-v2.0',
+  'lumina-image-v2',
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';

@@ -27,6 +27,12 @@ export type AI302ImageModelId =
   | 'midjourney/6.0'
   | 'midjourney/6.1'
   | 'nijijourney/6.0'
+  | 'google-imagen-3'
+  | 'google-imagen-3-fast'
+  | 'doubao-general-v2.1-l'
+  | 'doubao-general-v2.0-l'
+  | 'doubao-general-v2.0'
+  | 'lumina-image-v2'
   | (string & {});
 
 export interface AI302ImageSettings {
@@ -120,5 +126,23 @@ export const modelToBackendConfig: Partial<
   },
   'nijijourney/6.0': {
     supportsSize: false,
+  },
+  'google-imagen-3': {
+    supportsSize: true,
+  },
+  'google-imagen-3-fast': {
+    supportsSize: true,
+  },
+  'doubao-general-v2.1-l': {
+    supportsSize: true,
+  },
+  'doubao-general-v2.0-l': {
+    supportsSize: true,
+  },
+  'doubao-general-v2.0': {
+    supportsSize: true,
+  },
+  'lumina-image-v2': {
+    supportsSize: true,
   },
 }
