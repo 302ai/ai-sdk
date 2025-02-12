@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.8
+
+### Patch Changes
+
+- 280de9a: add support for new image models including Google Imagen 3, Doubao, and Lumina Image
+
 ## 0.0.7
 
 ### Patch Changes
