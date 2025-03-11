@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.9
+
+### Patch Changes
+
+- 6b24d7b: feat: add support for Playground and Omnigen image models
+
 ## 0.0.8
 
 ### Patch Changes
