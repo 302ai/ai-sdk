@@ -280,6 +280,8 @@ console.log(`Image saved to ${filename}`);
 - `ideogram/V_1_TURBO`
 - `ideogram/V_2`
 - `ideogram/V_2_TURBO`
+- `ideogram/V_2A`
+- `ideogram/V_2A_TURBO`
 - `dall-e-3`
 - `recraftv3`
 - `recraftv2`
@@ -303,6 +305,8 @@ console.log(`Image saved to ${filename}`);
 - `doubao-general-v2.0-l`
 - `doubao-general-v2.0`
 - `lumina-image-v2`
+- `omnigen-v1`
+- `playground-v25`
 
 ## Documentation
 

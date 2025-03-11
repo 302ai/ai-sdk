@@ -21,6 +21,8 @@ The 302AI provider enables seamless integration with the Vercel AI SDK, offering
   - Stable Diffusion variants (SD3, SDXL)
   - Flux models
   - Ideogram models
+  - Playground models
+  - Omnigen models
   - And more specialized image generators
 
 ### Embeddings

@@ -8,6 +8,8 @@ export type AI302ImageModelId =
   | 'ideogram/V_1_TURBO'
   | 'ideogram/V_2'
   | 'ideogram/V_2_TURBO'
+  | 'ideogram/V_2A'
+  | 'ideogram/V_2A_TURBO'
   | 'dall-e-3'
   | 'recraftv3'
   | 'recraftv2'
@@ -33,6 +35,8 @@ export type AI302ImageModelId =
   | 'doubao-general-v2.0-l'
   | 'doubao-general-v2.0'
   | 'lumina-image-v2'
+  | 'omnigen-v1'
+  | 'playground-v25'
   | (string & {});
 
 export interface AI302ImageSettings {
@@ -71,6 +75,12 @@ export const modelToBackendConfig: Partial<
     supportsSize: true,
   },
   'ideogram/V_2_TURBO': {
+    supportsSize: true,
+  },
+  'ideogram/V_2A': {
+    supportsSize: true,
+  },
+  'ideogram/V_2A_TURBO': {
     supportsSize: true,
   },
   'dall-e-3': {
@@ -143,6 +153,12 @@ export const modelToBackendConfig: Partial<
     supportsSize: true,
   },
   'lumina-image-v2': {
+    supportsSize: true,
+  },
+  'omnigen-v1': {
+    supportsSize: true,
+  },
+  'playground-v25': {
     supportsSize: true,
   },
 }

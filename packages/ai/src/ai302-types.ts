@@ -734,3 +734,42 @@ export const MidjourneyActionRequestSchema = z
 export type MidjourneyActionRequest = z.infer<
   typeof MidjourneyActionRequestSchema
 >;
+
+// Omnigen V1
+export const OmnigenRequestSchema = z
+  .object({
+    prompt: z.string(),
+    negative_prompt: z.string().optional(),
+    image_size: ImageSizeSchema.optional(),
+    num_inference_steps: z.number().optional(),
+    guidance_scale: z.number().optional(),
+    output_format: z.string().optional(),
+    seed: z.number().optional(),
+  })
+  .passthrough();
+
+export type OmnigenRequest = z.infer<typeof OmnigenRequestSchema>;
+
+export const OmnigenImageDataSchema = z
+  .object({
+    url: z.string(),
+    content_type: z.string(),
+    file_size: z.number(),
+    width: z.number(),
+    height: z.number(),
+  })
+  .passthrough();
+
+export type OmnigenImageData = z.infer<typeof OmnigenImageDataSchema>;
+
+export const OmnigenResponseSchema = z
+  .object({
+    images: z.array(OmnigenImageDataSchema),
+    seed: z.number(),
+    has_nsfw_concepts: z.array(z.boolean()),
+    debug_latents: z.any().nullable(),
+    debug_per_pass_latents: z.any().nullable(),
+  })
+  .passthrough();
+
+export type OmnigenResponse = z.infer<typeof OmnigenResponseSchema>;

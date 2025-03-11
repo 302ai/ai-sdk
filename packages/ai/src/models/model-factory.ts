@@ -20,6 +20,8 @@ import { SD35Handler } from './sd35';
 import { GoogleImagen3Handler } from './google-imagen-3';
 import { DoubaoHandler } from './doubao';
 import { LuminaImageHandler } from './lumina-image';
+import { OmnigenHandler } from './omnigen';
+import { PlaygroundHandler } from './playground';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -41,6 +43,8 @@ export function createImageModelHandler(
     case 'ideogram/V_1_TURBO':
     case 'ideogram/V_2':
     case 'ideogram/V_2_TURBO':
+    case 'ideogram/V_2A':
+    case 'ideogram/V_2A_TURBO':
       return new IdeogramHandler(modelId, settings, config);
     case 'recraftv3':
     case 'recraftv2':
@@ -77,6 +81,10 @@ export function createImageModelHandler(
       return new DoubaoHandler(modelId, settings, config);
     case 'lumina-image-v2':
       return new LuminaImageHandler(modelId, settings, config);
+    case 'omnigen-v1':
+      return new OmnigenHandler(modelId, settings, config);
+    case 'playground-v25':
+      return new PlaygroundHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }
