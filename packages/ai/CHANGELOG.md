@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.10
+
+### Patch Changes
+
+- 539e11f: feat: add support for CogView and Minimax image models with corresponding request and response schemas
+
 ## 0.0.9
 
 ### Patch Changes
