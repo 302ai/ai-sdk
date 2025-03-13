@@ -307,6 +307,9 @@ console.log(`Image saved to ${filename}`);
 - `lumina-image-v2`
 - `omnigen-v1`
 - `playground-v25`
+- `minimaxi-image-01`
+- `cogview-4`
+- `cogview-4-250304`
 
 ## Documentation
 
