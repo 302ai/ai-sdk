@@ -6,7 +6,7 @@
     "@302ai/ai-sdk": "workspace:*",
     "ai": "4.0.40",
     "dotenv": "16.4.5",
-    "zod": "3.23.8",
+    "zod": "3.24.2",
     "zod-to-json-schema": "3.23.5"
   },
   "scripts": {
