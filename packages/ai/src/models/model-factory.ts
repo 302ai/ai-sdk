@@ -4,12 +4,14 @@ import type {
 } from '../ai302-image-settings';
 import { AuraflowHandler } from './auraflow';
 import type { BaseModelHandler } from './base-model';
+import { CogViewHandler } from './cogview';
 import { DallEHandler } from './dalle';
 import { FluxProDevHandler } from './flux-pro-dev';
 import { IdeogramHandler } from './ideogram';
 import { KolorsHandler } from './kolors';
 import { LumaPhotonHandler } from './luma-photon';
 import { MidjourneyHandler } from './midjourney';
+import { MinimaxHandler } from './minimax';
 import { RecraftHandler } from './recraft';
 import { SD3V2Handler } from './sd3v2';
 import { SD3UltraHandler } from './sd3-ultra';
@@ -85,6 +87,11 @@ export function createImageModelHandler(
       return new OmnigenHandler(modelId, settings, config);
     case 'playground-v25':
       return new PlaygroundHandler(modelId, settings, config);
+    case 'cogview-4':
+    case 'cogview-4-250304':
+      return new CogViewHandler(modelId, settings, config);
+    case 'minimaxi-image-01':
+      return new MinimaxHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

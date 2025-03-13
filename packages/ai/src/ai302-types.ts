@@ -773,3 +773,63 @@ export const OmnigenResponseSchema = z
   .passthrough();
 
 export type OmnigenResponse = z.infer<typeof OmnigenResponseSchema>;
+
+// CogView-4
+export const CogViewRequestSchema = z
+  .object({
+    model: z.string(),
+    prompt: z.string(),
+    size: z.string().optional(),
+  })
+  .passthrough();
+
+export type CogViewRequest = z.infer<typeof CogViewRequestSchema>;
+
+export const CogViewImageDataSchema = z
+  .object({
+    url: z.string(),
+  })
+  .passthrough();
+
+export type CogViewImageData = z.infer<typeof CogViewImageDataSchema>;
+
+export const CogViewResponseSchema = z
+  .object({
+    created: z.number(),
+    data: z.array(CogViewImageDataSchema),
+  })
+  .passthrough();
+
+export type CogViewResponse = z.infer<typeof CogViewResponseSchema>;
+
+// Minimax Image
+export const MinimaxRequestSchema = z
+  .object({
+    model: z.string(),
+    prompt: z.string(),
+    aspect_ratio: z.string().optional(),
+    prompt_optimizer: z.boolean().optional(),
+    response_format: z.string().optional(),
+  })
+  .passthrough();
+
+export type MinimaxRequest = z.infer<typeof MinimaxRequestSchema>;
+
+export const MinimaxResponseSchema = z
+  .object({
+    base_resp: z.object({
+      status_code: z.number(),
+      status_msg: z.string(),
+    }),
+    data: z.object({
+      image_urls: z.array(z.string()),
+    }),
+    id: z.string(),
+    metadata: z.object({
+      failed_count: z.string(),
+      success_count: z.string(),
+    }),
+  })
+  .passthrough();
+
+export type MinimaxResponse = z.infer<typeof MinimaxResponseSchema>;

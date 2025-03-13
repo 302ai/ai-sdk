@@ -47,6 +47,9 @@ const MODELS = [
   'lumina-image-v2',
   'omnigen-v1',
   'playground-v25',
+  'cogview-4',
+  'cogview-4-250304',
+  'minimaxi-image-01',
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';

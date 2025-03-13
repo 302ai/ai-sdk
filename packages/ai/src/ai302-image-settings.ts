@@ -37,6 +37,9 @@ export type AI302ImageModelId =
   | 'lumina-image-v2'
   | 'omnigen-v1'
   | 'playground-v25'
+  | 'cogview-4'
+  | 'cogview-4-250304'
+  | 'minimaxi-image-01'
   | (string & {});
 
 export interface AI302ImageSettings {
@@ -160,5 +163,14 @@ export const modelToBackendConfig: Partial<
   },
   'playground-v25': {
     supportsSize: true,
+  },
+  'cogview-4': {
+    supportsSize: true,
+  },
+  'cogview-4-250304': {
+    supportsSize: true,
+  },
+  'minimaxi-image-01': {
+    supportsSize: false,
   },
 }
