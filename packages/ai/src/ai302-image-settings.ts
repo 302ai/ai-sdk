@@ -34,6 +34,7 @@ export type AI302ImageModelId =
   | 'doubao-general-v2.1-l'
   | 'doubao-general-v2.0-l'
   | 'doubao-general-v2.0'
+  | 'doubao-general-v3.0'
   | 'lumina-image-v2'
   | 'omnigen-v1'
   | 'playground-v25'
@@ -153,6 +154,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: true,
   },
   'doubao-general-v2.0': {
+    supportsSize: true,
+  },
+  'doubao-general-v3.0': {
     supportsSize: true,
   },
   'lumina-image-v2': {

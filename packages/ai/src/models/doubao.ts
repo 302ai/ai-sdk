@@ -17,11 +17,13 @@ export enum DoubaoModelVersion {
   GeneralV20 = 'general_v2.0',
   GeneralV20_L = 'general_v2.0_L',
   GeneralV21_L = 'general_v2.1_L',
+  GeneralV30 = 'general_v3.0',
 }
 
 export enum DoubaoReqScheduleConf {
   GeneralV209BRephraser = 'general_v20_9B_rephraser',
   GeneralV209Bpe = 'general_v20_9B_pe',
+  GeneralV30 = 'general_v3.0',
 }
 
 export interface DoubaoRequest {
@@ -99,7 +101,7 @@ export class DoubaoHandler extends BaseModelHandler {
     };
 
     // Conditionally add req_schedule_conf
-    if (this.modelId !== 'doubao-general-v2.0') {
+    if (this.modelId !== 'doubao-general-v2.0' && this.modelId !== 'doubao-general-v3.0') {
       requestBody.req_schedule_conf = doubaoReqScheduleConf;
     }
 
@@ -128,6 +130,8 @@ export class DoubaoHandler extends BaseModelHandler {
 
     protected mapModelIdToVersion(modelId: string): DoubaoModelVersion {
       switch (modelId) {
+        case 'doubao-general-v3.0':
+          return DoubaoModelVersion.GeneralV30;
         case 'doubao-general-v2.1-l':
           return DoubaoModelVersion.GeneralV21_L;
         case 'doubao-general-v2.0-l':

@@ -80,6 +80,7 @@ export function createImageModelHandler(
     case 'doubao-general-v2.1-l':
     case 'doubao-general-v2.0-l':
     case 'doubao-general-v2.0':
+    case 'doubao-general-v3.0':
       return new DoubaoHandler(modelId, settings, config);
     case 'lumina-image-v2':
       return new LuminaImageHandler(modelId, settings, config);
