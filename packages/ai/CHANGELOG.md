@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.11
+
+### Patch Changes
+
+- afe11c5: feat: add support for doubao-general-v3.0 model with updated configurations and request handling
+
 ## 0.0.10
 
 ### Patch Changes
