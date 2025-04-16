@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.12
+
+### Patch Changes
+
+- 60e90f1: feat: add support for Midjourney 7.0 model across documentation and codebase
+
 ## 0.0.11
 
 ### Patch Changes
