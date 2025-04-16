@@ -16,7 +16,7 @@ The 302AI provider enables seamless integration with the Vercel AI SDK, offering
 
 ### Image Generation
 - State-of-the-art image models including:
-  - Midjourney 6.0/6.1
+  - Midjourney 6.0/6.1/7.0
   - DALL-E 3
   - Stable Diffusion variants (SD3, SDXL)
   - Flux models

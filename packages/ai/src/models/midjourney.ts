@@ -31,6 +31,8 @@ export class MidjourneyHandler extends BaseModelHandler {
         return '--v 6.0';
       case 'midjourney/6.1':
         return '--v 6.1';
+      case 'midjourney/7.0':
+        return '--v 7.0';
       case 'nijijourney/6.0':
         return '--niji 6';
       default:

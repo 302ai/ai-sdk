@@ -72,6 +72,7 @@ export function createImageModelHandler(
       return new SD35Handler(modelId, settings, config);
     case 'midjourney/6.0':
     case 'midjourney/6.1':
+    case 'midjourney/7.0':
     case 'nijijourney/6.0':
       return new MidjourneyHandler(modelId, settings, config);
     case 'google-imagen-3':

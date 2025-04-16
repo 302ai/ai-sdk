@@ -28,6 +28,7 @@ export type AI302ImageModelId =
   | 'sd3.5-medium'
   | 'midjourney/6.0'
   | 'midjourney/6.1'
+  | 'midjourney/7.0'
   | 'nijijourney/6.0'
   | 'google-imagen-3'
   | 'google-imagen-3-fast'
@@ -136,6 +137,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: false,
   },
   'midjourney/6.1': {
+    supportsSize: false,
+  },
+  'midjourney/7.0': {
     supportsSize: false,
   },
   'nijijourney/6.0': {
