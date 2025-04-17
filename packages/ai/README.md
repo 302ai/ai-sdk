@@ -311,6 +311,10 @@ console.log(`Image saved to ${filename}`);
 - `minimaxi-image-01`
 - `cogview-4`
 - `cogview-4-250304`
+- `irag-1.0`
+- `hidream-i1-full`
+- `hidream-i1-dev`
+- `hidream-i1-fast`
 
 ## Documentation
 

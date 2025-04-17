@@ -7,7 +7,9 @@ import type { BaseModelHandler } from './base-model';
 import { CogViewHandler } from './cogview';
 import { DallEHandler } from './dalle';
 import { FluxProDevHandler } from './flux-pro-dev';
+import { HidreamHandler } from './hidream';
 import { IdeogramHandler } from './ideogram';
+import { IRAGHandler } from './irag';
 import { KolorsHandler } from './kolors';
 import { LumaPhotonHandler } from './luma-photon';
 import { MidjourneyHandler } from './midjourney';
@@ -94,6 +96,12 @@ export function createImageModelHandler(
       return new CogViewHandler(modelId, settings, config);
     case 'minimaxi-image-01':
       return new MinimaxHandler(modelId, settings, config);
+    case 'irag-1.0':
+      return new IRAGHandler(modelId, settings, config);
+    case 'hidream-i1-full':
+    case 'hidream-i1-dev':
+    case 'hidream-i1-fast':
+      return new HidreamHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

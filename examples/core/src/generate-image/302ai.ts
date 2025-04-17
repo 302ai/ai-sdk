@@ -52,6 +52,10 @@ const MODELS = [
   'cogview-4',
   'cogview-4-250304',
   'minimaxi-image-01',
+  'irag-1.0',
+  'hidream-i1-full',
+  'hidream-i1-dev',
+  'hidream-i1-fast',
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';

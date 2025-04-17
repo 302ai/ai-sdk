@@ -42,6 +42,10 @@ export type AI302ImageModelId =
   | 'cogview-4'
   | 'cogview-4-250304'
   | 'minimaxi-image-01'
+  | 'irag-1.0'
+  | 'hidream-i1-full'
+  | 'hidream-i1-dev'
+  | 'hidream-i1-fast'
   | (string & {});
 
 export interface AI302ImageSettings {
@@ -180,5 +184,17 @@ export const modelToBackendConfig: Partial<
   },
   'minimaxi-image-01': {
     supportsSize: false,
+  },
+  'irag-1.0': {
+    supportsSize: false,
+  },
+  'hidream-i1-full': {
+    supportsSize: true,
+  },
+  'hidream-i1-dev': {
+    supportsSize: true,
+  },
+  'hidream-i1-fast': {
+    supportsSize: true,
   },
 }

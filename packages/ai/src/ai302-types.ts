@@ -833,3 +833,11 @@ export const MinimaxResponseSchema = z
   .passthrough();
 
 export type MinimaxResponse = z.infer<typeof MinimaxResponseSchema>;
+
+export interface IRAGResponse {
+  id: string;
+  created: number;
+  data: Array<{
+    url: string;
+  }>;
+}
