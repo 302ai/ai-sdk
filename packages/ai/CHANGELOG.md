@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.13
+
+### Patch Changes
+
+- 81bf903: feat: add support for iRAG and HiDream models with updated configurations and request handling
+
 ## 0.0.12
 
 ### Patch Changes
