@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.14
+
+### Patch Changes
+
+- af5f15e: feat: support gpt-image-1
+
 ## 0.0.13
 
 ### Patch Changes
