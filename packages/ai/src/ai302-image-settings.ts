@@ -46,6 +46,7 @@ export type AI302ImageModelId =
   | 'hidream-i1-full'
   | 'hidream-i1-dev'
   | 'hidream-i1-fast'
+  | 'gpt-image-1'
   | (string & {});
 
 export interface AI302ImageSettings {
@@ -195,6 +196,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: true,
   },
   'hidream-i1-fast': {
+    supportsSize: true,
+  },
+  'gpt-image-1': {
     supportsSize: true,
   },
 }

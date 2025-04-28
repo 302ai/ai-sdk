@@ -7,6 +7,7 @@ import type { BaseModelHandler } from './base-model';
 import { CogViewHandler } from './cogview';
 import { DallEHandler } from './dalle';
 import { FluxProDevHandler } from './flux-pro-dev';
+import { GPTImageHandler } from './gpt-image';
 import { HidreamHandler } from './hidream';
 import { IdeogramHandler } from './ideogram';
 import { IRAGHandler } from './irag';
@@ -102,6 +103,8 @@ export function createImageModelHandler(
     case 'hidream-i1-dev':
     case 'hidream-i1-fast':
       return new HidreamHandler(modelId, settings, config);
+    case 'gpt-image-1':
+      return new GPTImageHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

@@ -841,3 +841,76 @@ export interface IRAGResponse {
     url: string;
   }>;
 }
+
+// 302.ai GPT Image
+export const GPTImageSizeSchema = z.enum([
+  "1024x1024",
+  "1536x1024",
+  "1024x1536"
+]);
+
+export type GPTImageSize = z.infer<typeof GPTImageSizeSchema>;
+
+export const GPTImageBackgroundSchema = z.enum([
+  "transparent",
+  "opaque",
+  "auto"
+]);
+
+export type GPTImageBackground = z.infer<typeof GPTImageBackgroundSchema>;
+
+export const GPTImageQualitySchema = z.enum([
+  "auto",
+  "high",
+  "medium",
+  "low"
+]);
+
+export type GPTImageQuality = z.infer<typeof GPTImageQualitySchema>;
+
+export const GPTImageRequestSchema = z
+  .object({
+    prompt: z.string(),
+    model: z.string().optional(),
+    size: GPTImageSizeSchema.optional().default("1024x1024"),
+    background: GPTImageBackgroundSchema.optional(),
+    quality: GPTImageQualitySchema.optional(),
+    n: z.number().min(1).max(10).optional(),
+    response_format: z.enum(["url", "b64_json"]).optional(),
+  })
+  .passthrough();
+
+export type GPTImageRequest = z.infer<typeof GPTImageRequestSchema>;
+
+export const GPTImageDataSchema = z
+  .object({
+    url: z.string().optional(),
+    b64_json: z.string().optional(),
+  })
+  .passthrough();
+
+export type GPTImageData = z.infer<typeof GPTImageDataSchema>;
+
+export const GPTImageResponseSchema = z
+  .object({
+    created: z.number(),
+    data: z.array(GPTImageDataSchema),
+    usage: z.object({
+      prompt_tokens: z.number(),
+      completion_tokens: z.number(),
+      total_tokens: z.number(),
+      input_tokens: z.number(),
+      output_tokens: z.number(),
+      input_tokens_details: z.object({
+        text_tokens: z.number(),
+        cached_tokens_details: z.record(z.any()),
+      }),
+      prompt_tokens_details: z.object({
+        cached_tokens_details: z.record(z.any()),
+      }),
+      completion_tokens_details: z.record(z.any()),
+    }).optional(),
+  })
+  .passthrough();
+
+export type GPTImageResponse = z.infer<typeof GPTImageResponseSchema>;
