@@ -45,8 +45,8 @@ importers:
         specifier: 4.3.9
         version: 4.3.9(react@19.0.0)(zod@3.24.3)
       dotenv:
-        specifier: 16.4.5
-        version: 16.4.5
+        specifier: 16.5.0
+        version: 16.5.0
       zod:
         specifier: ^3.24.1
         version: 3.24.3
@@ -1402,8 +1402,8 @@ packages:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
 
-  dotenv@16.4.5:
-    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
+  dotenv@16.5.0:
+    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
     engines: {node: '>=12'}
 
   eastasianwidth@0.2.0:
@@ -4083,7 +4083,7 @@ snapshots:
 
   dotenv@16.0.3: {}
 
-  dotenv@16.4.5: {}
+  dotenv@16.5.0: {}
 
   eastasianwidth@0.2.0: {}
 
