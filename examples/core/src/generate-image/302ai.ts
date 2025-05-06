@@ -57,6 +57,9 @@ const MODELS = [
   'hidream-i1-dev',
   'hidream-i1-fast',
   'gpt-image-1',
+  'ideogram/V_3_DEFAULT',
+  'ideogram/V_3_TURBO',
+  'ideogram/V_3_QUALITY',
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';

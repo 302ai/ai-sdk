@@ -315,6 +315,9 @@ console.log(`Image saved to ${filename}`);
 - `hidream-i1-full`
 - `hidream-i1-dev`
 - `hidream-i1-fast`
+- `ideogram/V_3_DEFAULT`
+- `ideogram/V_3_QUALITY`
+- `ideogram/V_3_TURBO`
 
 ## Documentation
 

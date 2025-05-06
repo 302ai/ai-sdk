@@ -9,7 +9,7 @@ import { DallEHandler } from './dalle';
 import { FluxProDevHandler } from './flux-pro-dev';
 import { GPTImageHandler } from './gpt-image';
 import { HidreamHandler } from './hidream';
-import { IdeogramHandler } from './ideogram';
+import { IdeogramHandler, IdeogramV3Handler } from './ideogram';
 import { IRAGHandler } from './irag';
 import { KolorsHandler } from './kolors';
 import { LumaPhotonHandler } from './luma-photon';
@@ -51,6 +51,10 @@ export function createImageModelHandler(
     case 'ideogram/V_2A':
     case 'ideogram/V_2A_TURBO':
       return new IdeogramHandler(modelId, settings, config);
+    case 'ideogram/V_3_TURBO':
+    case 'ideogram/V_3_DEFAULT':
+    case 'ideogram/V_3_QUALITY':
+      return new IdeogramV3Handler(modelId, settings, config);
     case 'recraftv3':
     case 'recraftv2':
       return new RecraftHandler(modelId, settings, config);
