@@ -1,11 +1,14 @@
-import type { ImageModelV1CallOptions, ImageModelV1CallWarning } from "@ai-sdk/provider";
-import { combineHeaders, postToApi } from "@ai-sdk/provider-utils";
-import type { AuraflowResponse } from "../ai302-types";
+import type {
+  ImageModelV1CallOptions,
+  ImageModelV1CallWarning,
+} from '@ai-sdk/provider';
+import { combineHeaders, postToApi } from '@ai-sdk/provider-utils';
+import type { AuraflowResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
-} from "../utils/api-handlers";
-import { BaseModelHandler } from "./base-model";
+} from '../utils/api-handlers';
+import { BaseModelHandler } from './base-model';
 
 export class AuraflowHandler extends BaseModelHandler {
   protected async processRequest({
@@ -17,14 +20,15 @@ export class AuraflowHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
-      warnings.push({ type: 'unsupported-setting', setting: 'n', details: 'AuraFlow does not support batch generation' });
+      warnings.push({
+        type: 'unsupported-setting',
+        setting: 'n',
+        details: 'AuraFlow does not support batch generation',
+      });
     }
 
     if (size != null) {
@@ -40,31 +44,43 @@ export class AuraflowHandler extends BaseModelHandler {
     }
 
     if (providerOptions.ai302 != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'providerOptions' });
+      warnings.push({
+        type: 'unsupported-setting',
+        setting: 'providerOptions',
+      });
     }
 
     const formData = new FormData();
-    formData.append("prompt", prompt);
+    formData.append('prompt', prompt);
 
-    const { value: response } = await postToApi<AuraflowResponse>({
-      url: this.config.url({ modelId: this.modelId, path: '/302/submit/aura-flow' }),
-      headers: combineHeaders(this.config.headers(), headers),
-      body: {
-        content: formData,
-        values: { prompt },
-      },
-      failedResponseHandler: statusCodeErrorResponseHandler,
-      successfulResponseHandler: createJsonResponseHandler(),
-      abortSignal,
-      fetch: this.config.fetch,
-    });
+    const { value: response, responseHeaders } =
+      await postToApi<AuraflowResponse>({
+        url: this.config.url({
+          modelId: this.modelId,
+          path: '/302/submit/aura-flow',
+        }),
+        headers: combineHeaders(this.config.headers(), headers),
+        body: {
+          content: formData,
+          values: { prompt },
+        },
+        failedResponseHandler: statusCodeErrorResponseHandler,
+        successfulResponseHandler: createJsonResponseHandler(),
+        abortSignal,
+        fetch: this.config.fetch,
+      });
 
-    const urls = response.images.map((img) => img.url).filter(Boolean);
+    const urls = response.images.map(img => img.url).filter(Boolean);
     const images = await this.downloadImages(urls);
 
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

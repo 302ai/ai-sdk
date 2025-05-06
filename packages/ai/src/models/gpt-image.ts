@@ -20,10 +20,7 @@ export class GPTImageHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     // Parse size or use aspect ratio to determine size
@@ -62,7 +59,7 @@ export class GPTImageHandler extends BaseModelHandler {
     const url = `${baseUrl}?response_format=${responseFormat}`;
 
     // Make API request
-    const { value: response } = await postJsonToApi<GPTImageResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<GPTImageResponse>({
       url,
       headers: combineHeaders(this.config.headers(), headers),
       body: requestBody,
@@ -82,6 +79,11 @@ export class GPTImageHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

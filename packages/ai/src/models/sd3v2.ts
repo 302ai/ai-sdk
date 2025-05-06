@@ -27,10 +27,7 @@ export class SD3V2Handler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -42,7 +39,7 @@ export class SD3V2Handler extends BaseModelHandler {
 
     parsedSize = this.validateSizeOption(parsedSize, SUPPORTED_SIZES, warnings);
 
-    const { value: response } = await postJsonToApi<SD3Response>({
+    const { value: response, responseHeaders } = await postJsonToApi<SD3Response>({
       url: this.config.url({ modelId: this.modelId, path: `/302/submit/stable-diffusion-3-v2` }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -63,6 +60,11 @@ export class SD3V2Handler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

@@ -26,10 +26,7 @@ export class SDXLHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -56,7 +53,7 @@ export class SDXLHandler extends BaseModelHandler {
       }
     }
 
-    const { value: response } = await postToApi<SDXLResponse>({
+    const { value: response, responseHeaders } = await postToApi<SDXLResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/sdxl' }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -86,6 +83,11 @@ export class SDXLHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

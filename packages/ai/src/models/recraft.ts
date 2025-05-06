@@ -35,10 +35,7 @@ export class RecraftHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (seed != null) {
@@ -50,7 +47,7 @@ export class RecraftHandler extends BaseModelHandler {
 
     parsedSize = this.validateSizeOption(parsedSize, SUPPORTED_SIZES, warnings);
 
-    const { value: response } = await postJsonToApi<RecraftResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<RecraftResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/recraft-v3' }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -73,6 +70,11 @@ export class RecraftHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

@@ -25,10 +25,7 @@ export class SD3UltraHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -59,7 +56,7 @@ export class SD3UltraHandler extends BaseModelHandler {
       formData.append("seed", seed.toString());
     }
 
-    const { value: response } = await postToApi<ArrayBuffer>({
+    const { value: response, responseHeaders } = await postToApi<ArrayBuffer>({
       url: this.config.url({ modelId: this.modelId, path: `/sd/v2beta/stable-image/generate/ultra` }),
       headers: requestHeaders,
       body: {
@@ -84,6 +81,11 @@ export class SD3UltraHandler extends BaseModelHandler {
     return {
       images: [base64],
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

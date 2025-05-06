@@ -33,10 +33,7 @@ export class LumaPhotonHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -53,7 +50,7 @@ export class LumaPhotonHandler extends BaseModelHandler {
 
     let parsedAspectRatio = this.findClosestAspectRatio(aspectRatio, SUPPORTED_ASPECT_RATIOS, warnings);
 
-    const { value: response } = await postJsonToApi<LumaPhotonResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<LumaPhotonResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/luma-photon' }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -74,6 +71,11 @@ export class LumaPhotonHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

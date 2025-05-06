@@ -14,7 +14,7 @@ export class HidreamHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{ images: string[]; warnings: ImageModelV1CallWarning[]; }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -34,7 +34,7 @@ export class HidreamHandler extends BaseModelHandler {
       parsedSize = this.validateDimensionsMultipleOf32(parsedSize, warnings);
     }
 
-    const { value: response } = await postJsonToApi<OmnigenResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<OmnigenResponse>({
       url: this.config.url({ modelId: this.modelId, path: `/302/submit/${this.modelId}` }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -55,6 +55,11 @@ export class HidreamHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

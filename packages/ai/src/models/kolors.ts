@@ -19,10 +19,7 @@ export class KolorsHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     const backendConfig = modelToBackendConfig[this.modelId];
@@ -39,7 +36,7 @@ export class KolorsHandler extends BaseModelHandler {
         );
       }
 
-    const { value: response } = await postJsonToApi<KolorsResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<KolorsResponse>({
       url: this.config.url({ modelId: this.modelId, path: "/302/submit/kolors" }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -61,6 +58,11 @@ export class KolorsHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

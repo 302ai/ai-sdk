@@ -28,10 +28,7 @@ export class CogViewHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -73,7 +70,7 @@ export class CogViewHandler extends BaseModelHandler {
     // Determine which model variant to use
     const modelVariant = this.modelId === 'cogview-4-250304' ? 'cogview-4-250304' : 'cogview-4';
 
-    const { value: response } = await postJsonToApi<CogViewResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<CogViewResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/bigmodel/api/paas/v4/images/generations' }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -94,6 +91,11 @@ export class CogViewHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

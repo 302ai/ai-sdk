@@ -17,10 +17,7 @@ export class IRAGHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -55,7 +52,7 @@ export class IRAGHandler extends BaseModelHandler {
       });
     }
 
-    const { value: response } = await postJsonToApi<IRAGResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<IRAGResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/baidubce/v2/images/generations' }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -75,6 +72,11 @@ export class IRAGHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

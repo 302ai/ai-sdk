@@ -21,7 +21,7 @@ export class GoogleImagen3Handler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{ images: string[]; warnings: ImageModelV1CallWarning[]; }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -42,7 +42,7 @@ export class GoogleImagen3Handler extends BaseModelHandler {
 
     let parsedAspectRatio = this.findClosestAspectRatio(aspectRatio, SUPPORTED_ASPECT_RATIOS, warnings);
 
-    const { value: response } = await postJsonToApi<{ output: string; }>( {
+    const { value: response, responseHeaders } = await postJsonToApi<{ output: string; }>( {
       url: this.config.url({ modelId: this.modelId, path: `/302/submit/${this.modelId}` }),
       headers: combineHeaders(this.config.headers(), headers),
       body: {
@@ -62,6 +62,11 @@ export class GoogleImagen3Handler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

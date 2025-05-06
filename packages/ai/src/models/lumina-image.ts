@@ -40,7 +40,7 @@ export class LuminaImageHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{ images: string[]; warnings: ImageModelV1CallWarning[] }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -69,7 +69,7 @@ export class LuminaImageHandler extends BaseModelHandler {
       ...(providerOptions.ai302 ?? {}), // Allow overriding defaults
     };
 
-    const { value: response } = await postJsonToApi<LuminaImageResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<LuminaImageResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/lumina-image-v2' }),
       headers: combineHeaders(this.config.headers(), headers),
       body: requestBody,
@@ -85,6 +85,11 @@ export class LuminaImageHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

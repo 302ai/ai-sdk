@@ -166,10 +166,7 @@ export class MidjourneyHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{
-    images: string[];
-    warnings: ImageModelV1CallWarning[];
-  }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 4) {
@@ -198,7 +195,7 @@ export class MidjourneyHandler extends BaseModelHandler {
 
     prompt = `${prompt} ${this.getVersionFlag()}`;
 
-    const { value: submitResponse } =
+    const { value: submitResponse, responseHeaders } =
       await postJsonToApi<MidjourneySubmitResponse>({
         url: this.config.url({ modelId: this.modelId, path: `/mj/submit/imagine` }),
         headers: combineHeaders(this.config.headers(), headers),
@@ -229,6 +226,11 @@ export class MidjourneyHandler extends BaseModelHandler {
       return {
         images: await this.splitImageIntoFour(initialResult.imageUrl),
         warnings,
+        response: {
+          timestamp: new Date(),
+          modelId: this.modelId,
+          headers: responseHeaders,
+        },
       };
     }
 
@@ -259,6 +261,11 @@ export class MidjourneyHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 }

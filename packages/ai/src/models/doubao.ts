@@ -69,7 +69,7 @@ export class DoubaoHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions): Promise<{ images: string[]; warnings: ImageModelV1CallWarning[] }> {
+  }: ImageModelV1CallOptions) {
     const warnings: ImageModelV1CallWarning[] = [];
 
     if (n != null && n > 1) {
@@ -105,7 +105,7 @@ export class DoubaoHandler extends BaseModelHandler {
       requestBody.req_schedule_conf = doubaoReqScheduleConf;
     }
 
-    const { value: response } = await postJsonToApi<DoubaoResponse>({
+    const { value: response, responseHeaders } = await postJsonToApi<DoubaoResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/doubao/drawing' }),
       headers: combineHeaders(this.config.headers(), headers),
       body: requestBody,
@@ -125,6 +125,11 @@ export class DoubaoHandler extends BaseModelHandler {
     return {
       images,
       warnings,
+      response: {
+        timestamp: new Date(),
+        modelId: this.modelId,
+        headers: responseHeaders,
+      },
     };
   }
 
