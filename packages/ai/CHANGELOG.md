@@ -1,5 +1,12 @@
 # @302ai/ai-sdk
 
+## 0.0.16
+
+### Patch Changes
+
+- 66dc660: feat: support ideogram v3
+- 738421d: feat: update all handleRequest method to adjust the latest ai sdk version
+
 ## 0.0.15
 
 ### Patch Changes
