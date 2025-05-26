@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.17
+
+### Patch Changes
+
+- e06ccef: feat: add google-imagen-4-preview model to image generation options
+
 ## 0.0.16
 
 ### Patch Changes
