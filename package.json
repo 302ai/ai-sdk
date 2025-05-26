@@ -23,7 +23,7 @@
     ]
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.11",
+    "@changesets/cli": "^2.29.4",
     "eslint": "^8.57.0",
     "eslint-config-302ai": "workspace:^",
     "husky": "^8.0.0",
