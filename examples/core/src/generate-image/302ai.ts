@@ -42,6 +42,7 @@ const MODELS = [
   'nijijourney/6.0',
   'google-imagen-3',
   'google-imagen-3-fast',
+  'google-imagen-4-preview',
   'doubao-general-v2.1-l',
   'doubao-general-v2.0-l',
   'doubao-general-v2.0',

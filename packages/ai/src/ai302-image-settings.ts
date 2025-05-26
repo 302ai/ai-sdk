@@ -32,6 +32,7 @@ export type AI302ImageModelId =
   | 'nijijourney/6.0'
   | 'google-imagen-3'
   | 'google-imagen-3-fast'
+  | 'google-imagen-4-preview'
   | 'doubao-general-v2.1-l'
   | 'doubao-general-v2.0-l'
   | 'doubao-general-v2.0'
@@ -155,6 +156,9 @@ export const modelToBackendConfig: Partial<
   },
   'google-imagen-3-fast': {
     supportsSize: true,
+  },
+  'google-imagen-4-preview': {
+    supportsSize: false,
   },
   'doubao-general-v2.1-l': {
     supportsSize: true,

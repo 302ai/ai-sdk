@@ -23,6 +23,7 @@ import { SDXLLightningHandler } from './sdxl-lightning';
 import { AI302Config } from '../ai302-config';
 import { SD35Handler } from './sd35';
 import { GoogleImagen3Handler } from './google-imagen-3';
+import { GoogleImagen4Handler } from './google-imagen-4';
 import { DoubaoHandler } from './doubao';
 import { LuminaImageHandler } from './lumina-image';
 import { OmnigenHandler } from './omnigen';
@@ -85,6 +86,8 @@ export function createImageModelHandler(
     case 'google-imagen-3':
     case 'google-imagen-3-fast':
       return new GoogleImagen3Handler(modelId, settings, config);
+    case 'google-imagen-4-preview':
+      return new GoogleImagen4Handler(modelId, settings, config);
     case 'doubao-general-v2.1-l':
     case 'doubao-general-v2.0-l':
     case 'doubao-general-v2.0':
