@@ -4,6 +4,8 @@ export type AI302ImageModelId =
   | 'flux-pro'
   | 'flux-dev'
   | 'flux-schnell'
+  | 'flux-kontext-max'
+  | 'flux-kontext-pro'
   | 'ideogram/V_1'
   | 'ideogram/V_1_TURBO'
   | 'ideogram/V_2'
@@ -48,11 +50,11 @@ export type AI302ImageModelId =
   | 'hidream-i1-dev'
   | 'hidream-i1-fast'
   | 'gpt-image-1'
+  | 'bagel'
+  | 'soul'
   | (string & {});
 
-export interface AI302ImageSettings {
-
-}
+export interface AI302ImageSettings {}
 
 interface AI302ImageModelBackendConfig {
   supportsSize?: boolean;
@@ -76,6 +78,12 @@ export const modelToBackendConfig: Partial<
   'flux-schnell': {
     supportsSize: true,
   },
+  'flux-kontext-max': {
+    supportsSize: true,
+  },
+  'flux-kontext-pro': {
+    supportsSize: true,
+  },
   'ideogram/V_1': {
     supportsSize: true,
   },
@@ -97,10 +105,10 @@ export const modelToBackendConfig: Partial<
   'dall-e-3': {
     supportsSize: true,
   },
-  'recraftv3': {
+  recraftv3: {
     supportsSize: true,
   },
-  'recraftv2': {
+  recraftv2: {
     supportsSize: true,
   },
   'sdxl-lightning': {
@@ -112,7 +120,7 @@ export const modelToBackendConfig: Partial<
   'sdxl-lightning-v3': {
     supportsSize: true,
   },
-  'kolors': {
+  kolors: {
     supportsSize: true,
   },
   'aura-flow': {
@@ -121,13 +129,13 @@ export const modelToBackendConfig: Partial<
   'luma-photon': {
     supportsSize: true,
   },
-  'sdxl': {
+  sdxl: {
     supportsSize: true,
   },
   'sd3-ultra': {
-    supportsSize: false
+    supportsSize: false,
   },
-  'sd3v2': {
+  sd3v2: {
     supportsSize: true,
   },
   'sd3.5-large': {
@@ -205,4 +213,10 @@ export const modelToBackendConfig: Partial<
   'gpt-image-1': {
     supportsSize: true,
   },
-}
+  bagel: {
+    supportsSize: false,
+  },
+  soul: {
+    supportsSize: true,
+  },
+};

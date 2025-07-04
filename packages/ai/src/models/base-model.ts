@@ -10,7 +10,6 @@ import type {
 import type { ImageSize } from '../ai302-types';
 import { AI302Config } from '../ai302-config';
 
-
 export abstract class BaseModelHandler {
   constructor(
     readonly modelId: AI302ImageModelId,
@@ -50,7 +49,7 @@ export abstract class BaseModelHandler {
     aspectRatio: string | undefined,
     warnings: ImageModelV1CallWarning[],
     maxRatio?: number,
-    minRatio?: number
+    minRatio?: number,
   ): string | undefined {
     if (!aspectRatio) return undefined;
 
@@ -80,7 +79,7 @@ export abstract class BaseModelHandler {
 
     warnings.push({
       type: 'other',
-      message: `Aspect ratio ${aspectRatio} is outside the allowed range (${adjustedWidth}:${adjustedHeight} to ${adjustedHeight}:${adjustedWidth}). Adjusted to ${adjustedWidth}:${adjustedHeight}`
+      message: `Aspect ratio ${aspectRatio} is outside the allowed range (${adjustedWidth}:${adjustedHeight} to ${adjustedHeight}:${adjustedWidth}). Adjusted to ${adjustedWidth}:${adjustedHeight}`,
     });
 
     return `${adjustedWidth}:${adjustedHeight}`;
@@ -89,11 +88,14 @@ export abstract class BaseModelHandler {
   protected aspectRatioToSize(
     aspectRatio: string | undefined,
     baseSize: number = 1024,
-    warnings: ImageModelV1CallWarning[]
+    warnings: ImageModelV1CallWarning[],
   ): ImageSize | undefined {
     if (!aspectRatio) return undefined;
 
-    const validatedAspectRatio = this.validateAspectRatio(aspectRatio, warnings);
+    const validatedAspectRatio = this.validateAspectRatio(
+      aspectRatio,
+      warnings,
+    );
     if (!validatedAspectRatio) return undefined;
 
     const [width, height] = validatedAspectRatio.split(':').map(Number);
@@ -178,16 +180,19 @@ export abstract class BaseModelHandler {
   protected validateSizeOption(
     parsedSize: ImageSize,
     supportedSizes: string[],
-    warnings: ImageModelV1CallWarning[]
+    warnings: ImageModelV1CallWarning[],
   ): ImageSize {
-    const validatedSize = this.validateDimensionsMultipleOf32(parsedSize, warnings);
+    const validatedSize = this.validateDimensionsMultipleOf32(
+      parsedSize,
+      warnings,
+    );
 
     const sizeStr = `${validatedSize.width}x${validatedSize.height}`;
     if (!supportedSizes.includes(sizeStr)) {
       const closestSize = this.findClosestSize(validatedSize, supportedSizes);
       warnings.push({
         type: 'other',
-        message: `Size ${sizeStr} is not supported. Using closest supported size: ${closestSize}`
+        message: `Size ${sizeStr} is not supported. Using closest supported size: ${closestSize}`,
       });
       const [width, height] = closestSize.split('x').map(Number);
       return { width, height };
@@ -195,64 +200,69 @@ export abstract class BaseModelHandler {
     return validatedSize;
   }
 
-protected validateDimensionsMultipleOf32(size: ImageSize, warnings: ImageModelV1CallWarning[], minSize: number = 32, maxSize: number = 4096): ImageSize {
-  const adjustDimension = (value: number): number => {
-    if (value < minSize) {
-      return minSize;
-    }
-    if (value > maxSize) {
-      return maxSize;
-    }
-    if (value % 32 !== 0) {
-      const roundedValue = Math.round(value / 32) * 32;
-      return Math.min(maxSize, Math.max(minSize, roundedValue));
-    }
-    return value;
-  };
+  protected validateDimensionsMultipleOf32(
+    size: ImageSize,
+    warnings: ImageModelV1CallWarning[],
+    minSize: number = 32,
+    maxSize: number = 4096,
+  ): ImageSize {
+    const adjustDimension = (value: number): number => {
+      if (value < minSize) {
+        return minSize;
+      }
+      if (value > maxSize) {
+        return maxSize;
+      }
+      if (value % 32 !== 0) {
+        const roundedValue = Math.round(value / 32) * 32;
+        return Math.min(maxSize, Math.max(minSize, roundedValue));
+      }
+      return value;
+    };
 
-  const adjustedWidth = adjustDimension(size.width);
-  const adjustedHeight = adjustDimension(size.height);
+    const adjustedWidth = adjustDimension(size.width);
+    const adjustedHeight = adjustDimension(size.height);
 
-  if (adjustedWidth !== size.width || adjustedHeight !== size.height) {
-    warnings.push({
-      type: 'other',
-      message: `Image dimensions must be multiples of 32 and within the range ${minSize}-${maxSize}. Adjusted from ${size.width}x${size.height} to ${adjustedWidth}x${adjustedHeight}`
-    });
-    return { width: adjustedWidth, height: adjustedHeight };
+    if (adjustedWidth !== size.width || adjustedHeight !== size.height) {
+      warnings.push({
+        type: 'other',
+        message: `Image dimensions must be multiples of 32 and within the range ${minSize}-${maxSize}. Adjusted from ${size.width}x${size.height} to ${adjustedWidth}x${adjustedHeight}`,
+      });
+      return { width: adjustedWidth, height: adjustedHeight };
+    }
+
+    return size;
   }
-
-  return size;
-}
 
   protected findClosestSize(size: ImageSize, supportedSizes: string[]): string {
     const targetRatio = size.width / size.height;
 
     const sizesByRatio = supportedSizes.slice().sort((a, b) => {
-        const [w1, h1] = a.split('x').map(Number);
-        const [w2, h2] = b.split('x').map(Number);
-        const ratio1 = w1 / h1;
-        const ratio2 = w2 / h2;
-        const diff1 = Math.abs(ratio1 - targetRatio);
-        const diff2 = Math.abs(ratio2 - targetRatio);
-        return diff1 - diff2;
+      const [w1, h1] = a.split('x').map(Number);
+      const [w2, h2] = b.split('x').map(Number);
+      const ratio1 = w1 / h1;
+      const ratio2 = w2 / h2;
+      const diff1 = Math.abs(ratio1 - targetRatio);
+      const diff2 = Math.abs(ratio2 - targetRatio);
+      return diff1 - diff2;
     });
 
     const similarRatioSizes = sizesByRatio.slice(0, 2);
     return similarRatioSizes.reduce((closest, current) => {
-        const [w1, h1] = current.split('x').map(Number);
-        const [w2, h2] = closest.split('x').map(Number);
+      const [w1, h1] = current.split('x').map(Number);
+      const [w2, h2] = closest.split('x').map(Number);
 
-        const diff1 = Math.abs(Math.max(w1, h1) - 1024);
-        const diff2 = Math.abs(Math.max(w2, h2) - 1024);
+      const diff1 = Math.abs(Math.max(w1, h1) - 1024);
+      const diff2 = Math.abs(Math.max(w2, h2) - 1024);
 
-        return diff1 < diff2 ? current : closest;
+      return diff1 < diff2 ? current : closest;
     });
   }
 
   protected findClosestAspectRatio(
     targetRatio: `${number}:${number}` | undefined,
     supportedRatios: readonly `${number}:${number}`[],
-    warnings: ImageModelV1CallWarning[]
+    warnings: ImageModelV1CallWarning[],
   ): `${number}:${number}` {
     if (!targetRatio) return supportedRatios[0];
 
@@ -279,7 +289,57 @@ protected validateDimensionsMultipleOf32(size: ImageSize, warnings: ImageModelV1
     if (closestRatio !== targetRatio) {
       warnings.push({
         type: 'other',
-        message: `Aspect ratio ${targetRatio} is not supported. Using closest supported ratio: ${closestRatio}`
+        message: `Aspect ratio ${targetRatio} is not supported. Using closest supported ratio: ${closestRatio}`,
+      });
+    }
+
+    return closestRatio;
+  }
+
+  protected sizeToAspectRatio(
+    size: string | undefined,
+    supportedRatios: readonly string[],
+    warnings: ImageModelV1CallWarning[],
+  ): string | undefined {
+    if (!size) return undefined;
+
+    const parsedSize = this.parseSize(size);
+    if (!parsedSize) {
+      warnings.push({
+        type: 'other',
+        message: `Invalid size format: ${size}. Expected format: WIDTHxHEIGHT`,
+      });
+      return undefined;
+    }
+
+    const ratio = parsedSize.width / parsedSize.height;
+
+    // Find the closest supported aspect ratio
+    let closestRatio = supportedRatios[0];
+    let minDiff = Infinity;
+
+    for (const aspectRatio of supportedRatios) {
+      const [w, h] = aspectRatio.split(':').map(Number);
+      if (!w || !h) continue;
+
+      const currentRatio = w / h;
+      const diff = Math.abs(currentRatio - ratio);
+
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestRatio = aspectRatio;
+      }
+    }
+
+    // Check if conversion was needed
+    const [closestW, closestH] = closestRatio.split(':').map(Number);
+    const closestRatioValue = closestW / closestH;
+
+    if (Math.abs(closestRatioValue - ratio) > 0.05) {
+      // 5% tolerance
+      warnings.push({
+        type: 'other',
+        message: `Size ${size} (ratio ${ratio.toFixed(2)}) converted to closest supported aspect ratio: ${closestRatio}`,
       });
     }
 

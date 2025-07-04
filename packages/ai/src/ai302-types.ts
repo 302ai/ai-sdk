@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 // Common types
 export const ImageResponseSchema = z
@@ -22,17 +22,17 @@ export const ImageSizeSchema = z
 export type ImageSize = z.infer<typeof ImageSizeSchema>;
 
 export const IdeogramAspectRatioSchema = z.enum([
-  "ASPECT_1_1",
-  "ASPECT_10_16",
-  "ASPECT_16_10",
-  "ASPECT_9_16",
-  "ASPECT_16_9",
-  "ASPECT_3_2",
-  "ASPECT_2_3",
-  "ASPECT_4_3",
-  "ASPECT_3_4",
-  "ASPECT_1_3",
-  "ASPECT_3_1",
+  'ASPECT_1_1',
+  'ASPECT_10_16',
+  'ASPECT_16_10',
+  'ASPECT_9_16',
+  'ASPECT_16_9',
+  'ASPECT_3_2',
+  'ASPECT_2_3',
+  'ASPECT_4_3',
+  'ASPECT_3_4',
+  'ASPECT_1_3',
+  'ASPECT_3_1',
 ]);
 
 export type IdeogramAspectRatio = z.infer<typeof IdeogramAspectRatioSchema>;
@@ -147,84 +147,84 @@ export type FluxSchnellResponse = z.infer<typeof FluxSchnellResponseSchema>;
 
 // Ideogram
 export const IdeogramResolutionSchema = z.enum([
-  "RESOLUTION_512_1536",
-  "RESOLUTION_576_1408",
-  "RESOLUTION_576_1472",
-  "RESOLUTION_576_1536",
-  "RESOLUTION_640_1024",
-  "RESOLUTION_640_1344",
-  "RESOLUTION_640_1408",
-  "RESOLUTION_640_1472",
-  "RESOLUTION_640_1536",
-  "RESOLUTION_704_1152",
-  "RESOLUTION_704_1216",
-  "RESOLUTION_704_1280",
-  "RESOLUTION_704_1344",
-  "RESOLUTION_704_1408",
-  "RESOLUTION_704_1472",
-  "RESOLUTION_720_1280",
-  "RESOLUTION_736_1312",
-  "RESOLUTION_768_1024",
-  "RESOLUTION_768_1088",
-  "RESOLUTION_768_1152",
-  "RESOLUTION_768_1216",
-  "RESOLUTION_768_1232",
-  "RESOLUTION_768_1280",
-  "RESOLUTION_768_1344",
-  "RESOLUTION_832_960",
-  "RESOLUTION_832_1024",
-  "RESOLUTION_832_1088",
-  "RESOLUTION_832_1152",
-  "RESOLUTION_832_1216",
-  "RESOLUTION_832_1248",
-  "RESOLUTION_864_1152",
-  "RESOLUTION_896_960",
-  "RESOLUTION_896_1024",
-  "RESOLUTION_896_1088",
-  "RESOLUTION_896_1120",
-  "RESOLUTION_896_1152",
-  "RESOLUTION_960_832",
-  "RESOLUTION_960_896",
-  "RESOLUTION_960_1024",
-  "RESOLUTION_960_1088",
-  "RESOLUTION_1024_640",
-  "RESOLUTION_1024_768",
-  "RESOLUTION_1024_832",
-  "RESOLUTION_1024_896",
-  "RESOLUTION_1024_960",
-  "RESOLUTION_1024_1024",
-  "RESOLUTION_1088_768",
-  "RESOLUTION_1088_832",
-  "RESOLUTION_1088_896",
-  "RESOLUTION_1088_960",
-  "RESOLUTION_1120_896",
-  "RESOLUTION_1152_704",
-  "RESOLUTION_1152_768",
-  "RESOLUTION_1152_832",
-  "RESOLUTION_1152_864",
-  "RESOLUTION_1152_896",
-  "RESOLUTION_1216_704",
-  "RESOLUTION_1216_768",
-  "RESOLUTION_1216_832",
-  "RESOLUTION_1232_768",
-  "RESOLUTION_1248_832",
-  "RESOLUTION_1280_704",
-  "RESOLUTION_1280_720",
-  "RESOLUTION_1280_768",
-  "RESOLUTION_1280_800",
-  "RESOLUTION_1312_736",
-  "RESOLUTION_1344_640",
-  "RESOLUTION_1344_704",
-  "RESOLUTION_1344_768",
-  "RESOLUTION_1408_576",
-  "RESOLUTION_1408_640",
-  "RESOLUTION_1408_704",
-  "RESOLUTION_1472_576",
-  "RESOLUTION_1472_640",
-  "RESOLUTION_1472_704",
-  "RESOLUTION_1536_512",
-  "RESOLUTION_1536_576",
-  "RESOLUTION_1536_640",
+  'RESOLUTION_512_1536',
+  'RESOLUTION_576_1408',
+  'RESOLUTION_576_1472',
+  'RESOLUTION_576_1536',
+  'RESOLUTION_640_1024',
+  'RESOLUTION_640_1344',
+  'RESOLUTION_640_1408',
+  'RESOLUTION_640_1472',
+  'RESOLUTION_640_1536',
+  'RESOLUTION_704_1152',
+  'RESOLUTION_704_1216',
+  'RESOLUTION_704_1280',
+  'RESOLUTION_704_1344',
+  'RESOLUTION_704_1408',
+  'RESOLUTION_704_1472',
+  'RESOLUTION_720_1280',
+  'RESOLUTION_736_1312',
+  'RESOLUTION_768_1024',
+  'RESOLUTION_768_1088',
+  'RESOLUTION_768_1152',
+  'RESOLUTION_768_1216',
+  'RESOLUTION_768_1232',
+  'RESOLUTION_768_1280',
+  'RESOLUTION_768_1344',
+  'RESOLUTION_832_960',
+  'RESOLUTION_832_1024',
+  'RESOLUTION_832_1088',
+  'RESOLUTION_832_1152',
+  'RESOLUTION_832_1216',
+  'RESOLUTION_832_1248',
+  'RESOLUTION_864_1152',
+  'RESOLUTION_896_960',
+  'RESOLUTION_896_1024',
+  'RESOLUTION_896_1088',
+  'RESOLUTION_896_1120',
+  'RESOLUTION_896_1152',
+  'RESOLUTION_960_832',
+  'RESOLUTION_960_896',
+  'RESOLUTION_960_1024',
+  'RESOLUTION_960_1088',
+  'RESOLUTION_1024_640',
+  'RESOLUTION_1024_768',
+  'RESOLUTION_1024_832',
+  'RESOLUTION_1024_896',
+  'RESOLUTION_1024_960',
+  'RESOLUTION_1024_1024',
+  'RESOLUTION_1088_768',
+  'RESOLUTION_1088_832',
+  'RESOLUTION_1088_896',
+  'RESOLUTION_1088_960',
+  'RESOLUTION_1120_896',
+  'RESOLUTION_1152_704',
+  'RESOLUTION_1152_768',
+  'RESOLUTION_1152_832',
+  'RESOLUTION_1152_864',
+  'RESOLUTION_1152_896',
+  'RESOLUTION_1216_704',
+  'RESOLUTION_1216_768',
+  'RESOLUTION_1216_832',
+  'RESOLUTION_1232_768',
+  'RESOLUTION_1248_832',
+  'RESOLUTION_1280_704',
+  'RESOLUTION_1280_720',
+  'RESOLUTION_1280_768',
+  'RESOLUTION_1280_800',
+  'RESOLUTION_1312_736',
+  'RESOLUTION_1344_640',
+  'RESOLUTION_1344_704',
+  'RESOLUTION_1344_768',
+  'RESOLUTION_1408_576',
+  'RESOLUTION_1408_640',
+  'RESOLUTION_1408_704',
+  'RESOLUTION_1472_576',
+  'RESOLUTION_1472_640',
+  'RESOLUTION_1472_704',
+  'RESOLUTION_1536_512',
+  'RESOLUTION_1536_576',
+  'RESOLUTION_1536_640',
 ]);
 
 export type IdeogramResolution = z.infer<typeof IdeogramResolutionSchema>;
@@ -234,23 +234,23 @@ export const IdeogramRequestSchema = z
     image_request: z
       .object({
         aspect_ratio:
-          IdeogramAspectRatioSchema.optional().default("ASPECT_1_1"),
+          IdeogramAspectRatioSchema.optional().default('ASPECT_1_1'),
         magic_prompt_option: z
-          .enum(["AUTO", "ON", "OFF"])
+          .enum(['AUTO', 'ON', 'OFF'])
           .optional()
-          .default("AUTO"),
+          .default('AUTO'),
         model: z
-          .enum(["V_1", "V_1_TURBO", "V_2", "V_2_TURBO"])
+          .enum(['V_1', 'V_1_TURBO', 'V_2', 'V_2_TURBO'])
           .optional()
-          .default("V_2"),
+          .default('V_2'),
         negative_prompt: z.string().optional(),
         prompt: z.string(),
         resolution: IdeogramResolutionSchema.optional(),
         seed: z.number().optional(),
         style_type: z
-          .enum(["GENERAL", "REALISTIC", "DESIGN", "RENDER_3D", "ANIME"])
+          .enum(['GENERAL', 'REALISTIC', 'DESIGN', 'RENDER_3D', 'ANIME'])
           .optional()
-          .default("GENERAL"),
+          .default('GENERAL'),
       })
       .passthrough(),
   })
@@ -283,7 +283,7 @@ export type IdeogramResponse = z.infer<typeof IdeogramResponseSchema>;
 export const DallERequestSchema = z
   .object({
     prompt: z.string(),
-    model: z.enum(["dall-e-3"]),
+    model: z.enum(['dall-e-3']),
     size: z.string(),
   })
   .passthrough();
@@ -334,10 +334,10 @@ export const RecraftControlsSchema = z
 export type RecraftControls = z.infer<typeof RecraftControlsSchema>;
 
 export const RecraftStyleSchema = z.enum([
-  "realistic_image",
-  "digital_illustration",
-  "vector_illustration",
-  "icon",
+  'realistic_image',
+  'digital_illustration',
+  'vector_illustration',
+  'icon',
 ]);
 
 export type RecraftStyle = z.infer<typeof RecraftStyleSchema>;
@@ -373,7 +373,7 @@ export const SDXLLightningRequestSchema = z
     prompt: z.string(),
     image_size: SDXLLightningImageSizeSchema,
     embeddings: z.array(z.any()).optional(),
-    format: z.enum(["jpeg", "png"]).optional(),
+    format: z.enum(['jpeg', 'png']).optional(),
   })
   .passthrough();
 
@@ -473,13 +473,13 @@ export type AuraflowResponse = z.infer<typeof AuraflowResponseSchema>;
 
 // Luma Photon
 export const LumaPhotonAspectRatioSchema = z.enum([
-  "1:1",
-  "3:4",
-  "4:3",
-  "9:16",
-  "16:9",
-  "9:21",
-  "21:9",
+  '1:1',
+  '3:4',
+  '4:3',
+  '9:16',
+  '16:9',
+  '9:21',
+  '21:9',
 ]);
 
 export type LumaPhotonAspectRatio = z.infer<typeof LumaPhotonAspectRatioSchema>;
@@ -487,7 +487,7 @@ export type LumaPhotonAspectRatio = z.infer<typeof LumaPhotonAspectRatioSchema>;
 export const LumaPhotonRequestSchema = z
   .object({
     prompt: z.string(),
-    aspect_ratio: LumaPhotonAspectRatioSchema.optional().default("16:9"),
+    aspect_ratio: LumaPhotonAspectRatioSchema.optional().default('16:9'),
   })
   .passthrough();
 
@@ -532,7 +532,7 @@ export const SDXLResponseSchema = z
     model: z.string(),
     output: z.string(), // JSON string of URLs array
     started_at: z.string(),
-    status: z.enum(["succeeded", "failed"]),
+    status: z.enum(['succeeded', 'failed']),
   })
   .passthrough();
 
@@ -540,15 +540,15 @@ export type SDXLResponse = z.infer<typeof SDXLResponseSchema>;
 
 // SD3-Ultra
 export const SD3UltraAspectRatioSchema = z.enum([
-  "16:9",
-  "1:1",
-  "21:9",
-  "2:3",
-  "3:2",
-  "4:5",
-  "5:4",
-  "9:16",
-  "9:21",
+  '16:9',
+  '1:1',
+  '21:9',
+  '2:3',
+  '3:2',
+  '4:5',
+  '5:4',
+  '9:16',
+  '9:21',
 ]);
 
 export type SD3UltraAspectRatio = z.infer<typeof SD3UltraAspectRatioSchema>;
@@ -557,8 +557,8 @@ export const SD3UltraRequestSchema = z
   .object({
     prompt: z.string(),
     negative_prompt: z.string().optional(),
-    aspect_ratio: SD3UltraAspectRatioSchema.optional().default("1:1"),
-    output_format: z.enum(["jpeg", "png"]).optional(),
+    aspect_ratio: SD3UltraAspectRatioSchema.optional().default('1:1'),
+    output_format: z.enum(['jpeg', 'png']).optional(),
     seed: z.number().optional(),
   })
   .passthrough();
@@ -567,12 +567,12 @@ export type SD3UltraRequest = z.infer<typeof SD3UltraRequestSchema>;
 
 // SD3
 export const SD3ImageSizeSchema = z.enum([
-  "1024x1024",
-  "1024x2048",
-  "1536x1024",
-  "1536x2048",
-  "2048x1152",
-  "1152x2048",
+  '1024x1024',
+  '1024x2048',
+  '1536x1024',
+  '1536x2048',
+  '2048x1152',
+  '1152x2048',
 ]);
 
 export type SD3ImageSize = z.infer<typeof SD3ImageSizeSchema>;
@@ -580,7 +580,7 @@ export type SD3ImageSize = z.infer<typeof SD3ImageSizeSchema>;
 export const SD3RequestSchema = z
   .object({
     prompt: z.string(),
-    image_size: SD3ImageSizeSchema.optional().default("1024x1024"),
+    image_size: SD3ImageSizeSchema.optional().default('1024x1024'),
     batch_size: z.number().min(1).max(4).optional().default(1),
     num_inference_steps: z.number().min(1).max(100).optional().default(20),
     guidance_scale: z.number().min(0).max(100).optional().default(7.5),
@@ -609,23 +609,23 @@ export type SD3Response = z.infer<typeof SD3ResponseSchema>;
 
 // SD3.5
 export const SD35AspectRatioSchema = z.enum([
-  "16:9",
-  "1:1",
-  "21:9",
-  "2:3",
-  "3:2",
-  "4:5",
-  "5:4",
-  "9:16",
-  "9:21",
+  '16:9',
+  '1:1',
+  '21:9',
+  '2:3',
+  '3:2',
+  '4:5',
+  '5:4',
+  '9:16',
+  '9:21',
 ]);
 
 export type SD35AspectRatio = z.infer<typeof SD35AspectRatioSchema>;
 
 export const SD35ModelSchema = z.enum([
-  "sd3.5-large",
-  "sd3.5-large-turbo",
-  "sd3.5-medium",
+  'sd3.5-large',
+  'sd3.5-large-turbo',
+  'sd3.5-medium',
 ]);
 
 export type SD35Model = z.infer<typeof SD35ModelSchema>;
@@ -633,14 +633,14 @@ export type SD35Model = z.infer<typeof SD35ModelSchema>;
 export const SD35RequestSchema = z
   .object({
     prompt: z.string(),
-    aspect_ratio: SD35AspectRatioSchema.optional().default("1:1"),
+    aspect_ratio: SD35AspectRatioSchema.optional().default('1:1'),
     mode: z
-      .enum(["text-to-image", "image-to-image"])
+      .enum(['text-to-image', 'image-to-image'])
       .optional()
-      .default("text-to-image"),
+      .default('text-to-image'),
     model: SD35ModelSchema,
     negative_prompt: z.string().optional(),
-    output_format: z.enum(["jpeg", "png"]).optional(),
+    output_format: z.enum(['jpeg', 'png']).optional(),
     seed: z.number().optional(),
   })
   .passthrough();
@@ -648,14 +648,14 @@ export const SD35RequestSchema = z
 export type SD35Request = z.infer<typeof SD35RequestSchema>;
 
 // Midjourney
-export const MidjourneyBotTypeSchema = z.enum(["MID_JOURNEY", "NIJI_JOURNEY"]);
+export const MidjourneyBotTypeSchema = z.enum(['MID_JOURNEY', 'NIJI_JOURNEY']);
 
 export type MidjourneyBotType = z.infer<typeof MidjourneyBotTypeSchema>;
 
 export const MidjourneySubmitRequestSchema = z
   .object({
     prompt: z.string(),
-    botType: MidjourneyBotTypeSchema.optional().default("MID_JOURNEY"),
+    botType: MidjourneyBotTypeSchema.optional().default('MID_JOURNEY'),
     state: z.string().optional(),
   })
   .passthrough();
@@ -689,9 +689,9 @@ export const MidjourneyButtonSchema = z
 export type MidjourneyButton = z.infer<typeof MidjourneyButtonSchema>;
 
 export const MidjourneyTaskStatusSchema = z.enum([
-  "IN_PROGRESS",
-  "SUCCESS",
-  "FAILED",
+  'IN_PROGRESS',
+  'SUCCESS',
+  'FAILED',
 ]);
 
 export type MidjourneyTaskStatus = z.infer<typeof MidjourneyTaskStatusSchema>;
@@ -844,27 +844,22 @@ export interface IRAGResponse {
 
 // 302.ai GPT Image
 export const GPTImageSizeSchema = z.enum([
-  "1024x1024",
-  "1536x1024",
-  "1024x1536"
+  '1024x1024',
+  '1536x1024',
+  '1024x1536',
 ]);
 
 export type GPTImageSize = z.infer<typeof GPTImageSizeSchema>;
 
 export const GPTImageBackgroundSchema = z.enum([
-  "transparent",
-  "opaque",
-  "auto"
+  'transparent',
+  'opaque',
+  'auto',
 ]);
 
 export type GPTImageBackground = z.infer<typeof GPTImageBackgroundSchema>;
 
-export const GPTImageQualitySchema = z.enum([
-  "auto",
-  "high",
-  "medium",
-  "low"
-]);
+export const GPTImageQualitySchema = z.enum(['auto', 'high', 'medium', 'low']);
 
 export type GPTImageQuality = z.infer<typeof GPTImageQualitySchema>;
 
@@ -872,11 +867,11 @@ export const GPTImageRequestSchema = z
   .object({
     prompt: z.string(),
     model: z.string().optional(),
-    size: GPTImageSizeSchema.optional().default("1024x1024"),
+    size: GPTImageSizeSchema.optional().default('1024x1024'),
     background: GPTImageBackgroundSchema.optional(),
     quality: GPTImageQualitySchema.optional(),
     n: z.number().min(1).max(10).optional(),
-    response_format: z.enum(["url", "b64_json"]).optional(),
+    response_format: z.enum(['url', 'b64_json']).optional(),
   })
   .passthrough();
 
@@ -895,22 +890,187 @@ export const GPTImageResponseSchema = z
   .object({
     created: z.number(),
     data: z.array(GPTImageDataSchema),
-    usage: z.object({
-      prompt_tokens: z.number(),
-      completion_tokens: z.number(),
-      total_tokens: z.number(),
-      input_tokens: z.number(),
-      output_tokens: z.number(),
-      input_tokens_details: z.object({
-        text_tokens: z.number(),
-        cached_tokens_details: z.record(z.any()),
-      }),
-      prompt_tokens_details: z.object({
-        cached_tokens_details: z.record(z.any()),
-      }),
-      completion_tokens_details: z.record(z.any()),
-    }).optional(),
+    usage: z
+      .object({
+        prompt_tokens: z.number(),
+        completion_tokens: z.number(),
+        total_tokens: z.number(),
+        input_tokens: z.number(),
+        output_tokens: z.number(),
+        input_tokens_details: z.object({
+          text_tokens: z.number(),
+          cached_tokens_details: z.record(z.any()),
+        }),
+        prompt_tokens_details: z.object({
+          cached_tokens_details: z.record(z.any()),
+        }),
+        completion_tokens_details: z.record(z.any()),
+      })
+      .optional(),
   })
   .passthrough();
 
 export type GPTImageResponse = z.infer<typeof GPTImageResponseSchema>;
+
+// Bagel
+export const BagelRequestSchema = z
+  .object({
+    prompt: z.string(),
+    use_thought: z.boolean().optional(),
+  })
+  .passthrough();
+
+export type BagelRequest = z.infer<typeof BagelRequestSchema>;
+
+export const BagelImageDataSchema = z
+  .object({
+    url: z.string(),
+    content_type: z.string(),
+    file_size: z.number(),
+    width: z.number(),
+    height: z.number(),
+  })
+  .passthrough();
+
+export type BagelImageData = z.infer<typeof BagelImageDataSchema>;
+
+export const BagelResponseSchema = z
+  .object({
+    images: z.array(BagelImageDataSchema),
+    seed: z.number(),
+    has_nsfw_concepts: z.array(z.boolean()),
+    debug_latents: z.any().nullable(),
+    debug_per_pass_latents: z.any().nullable(),
+  })
+  .passthrough();
+
+export type BagelResponse = z.infer<typeof BagelResponseSchema>;
+
+// Flux Kontext
+export const FluxKontextRequestSchema = z
+  .object({
+    prompt: z.string(),
+    input_image: z.string().nullable().optional(),
+    seed: z.number().nullable().optional(),
+    aspect_ratio: z.string().nullable().optional(),
+    output_format: z.enum(['jpeg', 'png']).optional().default('png'),
+    webhook_url: z.string().url().min(1).max(2083).nullable().optional(),
+    webhook_secret: z.string().nullable().optional(),
+    prompt_upsampling: z.boolean().optional().default(false),
+    safety_tolerance: z.number().min(0).max(6).optional().default(2),
+  })
+  .passthrough();
+
+export type FluxKontextRequest = z.infer<typeof FluxKontextRequestSchema>;
+
+export const FluxKontextSubmitResponseSchema = z
+  .object({
+    id: z.string(),
+    polling_url: z.string(),
+  })
+  .passthrough();
+
+export type FluxKontextSubmitResponse = z.infer<
+  typeof FluxKontextSubmitResponseSchema
+>;
+
+export const FluxKontextResultDataSchema = z
+  .object({
+    seed: z.number(),
+    prompt: z.string(),
+    sample: z.string(),
+    duration: z.number(),
+    end_time: z.number(),
+    start_time: z.number(),
+  })
+  .passthrough();
+
+export type FluxKontextResultData = z.infer<typeof FluxKontextResultDataSchema>;
+
+export const FluxKontextResultResponseSchema = z
+  .object({
+    id: z.string(),
+    result: FluxKontextResultDataSchema.optional(),
+    status: z.string(),
+  })
+  .passthrough();
+
+export type FluxKontextResultResponse = z.infer<
+  typeof FluxKontextResultResponseSchema
+>;
+
+// Soul
+export const SoulQualitySchema = z.enum(['720p', '1080p']);
+
+export type SoulQuality = z.infer<typeof SoulQualitySchema>;
+
+export const SoulAspectRatioSchema = z.enum([
+  '9:16',
+  '3:4',
+  '2:3',
+  '1:1',
+  '4:3',
+  '16:9',
+  '3:2',
+]);
+
+export type SoulAspectRatio = z.infer<typeof SoulAspectRatioSchema>;
+
+export const SoulRequestSchema = z
+  .object({
+    quality: SoulQualitySchema,
+    aspect_ratio: SoulAspectRatioSchema,
+    prompt: z.string(),
+    enhance_prompt: z.boolean(),
+    seed: z.number(),
+    style_id: z.string(),
+    negative_prompt: z.string(),
+  })
+  .passthrough();
+
+export type SoulRequest = z.infer<typeof SoulRequestSchema>;
+
+export const SoulSubmitResponseSchema = z
+  .object({
+    id: z.string(),
+  })
+  .passthrough();
+
+export type SoulSubmitResponse = z.infer<typeof SoulSubmitResponseSchema>;
+
+export const SoulJobResultSchema = z
+  .object({
+    min: z.object({
+      type: z.string(),
+      url: z.string(),
+    }),
+    raw: z.object({
+      type: z.string(),
+      url: z.string(),
+    }),
+  })
+  .passthrough();
+
+export type SoulJobResult = z.infer<typeof SoulJobResultSchema>;
+
+export const SoulJobSchema = z
+  .object({
+    board_ids: z.array(z.string()),
+    created_at: z.number(),
+    id: z.string(),
+    meta: z.object({}).passthrough(),
+    results: SoulJobResultSchema,
+    status: z.string(),
+  })
+  .passthrough();
+
+export type SoulJob = z.infer<typeof SoulJobSchema>;
+
+export const SoulTaskResponseSchema = z
+  .object({
+    id: z.string(),
+    jobs: z.array(SoulJobSchema).optional(),
+  })
+  .passthrough();
+
+export type SoulTaskResponse = z.infer<typeof SoulTaskResponseSchema>;

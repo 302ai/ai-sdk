@@ -3,10 +3,12 @@ import type {
   AI302ImageSettings,
 } from '../ai302-image-settings';
 import { AuraflowHandler } from './auraflow';
+import { BagelHandler } from './bagel';
 import type { BaseModelHandler } from './base-model';
 import { CogViewHandler } from './cogview';
 import { DallEHandler } from './dalle';
 import { FluxProDevHandler } from './flux-pro-dev';
+import { FluxKontextHandler } from './flux-kontext';
 import { GPTImageHandler } from './gpt-image';
 import { HidreamHandler } from './hidream';
 import { IdeogramHandler, IdeogramV3Handler } from './ideogram';
@@ -20,6 +22,7 @@ import { SD3V2Handler } from './sd3v2';
 import { SD3UltraHandler } from './sd3-ultra';
 import { SDXLHandler } from './sdxl';
 import { SDXLLightningHandler } from './sdxl-lightning';
+import { SoulHandler } from './soul';
 import { AI302Config } from '../ai302-config';
 import { SD35Handler } from './sd35';
 import { GoogleImagen3Handler } from './google-imagen-3';
@@ -45,6 +48,9 @@ export function createImageModelHandler(
     case 'flux-dev':
     case 'flux-schnell':
       return new FluxProDevHandler(modelId, settings, config);
+    case 'flux-kontext-max':
+    case 'flux-kontext-pro':
+      return new FluxKontextHandler(modelId, settings, config);
     case 'ideogram/V_1':
     case 'ideogram/V_1_TURBO':
     case 'ideogram/V_2':
@@ -112,6 +118,10 @@ export function createImageModelHandler(
       return new HidreamHandler(modelId, settings, config);
     case 'gpt-image-1':
       return new GPTImageHandler(modelId, settings, config);
+    case 'bagel':
+      return new BagelHandler(modelId, settings, config);
+    case 'soul':
+      return new SoulHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }
