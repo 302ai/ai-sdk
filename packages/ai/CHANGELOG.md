@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.18
+
+### Patch Changes
+
+- 394b608: feat: add support for new flux kontext, bagel and soul models
+
 ## 0.0.17
 
 ### Patch Changes
