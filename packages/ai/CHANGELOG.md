@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.19
+
+### Patch Changes
+
+- 43c1154: feat: support kling provider
+
 ## 0.0.18
 
 ### Patch Changes
