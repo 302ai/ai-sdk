@@ -1074,3 +1074,70 @@ export const SoulTaskResponseSchema = z
   .passthrough();
 
 export type SoulTaskResponse = z.infer<typeof SoulTaskResponseSchema>;
+
+// Kling
+export const KlingAspectRatioSchema = z.enum([
+  '16:9',
+  '9:16',
+  '1:1',
+  '4:3',
+  '3:4',
+  '3:2',
+  '2:3',
+]);
+
+export type KlingAspectRatio = z.infer<typeof KlingAspectRatioSchema>;
+
+export const KlingRequestSchema = z
+  .object({
+    model_name: z.enum(['kling-v1', 'kling-v1-5', 'kling-v2']),
+    prompt: z.string(),
+    negative_prompt: z.string().optional(),
+    image: z.string().optional(),
+    image_reference: z.enum(['face', 'subject']).optional(),
+    image_fidelity: z.number().min(0).max(1).optional(),
+    human_fidelity: z.number().min(0).max(1).optional(),
+    n: z.number().min(1).max(9).optional(),
+    aspect_ratio: KlingAspectRatioSchema.optional(),
+  })
+  .passthrough();
+
+export type KlingRequest = z.infer<typeof KlingRequestSchema>;
+
+export const KlingSubmitResponseSchema = z
+  .object({
+    code: z.number(),
+    data: z.object({
+      task_id: z.string(),
+      task_status: z.string(),
+    }),
+    message: z.string(),
+  })
+  .passthrough();
+
+export type KlingSubmitResponse = z.infer<typeof KlingSubmitResponseSchema>;
+
+export const KlingTaskResponseSchema = z
+  .object({
+    code: z.number(),
+    data: z.object({
+      task_id: z.string(),
+      task_result: z
+        .object({
+          images: z
+            .array(
+              z.object({
+                url: z.string(),
+              }),
+            )
+            .optional(),
+        })
+        .optional(),
+      task_status: z.string(),
+      task_status_msg: z.string(),
+    }),
+    message: z.string(),
+  })
+  .passthrough();
+
+export type KlingTaskResponse = z.infer<typeof KlingTaskResponseSchema>;

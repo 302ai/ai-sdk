@@ -52,6 +52,9 @@ export type AI302ImageModelId =
   | 'gpt-image-1'
   | 'bagel'
   | 'soul'
+  | 'kling-v1'
+  | 'kling-v1-5'
+  | 'kling-v2'
   | (string & {});
 
 export interface AI302ImageSettings {}
@@ -217,6 +220,15 @@ export const modelToBackendConfig: Partial<
     supportsSize: false,
   },
   soul: {
+    supportsSize: true,
+  },
+  'kling-v1': {
+    supportsSize: true,
+  },
+  'kling-v1-5': {
+    supportsSize: true,
+  },
+  'kling-v2': {
     supportsSize: true,
   },
 };

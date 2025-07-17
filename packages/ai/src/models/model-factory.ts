@@ -13,6 +13,7 @@ import { GPTImageHandler } from './gpt-image';
 import { HidreamHandler } from './hidream';
 import { IdeogramHandler, IdeogramV3Handler } from './ideogram';
 import { IRAGHandler } from './irag';
+import { KlingHandler } from './kling';
 import { KolorsHandler } from './kolors';
 import { LumaPhotonHandler } from './luma-photon';
 import { MidjourneyHandler } from './midjourney';
@@ -69,6 +70,10 @@ export function createImageModelHandler(
     case 'sdxl-lightning-v2':
     case 'sdxl-lightning-v3':
       return new SDXLLightningHandler(modelId, settings, config);
+    case 'kling-v1':
+    case 'kling-v1-5':
+    case 'kling-v2':
+      return new KlingHandler(modelId, settings, config);
     case 'kolors':
       return new KolorsHandler(modelId, settings, config);
     case 'photon-flash-1':
