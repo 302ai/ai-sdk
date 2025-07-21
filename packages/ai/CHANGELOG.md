@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.20
+
+### Patch Changes
+
+- abeb1b7: fix: soul
+
 ## 0.0.19
 
 ### Patch Changes
