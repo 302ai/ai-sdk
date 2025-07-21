@@ -20,7 +20,7 @@ const SUPPORTED_ASPECT_RATIOS = [
   '3:2',
 ] as const;
 
-const SUPPORTED_QUALITIES = ['720p', '1080p'] as const;
+const SUPPORTED_QUALITIES = ['basic', 'high'] as const;
 
 const POLL_INTERVAL = 2000; // 2 seconds
 const MAX_POLL_TIME = 300000; // 5 minutes
@@ -132,7 +132,7 @@ export class SoulHandler extends BaseModelHandler {
 
     // Get parameters from providerOptions
     const ai302Options = providerOptions?.ai302 || {};
-    const quality = (ai302Options.quality as string) || '1080p';
+    const quality = (ai302Options.quality as string) || 'high';
     const styleId = (ai302Options.style_id as string) || DEFAULT_STYLE_ID;
     const enhancePrompt = (ai302Options.enhance_prompt as boolean) ?? true;
     const negativePrompt = (ai302Options.negative_prompt as string) || '';
@@ -141,7 +141,7 @@ export class SoulHandler extends BaseModelHandler {
     if (!SUPPORTED_QUALITIES.includes(quality as any)) {
       warnings.push({
         type: 'other',
-        message: `Invalid quality: ${quality}. Supported values are: ${SUPPORTED_QUALITIES.join(', ')}. Using default 1080p`,
+        message: `Invalid quality: ${quality}. Supported values are: ${SUPPORTED_QUALITIES.join(', ')}. Using default high`,
       });
     }
 
@@ -155,7 +155,7 @@ export class SoulHandler extends BaseModelHandler {
         body: {
           quality: SUPPORTED_QUALITIES.includes(quality as any)
             ? quality
-            : '1080p',
+            : 'high',
           aspect_ratio: validatedAspectRatio,
           prompt,
           enhance_prompt: enhancePrompt,
