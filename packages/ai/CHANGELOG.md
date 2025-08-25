@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.21
+
+### Patch Changes
+
+- d57c689: feat: support flux-1-krea, doubao-seedream-3-0-t2i-250415, qwen-image, kling-v2-1
+
 ## 0.0.20
 
 ### Patch Changes
