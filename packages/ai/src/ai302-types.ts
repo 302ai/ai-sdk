@@ -1141,3 +1141,107 @@ export const KlingTaskResponseSchema = z
   .passthrough();
 
 export type KlingTaskResponse = z.infer<typeof KlingTaskResponseSchema>;
+
+// Flux-1-Krea
+export const FluxKreaRequestSchema = z
+  .object({
+    prompt: z.string(),
+    image_size: ImageSizeSchema.optional(),
+    num_inference_steps: z.number().optional(),
+    guidance_scale: z.number().optional(),
+  })
+  .passthrough();
+
+export type FluxKreaRequest = z.infer<typeof FluxKreaRequestSchema>;
+
+export const FluxKreaResponseSchema = z
+  .object({
+    images: z.array(
+      z.object({
+        url: z.string().optional(),
+        content_type: z.string().optional(),
+        file_size: z.number().optional(),
+        width: z.number().optional(),
+        height: z.number().optional(),
+      }),
+    ),
+    seed: z.number(),
+    has_nsfw_concepts: z.array(z.boolean()),
+    debug_latents: z.string().nullable(),
+    debug_per_pass_latents: z.string().nullable(),
+  })
+  .passthrough();
+
+export type FluxKreaResponse = z.infer<typeof FluxKreaResponseSchema>;
+
+// Doubao Seedream (OpenAI-compatible format)
+export const DoubaoSeedreamRequestSchema = z
+  .object({
+    model: z.string(),
+    prompt: z.string(),
+    response_format: z.enum(['url', 'b64_json']).optional().default('url'),
+    size: z.string().optional().default('1024x1024'),
+    seed: z.number().min(-1).max(2147483647).optional(),
+    guidance_scale: z.number().min(1).max(10).optional(),
+    watermark: z.boolean().optional().default(false),
+  })
+  .passthrough();
+
+export type DoubaoSeedreamRequest = z.infer<typeof DoubaoSeedreamRequestSchema>;
+
+export const DoubaoSeedreamDataSchema = z
+  .object({
+    url: z.string().optional(),
+    b64_json: z.string().optional(),
+  })
+  .passthrough();
+
+export type DoubaoSeedreamData = z.infer<typeof DoubaoSeedreamDataSchema>;
+
+export const DoubaoSeedreamResponseSchema = z
+  .object({
+    model: z.string(),
+    created: z.number(),
+    data: z.array(DoubaoSeedreamDataSchema),
+    usage: z.object({
+      generated_images: z.number(),
+    }),
+  })
+  .passthrough();
+
+export type DoubaoSeedreamResponse = z.infer<typeof DoubaoSeedreamResponseSchema>;
+
+// Qwen Image
+export const QwenImageAspectRatioSchema = z.enum([
+  '1:1',
+  '16:9',
+  '9:16',
+  '3:4',
+  '4:3',
+]);
+
+export type QwenImageAspectRatio = z.infer<typeof QwenImageAspectRatioSchema>;
+
+export const QwenImageRequestSchema = z
+  .object({
+    prompt: z.string(),
+    aspect_ratio: QwenImageAspectRatioSchema.optional().default('1:1'),
+  })
+  .passthrough();
+
+export type QwenImageRequest = z.infer<typeof QwenImageRequestSchema>;
+
+export const QwenImageResponseSchema = z
+  .object({
+    completed_at: z.string(),
+    created_at: z.string(),
+    error: z.string(),
+    id: z.string(),
+    model: z.string(),
+    output: z.string(),
+    started_at: z.string(),
+    status: z.enum(['succeeded', 'failed']),
+  })
+  .passthrough();
+
+export type QwenImageResponse = z.infer<typeof QwenImageResponseSchema>;

@@ -8,6 +8,7 @@ import type { BaseModelHandler } from './base-model';
 import { CogViewHandler } from './cogview';
 import { DallEHandler } from './dalle';
 import { FluxProDevHandler } from './flux-pro-dev';
+import { FluxKreaHandler } from './flux-1-krea';
 import { FluxKontextHandler } from './flux-kontext';
 import { GPTImageHandler } from './gpt-image';
 import { HidreamHandler } from './hidream';
@@ -29,9 +30,11 @@ import { SD35Handler } from './sd35';
 import { GoogleImagen3Handler } from './google-imagen-3';
 import { GoogleImagen4Handler } from './google-imagen-4';
 import { DoubaoHandler } from './doubao';
+import { DoubaoSeedreamHandler } from './doubao-seedream';
 import { LuminaImageHandler } from './lumina-image';
 import { OmnigenHandler } from './omnigen';
 import { PlaygroundHandler } from './playground';
+import { QwenImageHandler } from './qwen-image';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -49,6 +52,8 @@ export function createImageModelHandler(
     case 'flux-dev':
     case 'flux-schnell':
       return new FluxProDevHandler(modelId, settings, config);
+    case 'flux-1-krea':
+      return new FluxKreaHandler(modelId, settings, config);
     case 'flux-kontext-max':
     case 'flux-kontext-pro':
       return new FluxKontextHandler(modelId, settings, config);
@@ -73,6 +78,7 @@ export function createImageModelHandler(
     case 'kling-v1':
     case 'kling-v1-5':
     case 'kling-v2':
+    case 'kling-v2-1':
       return new KlingHandler(modelId, settings, config);
     case 'kolors':
       return new KolorsHandler(modelId, settings, config);
@@ -104,6 +110,8 @@ export function createImageModelHandler(
     case 'doubao-general-v2.0':
     case 'doubao-general-v3.0':
       return new DoubaoHandler(modelId, settings, config);
+    case 'doubao-seedream-3-0-t2i-250415':
+      return new DoubaoSeedreamHandler(modelId, settings, config);
     case 'lumina-image-v2':
       return new LuminaImageHandler(modelId, settings, config);
     case 'omnigen-v1':
@@ -127,6 +135,8 @@ export function createImageModelHandler(
       return new BagelHandler(modelId, settings, config);
     case 'soul':
       return new SoulHandler(modelId, settings, config);
+    case 'qwen-image':
+      return new QwenImageHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

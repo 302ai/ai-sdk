@@ -4,6 +4,7 @@ export type AI302ImageModelId =
   | 'flux-pro'
   | 'flux-dev'
   | 'flux-schnell'
+  | 'flux-1-krea'
   | 'flux-kontext-max'
   | 'flux-kontext-pro'
   | 'ideogram/V_1'
@@ -39,6 +40,7 @@ export type AI302ImageModelId =
   | 'doubao-general-v2.0-l'
   | 'doubao-general-v2.0'
   | 'doubao-general-v3.0'
+  | 'doubao-seedream-3-0-t2i-250415'
   | 'lumina-image-v2'
   | 'omnigen-v1'
   | 'playground-v25'
@@ -55,6 +57,8 @@ export type AI302ImageModelId =
   | 'kling-v1'
   | 'kling-v1-5'
   | 'kling-v2'
+  | 'kling-v2-1'
+  | 'qwen-image'
   | (string & {});
 
 export interface AI302ImageSettings {}
@@ -79,6 +83,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: true,
   },
   'flux-schnell': {
+    supportsSize: true,
+  },
+  'flux-1-krea': {
     supportsSize: true,
   },
   'flux-kontext-max': {
@@ -183,6 +190,9 @@ export const modelToBackendConfig: Partial<
   'doubao-general-v3.0': {
     supportsSize: true,
   },
+  'doubao-seedream-3-0-t2i-250415': {
+    supportsSize: true,
+  },
   'lumina-image-v2': {
     supportsSize: true,
   },
@@ -230,5 +240,11 @@ export const modelToBackendConfig: Partial<
   },
   'kling-v2': {
     supportsSize: true,
+  },
+  'kling-v2-1': {
+    supportsSize: true,
+  },
+  'qwen-image': {
+    supportsSize: false,
   },
 };

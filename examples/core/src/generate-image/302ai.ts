@@ -68,6 +68,10 @@ const MODELS = [
   'kling-v1',
   'kling-v1-5',
   'kling-v2',
+  'kling-v2-1',
+  'flux-1-krea',
+  'doubao-seedream-3-0-t2i-250415',
+  'qwen-image'
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';
