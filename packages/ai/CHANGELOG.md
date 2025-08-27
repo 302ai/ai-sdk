@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.22
+
+### Patch Changes
+
+- b735874: feat: support gemini-2.5-flash-image-preview
+
 ## 0.0.21
 
 ### Patch Changes
