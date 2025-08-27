@@ -35,6 +35,7 @@ import { LuminaImageHandler } from './lumina-image';
 import { OmnigenHandler } from './omnigen';
 import { PlaygroundHandler } from './playground';
 import { QwenImageHandler } from './qwen-image';
+import { Gemini25FlashImagePreviewHandler } from './gemini-2.5-flash-image-preview';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -137,6 +138,8 @@ export function createImageModelHandler(
       return new SoulHandler(modelId, settings, config);
     case 'qwen-image':
       return new QwenImageHandler(modelId, settings, config);
+    case 'gemini-2.5-flash-image-preview':
+      return new Gemini25FlashImagePreviewHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

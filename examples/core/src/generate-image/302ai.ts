@@ -71,7 +71,8 @@ const MODELS = [
   'kling-v2-1',
   'flux-1-krea',
   'doubao-seedream-3-0-t2i-250415',
-  'qwen-image'
+  'qwen-image',
+  'gemini-2.5-flash-image-preview'
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';
