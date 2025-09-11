@@ -1179,11 +1179,17 @@ export const DoubaoSeedreamRequestSchema = z
   .object({
     model: z.string(),
     prompt: z.string(),
+    image: z.array(z.string()).optional(),
+    sequential_image_generation: z.enum(['auto', 'disabled']).optional(),
+    sequential_image_generation_options: z.object({
+      max_images: z.number().min(1).max(15).optional(),
+    }).optional(),
     response_format: z.enum(['url', 'b64_json']).optional().default('url'),
     size: z.string().optional().default('1024x1024'),
+    stream: z.boolean().optional().default(false),
+    watermark: z.boolean().optional().default(false),
     seed: z.number().min(-1).max(2147483647).optional(),
     guidance_scale: z.number().min(1).max(10).optional(),
-    watermark: z.boolean().optional().default(false),
   })
   .passthrough();
 

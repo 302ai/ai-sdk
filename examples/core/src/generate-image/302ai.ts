@@ -72,7 +72,8 @@ const MODELS = [
   'flux-1-krea',
   'doubao-seedream-3-0-t2i-250415',
   'qwen-image',
-  'gemini-2.5-flash-image-preview'
+  'gemini-2.5-flash-image-preview',
+  'doubao-seedream-4-0-250828',
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';
