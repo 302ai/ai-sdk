@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.0.23
+
+### Patch Changes
+
+- f724ac7: feat: support doubao-seedream-4-0-250828
+
 ## 0.0.22
 
 ### Patch Changes
