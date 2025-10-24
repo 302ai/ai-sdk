@@ -1,6 +1,6 @@
 import type {
-  ImageModelV1CallOptions,
-  ImageModelV1CallWarning,
+  ImageModelV2CallOptions,
+  ImageModelV2CallWarning,
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
 import {
@@ -80,8 +80,8 @@ export class FluxKontextHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions) {
-    const warnings: ImageModelV1CallWarning[] = [];
+  }: ImageModelV2CallOptions) {
+    const warnings: ImageModelV2CallWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({

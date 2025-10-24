@@ -1,7 +1,7 @@
 import {
-  ImageModelV1,
-  type ImageModelV1CallOptions,
-  type ImageModelV1CallWarning,
+  ImageModelV2,
+  type ImageModelV2CallOptions,
+  type ImageModelV2CallWarning,
 } from '@ai-sdk/provider';
 import type {
   AI302ImageModelId,
@@ -18,8 +18,8 @@ export abstract class BaseModelHandler {
   ) {}
 
   public async handleRequest(
-    params: ImageModelV1CallOptions,
-  ): Promise<Awaited<ReturnType<ImageModelV1['doGenerate']>>> {
+    params: ImageModelV2CallOptions,
+  ): Promise<Awaited<ReturnType<ImageModelV2['doGenerate']>>> {
     const { headers, ...rest } = params;
     const requestHeaders = headers
       ? Object.fromEntries(
@@ -36,8 +36,8 @@ export abstract class BaseModelHandler {
   }
 
   protected abstract processRequest(
-    params: ImageModelV1CallOptions,
-  ): Promise<Awaited<ReturnType<ImageModelV1['doGenerate']>>>;
+    params: ImageModelV2CallOptions,
+  ): Promise<Awaited<ReturnType<ImageModelV2['doGenerate']>>>;
 
   protected parseSize(size: string | undefined): ImageSize | undefined {
     if (!size) return undefined;
@@ -47,7 +47,7 @@ export abstract class BaseModelHandler {
 
   protected validateAspectRatio(
     aspectRatio: string | undefined,
-    warnings: ImageModelV1CallWarning[],
+    warnings: ImageModelV2CallWarning[],
     maxRatio?: number,
     minRatio?: number,
   ): string | undefined {
@@ -88,7 +88,7 @@ export abstract class BaseModelHandler {
   protected aspectRatioToSize(
     aspectRatio: string | undefined,
     baseSize: number = 1024,
-    warnings: ImageModelV1CallWarning[],
+    warnings: ImageModelV2CallWarning[],
   ): ImageSize | undefined {
     if (!aspectRatio) return undefined;
 
@@ -180,7 +180,7 @@ export abstract class BaseModelHandler {
   protected validateSizeOption(
     parsedSize: ImageSize,
     supportedSizes: string[],
-    warnings: ImageModelV1CallWarning[],
+    warnings: ImageModelV2CallWarning[],
   ): ImageSize {
     const validatedSize = this.validateDimensionsMultipleOf32(
       parsedSize,
@@ -202,7 +202,7 @@ export abstract class BaseModelHandler {
 
   protected validateDimensionsMultipleOf32(
     size: ImageSize,
-    warnings: ImageModelV1CallWarning[],
+    warnings: ImageModelV2CallWarning[],
     minSize: number = 32,
     maxSize: number = 4096,
   ): ImageSize {
@@ -262,7 +262,7 @@ export abstract class BaseModelHandler {
   protected findClosestAspectRatio(
     targetRatio: `${number}:${number}` | undefined,
     supportedRatios: readonly `${number}:${number}`[],
-    warnings: ImageModelV1CallWarning[],
+    warnings: ImageModelV2CallWarning[],
   ): `${number}:${number}` {
     if (!targetRatio) return supportedRatios[0];
 
@@ -299,7 +299,7 @@ export abstract class BaseModelHandler {
   protected sizeToAspectRatio(
     size: string | undefined,
     supportedRatios: readonly string[],
-    warnings: ImageModelV1CallWarning[],
+    warnings: ImageModelV2CallWarning[],
   ): string | undefined {
     if (!size) return undefined;
 

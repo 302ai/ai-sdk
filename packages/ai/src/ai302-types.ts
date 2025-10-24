@@ -8,7 +8,7 @@ export const ImageResponseSchema = z
     url: z.string().optional(),
     width: z.number().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type Image = z.infer<typeof ImageResponseSchema>;
 
@@ -17,7 +17,7 @@ export const ImageSizeSchema = z
     height: z.number(),
     width: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type ImageSize = z.infer<typeof ImageSizeSchema>;
 
@@ -44,7 +44,7 @@ export const FluxV11UltraRequestSchema = z
     prompt: z.string(),
     raw: z.boolean(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxV11UltraRequest = z.infer<typeof FluxV11UltraRequestSchema>;
 
@@ -54,9 +54,9 @@ export const FluxV11UltraResponseSchema = z
     images: z.array(ImageResponseSchema),
     prompt: z.string(),
     seed: z.number(),
-    timings: z.record(z.any()),
+    timings: z.record(z.string(), z.any()),
   })
-  .passthrough();
+  .loose();
 
 export type FluxV11UltraResponse = z.infer<typeof FluxV11UltraResponseSchema>;
 
@@ -68,7 +68,7 @@ export const FluxProV11RequestSchema = z
     num_inference_steps: z.number().optional(),
     prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxProV11Request = z.infer<typeof FluxProV11RequestSchema>;
 
@@ -78,9 +78,9 @@ export const FluxProV11ResponseSchema = z
     images: z.array(ImageResponseSchema),
     prompt: z.string(),
     seed: z.number(),
-    timings: z.record(z.any()),
+    timings: z.record(z.string(), z.any()),
   })
-  .passthrough();
+  .loose();
 
 export type FluxProV11Response = z.infer<typeof FluxProV11ResponseSchema>;
 
@@ -92,7 +92,7 @@ export const FluxProDevRequestSchema = z
     num_inference_steps: z.number().optional().default(28),
     prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxProDevRequest = z.infer<typeof FluxProDevRequestSchema>;
 
@@ -106,12 +106,12 @@ export const FluxProDevResponseSchema = z
         content_type: z.string(),
       }),
     ),
-    timings: z.record(z.number()),
+    timings: z.record(z.string(), z.number()),
     seed: z.number(),
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxProDevResponse = z.infer<typeof FluxProDevResponseSchema>;
 
@@ -122,7 +122,7 @@ export const FluxSchnellRequestSchema = z
     num_inference_steps: z.number().optional(),
     prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxSchnellRequest = z.infer<typeof FluxSchnellRequestSchema>;
 
@@ -136,12 +136,12 @@ export const FluxSchnellResponseSchema = z
         content_type: z.string(),
       }),
     ),
-    timings: z.record(z.number()),
+    timings: z.record(z.string(), z.number()),
     seed: z.number(),
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxSchnellResponse = z.infer<typeof FluxSchnellResponseSchema>;
 
@@ -252,9 +252,9 @@ export const IdeogramRequestSchema = z
           .optional()
           .default('GENERAL'),
       })
-      .passthrough(),
+      .loose(),
   })
-  .passthrough();
+  .loose();
 
 export type IdeogramRequest = z.infer<typeof IdeogramRequestSchema>;
 
@@ -266,7 +266,7 @@ export const IdeogramImageDataSchema = z
     seed: z.number(),
     url: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type IdeogramImageData = z.infer<typeof IdeogramImageDataSchema>;
 
@@ -275,7 +275,7 @@ export const IdeogramResponseSchema = z
     created: z.string(),
     data: z.array(IdeogramImageDataSchema),
   })
-  .passthrough();
+  .loose();
 
 export type IdeogramResponse = z.infer<typeof IdeogramResponseSchema>;
 
@@ -286,7 +286,7 @@ export const DallERequestSchema = z
     model: z.enum(['dall-e-3']),
     size: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type DallERequest = z.infer<typeof DallERequestSchema>;
 
@@ -295,7 +295,7 @@ export const DallEImageDataSchema = z
     revised_prompt: z.string().optional(),
     url: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type DallEImageData = z.infer<typeof DallEImageDataSchema>;
 
@@ -304,7 +304,7 @@ export const DallEResponseSchema = z
     created: z.number(),
     data: z.array(DallEImageDataSchema),
   })
-  .passthrough();
+  .loose();
 
 export type DallEResponse = z.infer<typeof DallEResponseSchema>;
 
@@ -314,7 +314,7 @@ export const RecraftTextLayoutSchema = z
     text: z.string(),
     bbox: z.array(z.tuple([z.number(), z.number()])).length(4),
   })
-  .passthrough();
+  .loose();
 
 export type RecraftTextLayout = z.infer<typeof RecraftTextLayoutSchema>;
 
@@ -329,7 +329,7 @@ export const RecraftControlsSchema = z
       .optional(),
     background_color: z.string().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type RecraftControls = z.infer<typeof RecraftControlsSchema>;
 
@@ -352,7 +352,7 @@ export const RecraftResponseSchema = z
       }),
     ),
   })
-  .passthrough();
+  .loose();
 
 export type RecraftResponse = z.infer<typeof RecraftResponseSchema>;
 
@@ -362,7 +362,7 @@ export const SDXLLightningImageSizeSchema = z
     width: z.number(),
     height: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type SDXLLightningImageSize = z.infer<
   typeof SDXLLightningImageSizeSchema
@@ -375,7 +375,7 @@ export const SDXLLightningRequestSchema = z
     embeddings: z.array(z.any()).optional(),
     format: z.enum(['jpeg', 'png']).optional(),
   })
-  .passthrough();
+  .loose();
 
 export type SDXLLightningRequest = z.infer<typeof SDXLLightningRequestSchema>;
 
@@ -386,7 +386,7 @@ export const SDXLLightningImageDataSchema = z
     height: z.number(),
     content_type: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type SDXLLightningImageData = z.infer<
   typeof SDXLLightningImageDataSchema
@@ -395,12 +395,12 @@ export type SDXLLightningImageData = z.infer<
 export const SDXLLightningResponseSchema = z
   .object({
     images: z.array(SDXLLightningImageDataSchema),
-    timings: z.record(z.number()),
+    timings: z.record(z.string(), z.number()),
     seed: z.number(),
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type SDXLLightningResponse = z.infer<typeof SDXLLightningResponseSchema>;
 
@@ -410,7 +410,7 @@ export const KolorsImageSizeSchema = z
     width: z.number(),
     height: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type KolorsImageSize = z.infer<typeof KolorsImageSizeSchema>;
 
@@ -421,7 +421,7 @@ export const KolorsRequestSchema = z
     guidance_scale: z.number().optional(),
     image_size: KolorsImageSizeSchema,
   })
-  .passthrough();
+  .loose();
 
 export type KolorsRequest = z.infer<typeof KolorsRequestSchema>;
 
@@ -432,19 +432,19 @@ export const KolorsImageDataSchema = z
     height: z.number(),
     content_type: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type KolorsImageData = z.infer<typeof KolorsImageDataSchema>;
 
 export const KolorsResponseSchema = z
   .object({
     images: z.array(KolorsImageDataSchema),
-    timings: z.record(z.number()),
+    timings: z.record(z.string(), z.number()),
     seed: z.number(),
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type KolorsResponse = z.infer<typeof KolorsResponseSchema>;
 
@@ -457,7 +457,7 @@ export const AuraflowImageDataSchema = z
     width: z.number(),
     height: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type AuraflowImageData = z.infer<typeof AuraflowImageDataSchema>;
 
@@ -467,7 +467,7 @@ export const AuraflowResponseSchema = z
     seed: z.number(),
     prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type AuraflowResponse = z.infer<typeof AuraflowResponseSchema>;
 
@@ -489,7 +489,7 @@ export const LumaPhotonRequestSchema = z
     prompt: z.string(),
     aspect_ratio: LumaPhotonAspectRatioSchema.optional().default('16:9'),
   })
-  .passthrough();
+  .loose();
 
 export type LumaPhotonRequest = z.infer<typeof LumaPhotonRequestSchema>;
 
@@ -499,7 +499,7 @@ export const LumaPhotonImageDataSchema = z
     content_type: z.string(),
     file_size: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type LumaPhotonImageData = z.infer<typeof LumaPhotonImageDataSchema>;
 
@@ -507,7 +507,7 @@ export const LumaPhotonResponseSchema = z
   .object({
     images: z.array(LumaPhotonImageDataSchema),
   })
-  .passthrough();
+  .loose();
 
 export type LumaPhotonResponse = z.infer<typeof LumaPhotonResponseSchema>;
 
@@ -519,7 +519,7 @@ export const SDXLRequestSchema = z
     width: z.string().optional(),
     height: z.string().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type SDXLRequest = z.infer<typeof SDXLRequestSchema>;
 
@@ -534,7 +534,7 @@ export const SDXLResponseSchema = z
     started_at: z.string(),
     status: z.enum(['succeeded', 'failed']),
   })
-  .passthrough();
+  .loose();
 
 export type SDXLResponse = z.infer<typeof SDXLResponseSchema>;
 
@@ -561,7 +561,7 @@ export const SD3UltraRequestSchema = z
     output_format: z.enum(['jpeg', 'png']).optional(),
     seed: z.number().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type SD3UltraRequest = z.infer<typeof SD3UltraRequestSchema>;
 
@@ -585,7 +585,7 @@ export const SD3RequestSchema = z
     num_inference_steps: z.number().min(1).max(100).optional().default(20),
     guidance_scale: z.number().min(0).max(100).optional().default(7.5),
   })
-  .passthrough();
+  .loose();
 
 export type SD3Request = z.infer<typeof SD3RequestSchema>;
 
@@ -595,7 +595,7 @@ export const SD3ImageDataSchema = z
     content_type: z.string(),
     file_size: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type SD3ImageData = z.infer<typeof SD3ImageDataSchema>;
 
@@ -603,7 +603,7 @@ export const SD3ResponseSchema = z
   .object({
     images: z.array(SD3ImageDataSchema),
   })
-  .passthrough();
+  .loose();
 
 export type SD3Response = z.infer<typeof SD3ResponseSchema>;
 
@@ -643,7 +643,7 @@ export const SD35RequestSchema = z
     output_format: z.enum(['jpeg', 'png']).optional(),
     seed: z.number().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type SD35Request = z.infer<typeof SD35RequestSchema>;
 
@@ -658,7 +658,7 @@ export const MidjourneySubmitRequestSchema = z
     botType: MidjourneyBotTypeSchema.optional().default('MID_JOURNEY'),
     state: z.string().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type MidjourneySubmitRequest = z.infer<
   typeof MidjourneySubmitRequestSchema
@@ -670,7 +670,7 @@ export const MidjourneySubmitResponseSchema = z
     description: z.string(),
     result: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type MidjourneySubmitResponse = z.infer<
   typeof MidjourneySubmitResponseSchema
@@ -684,7 +684,7 @@ export const MidjourneyButtonSchema = z
     style: z.number(),
     type: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type MidjourneyButton = z.infer<typeof MidjourneyButtonSchema>;
 
@@ -718,7 +718,7 @@ export const MidjourneyTaskResponseSchema = z
     status: MidjourneyTaskStatusSchema,
     submitTime: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type MidjourneyTaskResponse = z.infer<
   typeof MidjourneyTaskResponseSchema
@@ -729,7 +729,7 @@ export const MidjourneyActionRequestSchema = z
     customId: z.string(),
     taskId: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type MidjourneyActionRequest = z.infer<
   typeof MidjourneyActionRequestSchema
@@ -746,7 +746,7 @@ export const OmnigenRequestSchema = z
     output_format: z.string().optional(),
     seed: z.number().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type OmnigenRequest = z.infer<typeof OmnigenRequestSchema>;
 
@@ -758,7 +758,7 @@ export const OmnigenImageDataSchema = z
     width: z.number(),
     height: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type OmnigenImageData = z.infer<typeof OmnigenImageDataSchema>;
 
@@ -770,7 +770,7 @@ export const OmnigenResponseSchema = z
     debug_latents: z.any().nullable(),
     debug_per_pass_latents: z.any().nullable(),
   })
-  .passthrough();
+  .loose();
 
 export type OmnigenResponse = z.infer<typeof OmnigenResponseSchema>;
 
@@ -781,7 +781,7 @@ export const CogViewRequestSchema = z
     prompt: z.string(),
     size: z.string().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type CogViewRequest = z.infer<typeof CogViewRequestSchema>;
 
@@ -789,7 +789,7 @@ export const CogViewImageDataSchema = z
   .object({
     url: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type CogViewImageData = z.infer<typeof CogViewImageDataSchema>;
 
@@ -798,7 +798,7 @@ export const CogViewResponseSchema = z
     created: z.number(),
     data: z.array(CogViewImageDataSchema),
   })
-  .passthrough();
+  .loose();
 
 export type CogViewResponse = z.infer<typeof CogViewResponseSchema>;
 
@@ -811,7 +811,7 @@ export const MinimaxRequestSchema = z
     prompt_optimizer: z.boolean().optional(),
     response_format: z.string().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type MinimaxRequest = z.infer<typeof MinimaxRequestSchema>;
 
@@ -830,7 +830,7 @@ export const MinimaxResponseSchema = z
       success_count: z.string(),
     }),
   })
-  .passthrough();
+  .loose();
 
 export type MinimaxResponse = z.infer<typeof MinimaxResponseSchema>;
 
@@ -873,7 +873,7 @@ export const GPTImageRequestSchema = z
     n: z.number().min(1).max(10).optional(),
     response_format: z.enum(['url', 'b64_json']).optional(),
   })
-  .passthrough();
+  .loose();
 
 export type GPTImageRequest = z.infer<typeof GPTImageRequestSchema>;
 
@@ -882,7 +882,7 @@ export const GPTImageDataSchema = z
     url: z.string().optional(),
     b64_json: z.string().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type GPTImageData = z.infer<typeof GPTImageDataSchema>;
 
@@ -899,16 +899,16 @@ export const GPTImageResponseSchema = z
         output_tokens: z.number(),
         input_tokens_details: z.object({
           text_tokens: z.number(),
-          cached_tokens_details: z.record(z.any()),
+          cached_tokens_details: z.record(z.string(), z.any()),
         }),
         prompt_tokens_details: z.object({
-          cached_tokens_details: z.record(z.any()),
+          cached_tokens_details: z.record(z.string(), z.any()),
         }),
-        completion_tokens_details: z.record(z.any()),
+        completion_tokens_details: z.record(z.string(), z.any()),
       })
       .optional(),
   })
-  .passthrough();
+  .loose();
 
 export type GPTImageResponse = z.infer<typeof GPTImageResponseSchema>;
 
@@ -918,7 +918,7 @@ export const BagelRequestSchema = z
     prompt: z.string(),
     use_thought: z.boolean().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type BagelRequest = z.infer<typeof BagelRequestSchema>;
 
@@ -930,7 +930,7 @@ export const BagelImageDataSchema = z
     width: z.number(),
     height: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type BagelImageData = z.infer<typeof BagelImageDataSchema>;
 
@@ -942,7 +942,7 @@ export const BagelResponseSchema = z
     debug_latents: z.any().nullable(),
     debug_per_pass_latents: z.any().nullable(),
   })
-  .passthrough();
+  .loose();
 
 export type BagelResponse = z.infer<typeof BagelResponseSchema>;
 
@@ -959,7 +959,7 @@ export const FluxKontextRequestSchema = z
     prompt_upsampling: z.boolean().optional().default(false),
     safety_tolerance: z.number().min(0).max(6).optional().default(2),
   })
-  .passthrough();
+  .loose();
 
 export type FluxKontextRequest = z.infer<typeof FluxKontextRequestSchema>;
 
@@ -968,7 +968,7 @@ export const FluxKontextSubmitResponseSchema = z
     id: z.string(),
     polling_url: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxKontextSubmitResponse = z.infer<
   typeof FluxKontextSubmitResponseSchema
@@ -983,7 +983,7 @@ export const FluxKontextResultDataSchema = z
     end_time: z.number(),
     start_time: z.number(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxKontextResultData = z.infer<typeof FluxKontextResultDataSchema>;
 
@@ -993,7 +993,7 @@ export const FluxKontextResultResponseSchema = z
     result: FluxKontextResultDataSchema.optional(),
     status: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxKontextResultResponse = z.infer<
   typeof FluxKontextResultResponseSchema
@@ -1026,7 +1026,7 @@ export const SoulRequestSchema = z
     style_id: z.string(),
     negative_prompt: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type SoulRequest = z.infer<typeof SoulRequestSchema>;
 
@@ -1034,7 +1034,7 @@ export const SoulSubmitResponseSchema = z
   .object({
     id: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type SoulSubmitResponse = z.infer<typeof SoulSubmitResponseSchema>;
 
@@ -1049,7 +1049,7 @@ export const SoulJobResultSchema = z
       url: z.string(),
     }),
   })
-  .passthrough();
+  .loose();
 
 export type SoulJobResult = z.infer<typeof SoulJobResultSchema>;
 
@@ -1058,11 +1058,11 @@ export const SoulJobSchema = z
     board_ids: z.array(z.string()),
     created_at: z.number(),
     id: z.string(),
-    meta: z.object({}).passthrough(),
+    meta: z.object({}).loose(),
     results: SoulJobResultSchema,
     status: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type SoulJob = z.infer<typeof SoulJobSchema>;
 
@@ -1071,7 +1071,7 @@ export const SoulTaskResponseSchema = z
     id: z.string(),
     jobs: z.array(SoulJobSchema).optional(),
   })
-  .passthrough();
+  .loose();
 
 export type SoulTaskResponse = z.infer<typeof SoulTaskResponseSchema>;
 
@@ -1100,7 +1100,7 @@ export const KlingRequestSchema = z
     n: z.number().min(1).max(9).optional(),
     aspect_ratio: KlingAspectRatioSchema.optional(),
   })
-  .passthrough();
+  .loose();
 
 export type KlingRequest = z.infer<typeof KlingRequestSchema>;
 
@@ -1113,7 +1113,7 @@ export const KlingSubmitResponseSchema = z
     }),
     message: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type KlingSubmitResponse = z.infer<typeof KlingSubmitResponseSchema>;
 
@@ -1138,7 +1138,7 @@ export const KlingTaskResponseSchema = z
     }),
     message: z.string(),
   })
-  .passthrough();
+  .loose();
 
 export type KlingTaskResponse = z.infer<typeof KlingTaskResponseSchema>;
 
@@ -1150,7 +1150,7 @@ export const FluxKreaRequestSchema = z
     num_inference_steps: z.number().optional(),
     guidance_scale: z.number().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxKreaRequest = z.infer<typeof FluxKreaRequestSchema>;
 
@@ -1170,7 +1170,7 @@ export const FluxKreaResponseSchema = z
     debug_latents: z.string().nullable(),
     debug_per_pass_latents: z.string().nullable(),
   })
-  .passthrough();
+  .loose();
 
 export type FluxKreaResponse = z.infer<typeof FluxKreaResponseSchema>;
 
@@ -1191,7 +1191,7 @@ export const DoubaoSeedreamRequestSchema = z
     seed: z.number().min(-1).max(2147483647).optional(),
     guidance_scale: z.number().min(1).max(10).optional(),
   })
-  .passthrough();
+  .loose();
 
 export type DoubaoSeedreamRequest = z.infer<typeof DoubaoSeedreamRequestSchema>;
 
@@ -1200,7 +1200,7 @@ export const DoubaoSeedreamDataSchema = z
     url: z.string().optional(),
     b64_json: z.string().optional(),
   })
-  .passthrough();
+  .loose();
 
 export type DoubaoSeedreamData = z.infer<typeof DoubaoSeedreamDataSchema>;
 
@@ -1213,7 +1213,7 @@ export const DoubaoSeedreamResponseSchema = z
       generated_images: z.number(),
     }),
   })
-  .passthrough();
+  .loose();
 
 export type DoubaoSeedreamResponse = z.infer<typeof DoubaoSeedreamResponseSchema>;
 
@@ -1233,7 +1233,7 @@ export const QwenImageRequestSchema = z
     prompt: z.string(),
     aspect_ratio: QwenImageAspectRatioSchema.optional().default('1:1'),
   })
-  .passthrough();
+  .loose();
 
 export type QwenImageRequest = z.infer<typeof QwenImageRequestSchema>;
 
@@ -1248,6 +1248,6 @@ export const QwenImageResponseSchema = z
     started_at: z.string(),
     status: z.enum(['succeeded', 'failed']),
   })
-  .passthrough();
+  .loose();
 
 export type QwenImageResponse = z.infer<typeof QwenImageResponseSchema>;

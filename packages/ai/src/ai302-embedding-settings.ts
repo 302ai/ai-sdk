@@ -1,5 +1,3 @@
-import { OpenAICompatibleEmbeddingSettings } from '@ai-sdk/openai-compatible';
-
 // Below is just a subset of the available models.
 export type AI302EmbeddingModelId =
   | 'text-embedding-3-small'
@@ -21,5 +19,5 @@ export type AI302EmbeddingModelId =
   | 'bce-embedding-base_v1'
   | (string & {});
 
-export interface AI302EmbeddingSettings
-  extends OpenAICompatibleEmbeddingSettings {}
+// Settings interface for AI302 embedding models (v2)
+export interface AI302EmbeddingSettings {}

@@ -1,4 +1,4 @@
-import type { ImageModelV1CallOptions, ImageModelV1CallWarning } from "@ai-sdk/provider";
+import type { ImageModelV2CallOptions, ImageModelV2CallWarning } from "@ai-sdk/provider";
 import { combineHeaders, postJsonToApi } from "@ai-sdk/provider-utils";
 import type { KolorsResponse } from "../ai302-types";
 import {
@@ -19,8 +19,8 @@ export class KolorsHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions) {
-    const warnings: ImageModelV1CallWarning[] = [];
+  }: ImageModelV2CallOptions) {
+    const warnings: ImageModelV2CallWarning[] = [];
 
     const backendConfig = modelToBackendConfig[this.modelId];
 

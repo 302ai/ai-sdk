@@ -1,7 +1,7 @@
 import {
-  EmbeddingModelV1,
-  ImageModelV1,
-  LanguageModelV1,
+  EmbeddingModelV2,
+  ImageModelV2,
+  LanguageModelV2,
 } from '@ai-sdk/provider';
 import { AI302ImageModelId, AI302ImageSettings } from './ai302-image-settings';
 import {
@@ -59,7 +59,7 @@ export interface AI302Provider {
   /**
     Creates a model for text generation.
     */
-  (modelId: AI302ChatModelId, settings?: AI302ChatSettings): LanguageModelV1;
+  (modelId: AI302ChatModelId, settings?: AI302ChatSettings): LanguageModelV2;
 
   /**
 Creates a chat model for text generation.
@@ -67,7 +67,7 @@ Creates a chat model for text generation.
   chatModel(
     modelId: AI302ChatModelId,
     settings?: AI302ChatSettings,
-  ): LanguageModelV1;
+  ): LanguageModelV2;
 
   /**
   Creates a text embedding model for text generation.
@@ -75,7 +75,7 @@ Creates a chat model for text generation.
   textEmbeddingModel(
     modelId: AI302EmbeddingModelId,
     settings?: AI302EmbeddingSettings,
-  ): EmbeddingModelV1<string>;
+  ): EmbeddingModelV2<string>;
 
   /**
   Creates a model for image generation.
@@ -83,7 +83,7 @@ Creates a chat model for text generation.
   image(
     modelId: AI302ImageModelId,
     settings?: AI302ImageSettings,
-  ): ImageModelV1;
+  ): ImageModelV2;
 }
 
 const defaultBaseURL = 'https://api.302.ai';
@@ -136,10 +136,9 @@ export function createAI302(
     modelId: AI302ChatModelId,
     settings: AI302ChatSettings = {},
   ) => {
-    return new OpenAICompatibleChatLanguageModel(modelId, settings, {
+    return new OpenAICompatibleChatLanguageModel(modelId, {
       ...getCommonModelConfig('chat'),
       errorStructure: ai302ErrorStructure,
-      defaultObjectGenerationMode: 'json',
     });
   };
 
@@ -147,7 +146,7 @@ export function createAI302(
     modelId: AI302EmbeddingModelId,
     settings: AI302EmbeddingSettings = {},
   ) =>
-    new OpenAICompatibleEmbeddingModel(modelId, settings, {
+    new OpenAICompatibleEmbeddingModel(modelId, {
       ...getCommonModelConfig('embedding'),
       errorStructure: ai302ErrorStructure,
     });

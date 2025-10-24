@@ -1,5 +1,3 @@
-import { OpenAICompatibleChatSettings } from '@ai-sdk/openai-compatible';
-
 // https://302ai.apifox.cn/api-147522038
 export type AI302ChatModelId =
   | 'gpt-3.5-turbo'
@@ -199,4 +197,5 @@ export type AI302ChatModelId =
   | 'claude-3-5-haiku'
   | (string & {});
 
-export interface AI302ChatSettings extends OpenAICompatibleChatSettings {}
+// Settings interface for AI302 chat models (v2)
+export interface AI302ChatSettings {}

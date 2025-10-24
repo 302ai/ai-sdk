@@ -1,4 +1,4 @@
-import type { ImageModelV1CallOptions, ImageModelV1CallWarning } from "@ai-sdk/provider";
+import type { ImageModelV2CallOptions, ImageModelV2CallWarning } from "@ai-sdk/provider";
 import { combineHeaders, postToApi } from "@ai-sdk/provider-utils";
 import { statusCodeErrorResponseHandler } from "../utils/api-handlers";
 import { BaseModelHandler } from "./base-model";
@@ -25,8 +25,8 @@ export class SD3UltraHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions) {
-    const warnings: ImageModelV1CallWarning[] = [];
+  }: ImageModelV2CallOptions) {
+    const warnings: ImageModelV2CallWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({ type: 'unsupported-setting', setting: 'n', details: 'SD3 Ultra does not support batch generation' });

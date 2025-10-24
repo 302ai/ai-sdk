@@ -1,4 +1,4 @@
-import type { ImageModelV1CallOptions, ImageModelV1CallWarning } from '@ai-sdk/provider';
+import type { ImageModelV2CallOptions, ImageModelV2CallWarning } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
 import { BaseModelHandler } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
@@ -69,8 +69,8 @@ export class DoubaoHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV1CallOptions) {
-    const warnings: ImageModelV1CallWarning[] = [];
+  }: ImageModelV2CallOptions) {
+    const warnings: ImageModelV2CallWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
