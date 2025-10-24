@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.1.0
+
+### Minor Changes
+
+- 9487ad8: feat: update model configurations and dependencies
+
 ## 0.0.23
 
 ### Patch Changes
