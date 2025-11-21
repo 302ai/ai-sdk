@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.1.1
+
+### Patch Changes
+
+- 1e22456: feat: add support for gemini-3-pro-image-preview model and related tests
+
 ## 0.1.0
 
 ### Minor Changes
