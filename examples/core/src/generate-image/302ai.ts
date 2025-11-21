@@ -73,6 +73,7 @@ const MODELS = [
   'doubao-seedream-3-0-t2i-250415',
   'qwen-image',
   'gemini-2.5-flash-image-preview',
+  'gemini-3-pro-image-preview',
   'doubao-seedream-4-0-250828',
 ];
 

@@ -303,6 +303,7 @@ console.log(`Image saved to ${filename}`);
 - `google-imagen-3`
 - `google-imagen-3-fast`
 - `google-imagen-4-preview`
+- `gemini-3-pro-image-preview`
 - `doubao-general-v2.1-l`
 - `doubao-general-v2.0-l`
 - `doubao-general-v2.0`

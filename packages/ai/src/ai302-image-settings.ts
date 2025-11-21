@@ -61,6 +61,7 @@ export type AI302ImageModelId =
   | 'kling-v2-1'
   | 'qwen-image'
   | 'gemini-2.5-flash-image-preview'
+  | 'gemini-3-pro-image-preview'
   | (string & {});
 
 export interface AI302ImageSettings {}
@@ -253,6 +254,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: false,
   },
   'gemini-2.5-flash-image-preview': {
+    supportsSize: false,
+  },
+  'gemini-3-pro-image-preview': {
     supportsSize: false,
   },
 };

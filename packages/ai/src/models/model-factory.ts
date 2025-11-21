@@ -36,6 +36,7 @@ import { OmnigenHandler } from './omnigen';
 import { PlaygroundHandler } from './playground';
 import { QwenImageHandler } from './qwen-image';
 import { Gemini25FlashImagePreviewHandler } from './gemini-2.5-flash-image-preview';
+import { Gemini3ProImagePreviewHandler } from './gemini-3-pro-image-preview';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -141,6 +142,8 @@ export function createImageModelHandler(
       return new QwenImageHandler(modelId, settings, config);
     case 'gemini-2.5-flash-image-preview':
       return new Gemini25FlashImagePreviewHandler(modelId, settings, config);
+    case 'gemini-3-pro-image-preview':
+      return new Gemini3ProImagePreviewHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }
