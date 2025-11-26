@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.0
+
+### Minor Changes
+
+- b89fc20: feat!: upgrade to AI SDK provider v3 specification
+
 ## 0.1.1
 
 ### Patch Changes
