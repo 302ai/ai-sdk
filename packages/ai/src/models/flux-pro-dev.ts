@@ -1,6 +1,6 @@
 import type {
-  ImageModelV2CallOptions,
-  ImageModelV2CallWarning,
+  ImageModelV3CallOptions,
+  ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
 import type { FluxProDevResponse } from '../ai302-types';
@@ -24,8 +24,8 @@ export class FluxProDevHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV2CallOptions) {
-    const warnings: ImageModelV2CallWarning[] = [];
+  }: ImageModelV3CallOptions) {
+    const warnings: ImageModelV3CallWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({

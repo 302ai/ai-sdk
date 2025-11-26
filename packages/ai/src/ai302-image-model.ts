@@ -1,10 +1,10 @@
-import type { ImageModelV2 } from "@ai-sdk/provider";
+import type { ImageModelV3 } from "@ai-sdk/provider";
 import type { AI302ImageModelId, AI302ImageSettings } from "./ai302-image-settings";
 import { createImageModelHandler } from "./models/model-factory";
 import { AI302Config } from "./ai302-config";
 
-export class AI302ImageModel implements ImageModelV2 {
-  readonly specificationVersion = "v2";
+export class AI302ImageModel implements ImageModelV3 {
+  readonly specificationVersion = "v3";
   private modelHandler;
 
   get provider(): string {
@@ -24,8 +24,8 @@ export class AI302ImageModel implements ImageModelV2 {
   }
 
   async doGenerate(
-    params: Parameters<ImageModelV2["doGenerate"]>[0],
-  ): Promise<Awaited<ReturnType<ImageModelV2["doGenerate"]>>> {
+    params: Parameters<ImageModelV3["doGenerate"]>[0],
+  ): Promise<Awaited<ReturnType<ImageModelV3["doGenerate"]>>> {
     return this.modelHandler.handleRequest(params);
   }
 }

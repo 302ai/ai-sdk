@@ -1,4 +1,4 @@
-import type { ImageModelV2CallOptions, ImageModelV2CallWarning } from "@ai-sdk/provider";
+import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
 import { combineHeaders, postJsonToApi } from "@ai-sdk/provider-utils";
 import type { RecraftResponse } from "../ai302-types";
 import {
@@ -35,8 +35,8 @@ export class RecraftHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV2CallOptions) {
-    const warnings: ImageModelV2CallWarning[] = [];
+  }: ImageModelV3CallOptions) {
+    const warnings: ImageModelV3CallWarning[] = [];
 
     if (seed != null) {
       warnings.push({ type: 'unsupported-setting', setting: 'seed' });

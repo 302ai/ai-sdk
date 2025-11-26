@@ -1,7 +1,7 @@
 import {
-  EmbeddingModelV2,
-  ImageModelV2,
-  LanguageModelV2,
+  EmbeddingModelV3,
+  ImageModelV3,
+  LanguageModelV3,
 } from '@ai-sdk/provider';
 import { AI302ImageModelId, AI302ImageSettings } from './ai302-image-settings';
 import {
@@ -59,7 +59,7 @@ export interface AI302Provider {
   /**
     Creates a model for text generation.
     */
-  (modelId: AI302ChatModelId, settings?: AI302ChatSettings): LanguageModelV2;
+  (modelId: AI302ChatModelId, settings?: AI302ChatSettings): LanguageModelV3;
 
   /**
 Creates a chat model for text generation.
@@ -67,7 +67,7 @@ Creates a chat model for text generation.
   chatModel(
     modelId: AI302ChatModelId,
     settings?: AI302ChatSettings,
-  ): LanguageModelV2;
+  ): LanguageModelV3;
 
   /**
   Creates a text embedding model for text generation.
@@ -75,7 +75,7 @@ Creates a chat model for text generation.
   textEmbeddingModel(
     modelId: AI302EmbeddingModelId,
     settings?: AI302EmbeddingSettings,
-  ): EmbeddingModelV2<string>;
+  ): EmbeddingModelV3;
 
   /**
   Creates a model for image generation.
@@ -83,7 +83,7 @@ Creates a chat model for text generation.
   image(
     modelId: AI302ImageModelId,
     settings?: AI302ImageSettings,
-  ): ImageModelV2;
+  ): ImageModelV3;
 }
 
 const defaultBaseURL = 'https://api.302.ai';

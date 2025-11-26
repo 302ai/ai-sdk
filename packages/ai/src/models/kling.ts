@@ -1,6 +1,6 @@
 import type {
-  ImageModelV2CallOptions,
-  ImageModelV2CallWarning,
+  ImageModelV3CallOptions,
+  ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
 import {
@@ -101,8 +101,8 @@ export class KlingHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV2CallOptions) {
-    const warnings: ImageModelV2CallWarning[] = [];
+  }: ImageModelV3CallOptions) {
+    const warnings: ImageModelV3CallWarning[] = [];
 
     if (n != null && n > 9) {
       warnings.push({

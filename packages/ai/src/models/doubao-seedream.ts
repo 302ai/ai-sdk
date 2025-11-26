@@ -1,6 +1,6 @@
 import type {
-  ImageModelV2CallOptions,
-  ImageModelV2CallWarning,
+  ImageModelV3CallOptions,
+  ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
 import type { DoubaoSeedreamResponse } from '../ai302-types';
@@ -20,8 +20,8 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
     providerOptions,
     headers,
     abortSignal,
-  }: ImageModelV2CallOptions) {
-    const warnings: ImageModelV2CallWarning[] = [];
+  }: ImageModelV3CallOptions) {
+    const warnings: ImageModelV3CallWarning[] = [];
 
     // Handle batch generation for doubao-seedream-4-0-250828
     if (this.modelId === 'doubao-seedream-4-0-250828') {
@@ -122,7 +122,7 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
     };
   }
 
-  private handleSizeParameter(size: string | undefined, warnings: ImageModelV2CallWarning[]): string {
+  private handleSizeParameter(size: string | undefined, warnings: ImageModelV3CallWarning[]): string {
     if (!size) {
       return '1024x1024';
     }
