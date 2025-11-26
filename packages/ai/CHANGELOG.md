@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.1
+
+### Patch Changes
+
+- b3c7e40: feat(ai): implement custom AI302LanguageModel with full LanguageModelV3 support
+
 ## 0.2.0
 
 ### Minor Changes
