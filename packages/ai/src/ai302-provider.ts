@@ -3,6 +3,7 @@ import {
   ImageModelV3,
   LanguageModelV3,
   ProviderV3,
+  SpeechModelV3,
 } from '@ai-sdk/provider';
 import { AI302ImageModelId, AI302ImageSettings } from './ai302-image-settings';
 import {
@@ -22,6 +23,8 @@ import { AI302EmbeddingModelId } from './ai302-embedding-settings';
 import { z } from 'zod';
 import { AI302EmbeddingSettings } from './ai302-embedding-settings';
 import { AI302LanguageModel } from './ai302-language-model';
+import { AI302SpeechModel } from './ai302-speech-model';
+import { AI302SpeechModelId } from './ai302-speech-settings';
 import { VERSION } from './version';
 
 export type AI302ErrorData = z.infer<typeof ai302ErrorSchema>;
@@ -111,6 +114,17 @@ Creates a chat model for text generation.
     modelId: AI302ImageModelId,
     settings?: AI302ImageSettings,
   ): ImageModelV3;
+
+  /**
+  Creates a model for speech generation (TTS).
+  @param modelId Format: "provider/voice" e.g. "openai/alloy", "azure/zh-CN-XiaoxiaoNeural"
+  */
+  speech(modelId: AI302SpeechModelId): SpeechModelV3;
+
+  /**
+  Creates a model for speech generation (alias for speech).
+  */
+  speechModel(modelId: AI302SpeechModelId): SpeechModelV3;
 }
 
 const defaultBaseURL = 'https://api.302.ai';
@@ -191,6 +205,10 @@ export function createAI302(
     });
   };
 
+  const createSpeechModel = (modelId: AI302SpeechModelId) => {
+    return new AI302SpeechModel(modelId, getCommonModelConfig('speech'));
+  };
+
   const provider = (modelId: AI302ChatModelId, settings?: AI302ChatSettings) =>
     createChatModel(modelId, settings);
 
@@ -201,6 +219,8 @@ export function createAI302(
   provider.embeddingModel = createTextEmbeddingModel;
   provider.image = createImageModel;
   provider.imageModel = createImageModel;
+  provider.speech = createSpeechModel;
+  provider.speechModel = createSpeechModel;
 
   return provider as AI302Provider;
 }
