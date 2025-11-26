@@ -2,17 +2,18 @@ import {
   EmbeddingModelV3,
   ImageModelV3,
   LanguageModelV3,
+  ProviderV3,
 } from '@ai-sdk/provider';
 import { AI302ImageModelId, AI302ImageSettings } from './ai302-image-settings';
 import {
   FetchFunction,
   loadApiKey,
   withoutTrailingSlash,
+  withUserAgentSuffix,
 } from '@ai-sdk/provider-utils';
 import { AI302ImageModel } from './ai302-image-model';
 import { AI302Config } from './ai302-config';
 import {
-  OpenAICompatibleChatLanguageModel,
   OpenAICompatibleEmbeddingModel,
   ProviderErrorStructure,
 } from '@ai-sdk/openai-compatible';
@@ -20,6 +21,8 @@ import { AI302ChatSettings, AI302ChatModelId } from './ai302-chat-settings';
 import { AI302EmbeddingModelId } from './ai302-embedding-settings';
 import { z } from 'zod';
 import { AI302EmbeddingSettings } from './ai302-embedding-settings';
+import { AI302LanguageModel } from './ai302-language-model';
+import { VERSION } from './version';
 
 export type AI302ErrorData = z.infer<typeof ai302ErrorSchema>;
 
@@ -55,11 +58,19 @@ export interface AI302ProviderSettings {
   fetch?: FetchFunction;
 }
 
-export interface AI302Provider {
+export interface AI302Provider extends ProviderV3 {
   /**
     Creates a model for text generation.
     */
   (modelId: AI302ChatModelId, settings?: AI302ChatSettings): LanguageModelV3;
+
+  /**
+Creates a chat model for text generation.
+*/
+  languageModel(
+    modelId: AI302ChatModelId,
+    settings?: AI302ChatSettings,
+  ): LanguageModelV3;
 
   /**
 Creates a chat model for text generation.
@@ -78,9 +89,25 @@ Creates a chat model for text generation.
   ): EmbeddingModelV3;
 
   /**
+  Creates a text embedding model (alias for textEmbeddingModel).
+  */
+  embeddingModel(
+    modelId: AI302EmbeddingModelId,
+    settings?: AI302EmbeddingSettings,
+  ): EmbeddingModelV3;
+
+  /**
   Creates a model for image generation.
   */
   image(
+    modelId: AI302ImageModelId,
+    settings?: AI302ImageSettings,
+  ): ImageModelV3;
+
+  /**
+  Creates a model for image generation (alias for image).
+  */
+  imageModel(
     modelId: AI302ImageModelId,
     settings?: AI302ImageSettings,
   ): ImageModelV3;
@@ -92,19 +119,23 @@ export function createAI302(
   options: AI302ProviderSettings = {},
 ): AI302Provider {
   const baseURL = withoutTrailingSlash(options.baseURL) ?? defaultBaseURL;
-  const getHeaders = () => ({
-    Authorization: `Bearer ${loadApiKey({
-      apiKey: options.apiKey,
-      environmentVariableName: 'AI302_API_KEY',
-      description: '302 AI API key',
-    })}`,
-    'mj-api-secret': loadApiKey({
-      apiKey: options.apiKey,
-      environmentVariableName: 'AI302_API_KEY',
-      description: 'Midjourney API key',
-    }),
-    ...options.headers,
-  });
+  const getHeaders = () =>
+    withUserAgentSuffix(
+      {
+        Authorization: `Bearer ${loadApiKey({
+          apiKey: options.apiKey,
+          environmentVariableName: 'AI302_API_KEY',
+          description: '302 AI API key',
+        })}`,
+        'mj-api-secret': loadApiKey({
+          apiKey: options.apiKey,
+          environmentVariableName: 'AI302_API_KEY',
+          description: 'Midjourney API key',
+        }),
+        ...options.headers,
+      },
+      `ai-sdk/ai302/${VERSION}`,
+    );
 
   const getCommonModelConfig = (modelType: string): AI302Config => ({
     provider: `ai302.${modelType}`,
@@ -136,28 +167,40 @@ export function createAI302(
     modelId: AI302ChatModelId,
     settings: AI302ChatSettings = {},
   ) => {
-    return new OpenAICompatibleChatLanguageModel(modelId, {
-      ...getCommonModelConfig('chat'),
-      errorStructure: ai302ErrorStructure,
-    });
+    return new AI302LanguageModel(modelId, getCommonModelConfig('chat'));
   };
 
   const createTextEmbeddingModel = (
     modelId: AI302EmbeddingModelId,
     settings: AI302EmbeddingSettings = {},
-  ) =>
-    new OpenAICompatibleEmbeddingModel(modelId, {
-      ...getCommonModelConfig('embedding'),
+  ) => {
+    // OpenAICompatibleEmbeddingModel doesn't support Resolvable headers yet,
+    // so we create a sync version of the config
+    const embeddingConfig = getCommonModelConfig('embedding');
+    return new OpenAICompatibleEmbeddingModel(modelId, {
+      provider: embeddingConfig.provider,
+      url: embeddingConfig.url,
+      headers: () => {
+        const headers = embeddingConfig.headers();
+        // If headers is a Promise, this would be a problem, but our implementation
+        // returns sync headers from withUserAgentSuffix
+        return headers as Record<string, string | undefined>;
+      },
+      fetch: embeddingConfig.fetch,
       errorStructure: ai302ErrorStructure,
     });
+  };
 
   const provider = (modelId: AI302ChatModelId, settings?: AI302ChatSettings) =>
     createChatModel(modelId, settings);
 
+  provider.specificationVersion = 'v3' as const;
   provider.languageModel = createChatModel;
   provider.chatModel = createChatModel;
   provider.textEmbeddingModel = createTextEmbeddingModel;
+  provider.embeddingModel = createTextEmbeddingModel;
   provider.image = createImageModel;
+  provider.imageModel = createImageModel;
 
   return provider as AI302Provider;
 }
