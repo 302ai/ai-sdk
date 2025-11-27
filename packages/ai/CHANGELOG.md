@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.2
+
+### Patch Changes
+
+- 5790b37: feat(speech): add TTS support for 302AI SDK
+
 ## 0.2.1
 
 ### Patch Changes
