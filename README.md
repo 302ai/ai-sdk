@@ -32,6 +32,20 @@ The 302AI provider enables seamless integration with the Vercel AI SDK, offering
   - Zhipu embeddings
   - And other specialized embedding models
 
+### Speech (TTS)
+- Text-to-Speech with 10+ providers:
+  - OpenAI (alloy, nova, shimmer, etc.)
+  - Azure Cognitive Services
+  - ElevenLabs
+  - Doubao (ByteDance)
+  - Google Cloud TTS
+  - Qwen (Alibaba)
+  - And more specialized TTS providers
+- Features:
+  - Sync and async modes
+  - Customizable speed, volume, emotion
+  - Multiple output formats (mp3, wav, ogg)
+
 All models are accessible through a unified, type-safe API that follows Vercel AI SDK standards. For a complete list of supported models, please refer to our [detailed documentation](/packages/ai/README.md).
 
 ## Features
@@ -74,6 +88,17 @@ const { embedding } = await embed({
   model: ai302.textEmbeddingModel('text-embedding-3-large'),
   value: 'Text to embed'
 });
+
+// Speech (TTS)
+import { generateSpeech } from 'ai';
+import fs from 'fs';
+
+const { audio } = await generateSpeech({
+  model: ai302.speech('openai/alloy'),
+  text: 'Hello, welcome to 302AI!'
+});
+
+fs.writeFileSync('speech.mp3', audio.uint8Array);
 ```
 
 ## What's inside?

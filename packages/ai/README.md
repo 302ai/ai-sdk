@@ -321,6 +321,95 @@ console.log(`Image saved to ${filename}`);
 - `ideogram/V_3_QUALITY`
 - `ideogram/V_3_TURBO`
 
+## Speech (TTS) Model Example
+
+```ts
+import { ai302 } from '@302ai/ai-sdk';
+import { generateSpeech } from 'ai';
+import fs from 'fs';
+
+const { audio } = await generateSpeech({
+  model: ai302.speech('openai/alloy'),
+  text: 'Hello, welcome to 302AI!',
+});
+
+fs.writeFileSync('speech.mp3', audio.uint8Array);
+```
+
+### Advanced Usage with Options
+
+```ts
+// With speed and output format
+const { audio } = await generateSpeech({
+  model: ai302.speech('openai/nova'),
+  text: 'Hello world!',
+  speed: 1.2,
+  providerOptions: {
+    ai302: {
+      volume: 0.8,
+      outputFormat: 'mp3',
+    },
+  },
+});
+
+// Azure TTS with emotion
+const { audio } = await generateSpeech({
+  model: ai302.speech('azure/zh-CN-XiaoxiaoNeural'),
+  text: '你好，欢迎使用302AI！',
+  providerOptions: {
+    ai302: {
+      emotion: 'cheerful',
+    },
+  },
+});
+
+// Async mode for long text
+const { audio } = await generateSpeech({
+  model: ai302.speech('elevenlabs/Rachel'),
+  text: longText,
+  providerOptions: {
+    ai302: {
+      runAsync: true,
+      pollInterval: 3000,
+      timeout: 300,
+    },
+  },
+});
+```
+
+### Speech Providers
+
+302AI supports multiple TTS providers through a unified API. The model ID format is `provider/voice`:
+
+| Provider | Example Model ID | Description |
+|----------|------------------|-------------|
+| `openai` | `openai/alloy`, `openai/nova`, `openai/shimmer` | OpenAI TTS voices |
+| `azure` | `azure/zh-CN-XiaoxiaoNeural`, `azure/en-US-JennyNeural` | Azure Cognitive Services |
+| `elevenlabs` | `elevenlabs/Rachel`, `elevenlabs/Adam` | ElevenLabs voices |
+| `doubao` | `doubao/zh_female_qingxin` | ByteDance Doubao TTS |
+| `fish` | `fish/zh-CN-XiaoxiaoNeural` | Fish Audio TTS |
+| `minimaxi` | `minimaxi/male-qn-qingse` | MiniMax TTS |
+| `google` | `google/en-US-Wavenet-A` | Google Cloud TTS |
+| `qwen` | `qwen/Cherry` | Alibaba Qwen TTS |
+| `meruka` | `meruka/default` | Meruka TTS |
+| `dubbingx` | `dubbingx/en-US-male` | DubbingX TTS |
+
+### Speech Options
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `speed` | `number` | Speech speed (0.25-4.0, default: 1.0) |
+| `volume` | `number` | Volume level (0-2, default: 1.0) |
+| `emotion` | `string` | Emotion style (provider-specific) |
+| `outputFormat` | `string` | Output format: `mp3`, `wav`, `ogg`, etc. |
+| `runAsync` | `boolean` | Enable async mode for long text |
+| `webhook` | `string` | Webhook URL for async notifications |
+| `timeout` | `number` | Request timeout in seconds (default: 180) |
+| `pollInterval` | `number` | Poll interval in ms for async mode (default: 2000) |
+| `maxPollAttempts` | `number` | Max poll attempts for async mode (default: 90) |
+
+> Check out the [302AI TTS API docs](https://302ai.apifox.cn) for more information.
+
 ## Documentation
 
 Please check out the **[Vercel AI SDK](https://sdk.vercel.ai/providers/ai-sdk-providers)** for more information.
