@@ -3,9 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { createAI302, ai302 } from './ai302-provider';
 import { AI302LanguageModel } from './ai302-language-model';
 import { AI302ImageModel } from './ai302-image-model';
-import {
-  OpenAICompatibleEmbeddingModel,
-} from '@ai-sdk/openai-compatible';
+import { AI302EmbeddingModel } from './ai302-embedding-model';
 
 vi.mock('./ai302-language-model', () => ({
   AI302LanguageModel: vi.fn(),
@@ -15,9 +13,8 @@ vi.mock('./ai302-image-model', () => ({
   AI302ImageModel: vi.fn(),
 }));
 
-vi.mock('@ai-sdk/openai-compatible', () => ({
-  OpenAICompatibleEmbeddingModel: vi.fn(),
-  OpenAICompatibleChatLanguageModel: vi.fn(),
+vi.mock('./ai302-embedding-model', () => ({
+  AI302EmbeddingModel: vi.fn(),
 }));
 
 vi.mock('./version', () => ({
@@ -141,14 +138,14 @@ describe('AI302Provider', () => {
       );
     });
 
-    it('should create OpenAICompatibleEmbeddingModel for embedding models', () => {
+    it('should create AI302EmbeddingModel for embedding models', () => {
       const provider = createAI302({
         apiKey: 'test-key',
       });
 
       provider.textEmbeddingModel('text-embedding-3-small');
 
-      expect(OpenAICompatibleEmbeddingModel).toHaveBeenCalledWith(
+      expect(AI302EmbeddingModel).toHaveBeenCalledWith(
         'text-embedding-3-small',
         expect.objectContaining({
           provider: 'ai302.embedding',
@@ -196,7 +193,7 @@ describe('AI302Provider', () => {
 
       provider.embeddingModel('text-embedding-3-small');
 
-      expect(OpenAICompatibleEmbeddingModel).toHaveBeenCalledWith(
+      expect(AI302EmbeddingModel).toHaveBeenCalledWith(
         'text-embedding-3-small',
         expect.any(Object),
       );
@@ -278,7 +275,7 @@ describe('AI302Provider', () => {
 
       provider.textEmbeddingModel('jina-embeddings-v3');
 
-      const constructorCall = vi.mocked(OpenAICompatibleEmbeddingModel).mock.calls[0];
+      const constructorCall = vi.mocked(AI302EmbeddingModel).mock.calls[0];
       const config = constructorCall[1];
       const url = config.url({ modelId: 'jina-embeddings-v3', path: '/embeddings' });
 
@@ -294,7 +291,7 @@ describe('AI302Provider', () => {
 
       provider.textEmbeddingModel('text-embedding-3-small');
 
-      const constructorCall = vi.mocked(OpenAICompatibleEmbeddingModel).mock.calls[0];
+      const constructorCall = vi.mocked(AI302EmbeddingModel).mock.calls[0];
       const config = constructorCall[1];
       const url = config.url({ modelId: 'text-embedding-3-small', path: '/embeddings' });
 
@@ -415,7 +412,7 @@ describe('AI302Provider', () => {
 
       // Embedding model
       provider.textEmbeddingModel('text-embedding-3-small');
-      const embeddingConfig = vi.mocked(OpenAICompatibleEmbeddingModel).mock.calls[0][1];
+      const embeddingConfig = vi.mocked(AI302EmbeddingModel).mock.calls[0][1];
       expect(embeddingConfig.url({ modelId: 'text-embedding-3-small', path: '/embeddings' }))
         .toBe('https://api.example.com/v1/embeddings');
     });
