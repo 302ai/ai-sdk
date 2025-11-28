@@ -410,6 +410,68 @@ const { audio } = await generateSpeech({
 
 > Check out the [302AI TTS API docs](https://302ai.apifox.cn) for more information.
 
+## Reranking Model Example
+
+Reranking improves search relevance by reordering documents based on their relevance to a query.
+
+```ts
+import { ai302 } from '@302ai/ai-sdk';
+import { rerank } from 'ai';
+
+const documents = [
+  'Organic skincare for sensitive skin with aloe vera',
+  'New makeup trends focus on bold colors',
+  'Bio-Hautpflege für empfindliche Haut mit Aloe Vera',
+];
+
+const { ranking, rerankedDocuments } = await rerank({
+  model: ai302.reranking('jina-reranker-v2-base-multilingual'),
+  documents,
+  query: 'skincare products for sensitive skin',
+  topN: 2,
+});
+
+console.log(ranking);
+// [
+//   { index: 0, relevanceScore: 0.95 },
+//   { index: 2, relevanceScore: 0.78 }
+// ]
+```
+
+### Reranking with Object Documents
+
+```ts
+const documents = [
+  { title: 'Skincare Guide', content: 'Organic products for sensitive skin...' },
+  { title: 'Makeup Trends', content: 'Bold colors and techniques...' },
+];
+
+const { ranking } = await rerank({
+  model: ai302.reranking('bge-reranker-v2-m3'),
+  documents,
+  query: 'sensitive skin care',
+  topN: 1,
+});
+```
+
+### Reranking Models
+
+| Provider | Model ID | Description |
+|----------|----------|-------------|
+| Jina | `jina-reranker-v2-base-multilingual` | Multilingual reranker |
+| Jina | `jina-reranker-v1-base-en` | English reranker |
+| Jina | `jina-reranker-v1-turbo-en` | Fast English reranker |
+| Jina | `jina-colbert-v1-en` | ColBERT-based reranker |
+| BAAI | `bge-reranker-v2-m3` | BGE multilingual reranker |
+| BCE | `bce-reranker-base_v1` | BCE reranker |
+| Qwen | `Qwen/Qwen3-Reranker-8B` | Qwen 8B reranker |
+| Qwen | `Qwen/Qwen3-Reranker-4B` | Qwen 4B reranker |
+| Qwen | `Qwen/Qwen3-Reranker-0.6B` | Qwen 0.6B reranker |
+| Voyage | `rerank-2.5` | Voyage reranker |
+| Voyage | `rerank-2.5-lite` | Voyage lite reranker |
+
+> Check out the [302AI Rerank API docs](https://302ai.apifox.cn) for more information.
+
 ## Documentation
 
 Please check out the **[Vercel AI SDK](https://sdk.vercel.ai/providers/ai-sdk-providers)** for more information.

@@ -6,6 +6,11 @@ export type {
   AI302EmbeddingModelId,
   AI302EmbeddingProviderOptions,
 } from './ai302-embedding-settings';
+export { AI302RerankingModel } from './ai302-reranking-model';
+export type {
+  AI302RerankingModelId,
+  AI302RerankingProviderOptions,
+} from './ai302-reranking-settings';
 export { AI302SpeechModel } from './ai302-speech-model';
 export type {
   AI302SpeechModelId,

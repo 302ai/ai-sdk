@@ -4,6 +4,7 @@ import { createAI302, ai302 } from './ai302-provider';
 import { AI302LanguageModel } from './ai302-language-model';
 import { AI302ImageModel } from './ai302-image-model';
 import { AI302EmbeddingModel } from './ai302-embedding-model';
+import { AI302RerankingModel } from './ai302-reranking-model';
 
 vi.mock('./ai302-language-model', () => ({
   AI302LanguageModel: vi.fn(),
@@ -15,6 +16,10 @@ vi.mock('./ai302-image-model', () => ({
 
 vi.mock('./ai302-embedding-model', () => ({
   AI302EmbeddingModel: vi.fn(),
+}));
+
+vi.mock('./ai302-reranking-model', () => ({
+  AI302RerankingModel: vi.fn(),
 }));
 
 vi.mock('./version', () => ({
@@ -359,6 +364,8 @@ describe('AI302Provider', () => {
       expect(typeof ai302.embeddingModel).toBe('function');
       expect(typeof ai302.image).toBe('function');
       expect(typeof ai302.imageModel).toBe('function');
+      expect(typeof ai302.reranking).toBe('function');
+      expect(typeof ai302.rerankingModel).toBe('function');
     });
 
     it('should have specificationVersion property', () => {
@@ -444,6 +451,64 @@ describe('AI302Provider', () => {
       // These should compile without errors
       provider.textEmbeddingModel('text-embedding-3-small');
       provider.textEmbeddingModel('text-embedding-3-large');
+    });
+
+    it('should accept valid reranking model IDs', () => {
+      const provider = createAI302({ apiKey: 'test-key' });
+
+      // These should compile without errors
+      provider.reranking('jina-reranker-v2-base-multilingual');
+      provider.reranking('bge-reranker-v2-m3');
+      provider.rerankingModel('Qwen/Qwen3-Reranker-8B');
+    });
+  });
+
+  describe('Reranking model', () => {
+    it('should create AI302RerankingModel for reranking models', () => {
+      const provider = createAI302({
+        apiKey: 'test-key',
+      });
+
+      provider.reranking('jina-reranker-v2-base-multilingual');
+
+      expect(AI302RerankingModel).toHaveBeenCalledWith(
+        'jina-reranker-v2-base-multilingual',
+        expect.objectContaining({
+          provider: 'ai302.reranking',
+          url: expect.any(Function),
+          headers: expect.any(Function),
+          fetch: undefined,
+        }),
+      );
+    });
+
+    it('should support rerankingModel method', () => {
+      const provider = createAI302({
+        apiKey: 'test-key',
+      });
+
+      provider.rerankingModel('bge-reranker-v2-m3');
+
+      expect(AI302RerankingModel).toHaveBeenCalledWith(
+        'bge-reranker-v2-m3',
+        expect.any(Object),
+      );
+    });
+
+    it('should generate correct URL for reranking models', () => {
+      const provider = createAI302({
+        apiKey: 'test-key',
+        baseURL: 'https://api.example.com',
+      });
+
+      provider.reranking('jina-reranker-v2-base-multilingual');
+
+      const constructorCall = vi.mocked(AI302RerankingModel).mock.calls[0];
+      const config = constructorCall[1];
+      const url = config.url({ modelId: 'jina-reranker-v2-base-multilingual', path: '/v1/rerank' });
+
+      // All reranking models use /v1/rerank (not /jina/v1/rerank)
+      expect(url).toBe('https://api.example.com/v1/rerank');
     });
   });
 });

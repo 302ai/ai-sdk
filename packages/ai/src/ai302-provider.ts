@@ -3,6 +3,7 @@ import {
   ImageModelV3,
   LanguageModelV3,
   ProviderV3,
+  RerankingModelV3,
   SpeechModelV3,
 } from '@ai-sdk/provider';
 import { AI302ImageModelId, AI302ImageSettings } from './ai302-image-settings';
@@ -18,6 +19,8 @@ import { AI302ChatSettings, AI302ChatModelId } from './ai302-chat-settings';
 import { AI302EmbeddingModelId } from './ai302-embedding-settings';
 import { AI302EmbeddingModel } from './ai302-embedding-model';
 import { AI302LanguageModel } from './ai302-language-model';
+import { AI302RerankingModel } from './ai302-reranking-model';
+import { AI302RerankingModelId } from './ai302-reranking-settings';
 import { AI302SpeechModel } from './ai302-speech-model';
 import { AI302SpeechModelId } from './ai302-speech-settings';
 import { VERSION } from './version';
@@ -102,6 +105,16 @@ Creates a chat model for text generation.
   Creates a model for speech generation (alias for speech).
   */
   speechModel(modelId: AI302SpeechModelId): SpeechModelV3;
+
+  /**
+  Creates a model for reranking documents.
+  */
+  reranking(modelId: AI302RerankingModelId): RerankingModelV3;
+
+  /**
+  Creates a model for reranking documents (alias for reranking).
+  */
+  rerankingModel(modelId: AI302RerankingModelId): RerankingModelV3;
 }
 
 const defaultBaseURL = 'https://api.302.ai';
@@ -169,6 +182,10 @@ export function createAI302(
     return new AI302SpeechModel(modelId, getCommonModelConfig('speech'));
   };
 
+  const createRerankingModel = (modelId: AI302RerankingModelId) => {
+    return new AI302RerankingModel(modelId, getCommonModelConfig('reranking'));
+  };
+
   const provider = (modelId: AI302ChatModelId, settings?: AI302ChatSettings) =>
     createChatModel(modelId, settings);
 
@@ -181,6 +198,8 @@ export function createAI302(
   provider.imageModel = createImageModel;
   provider.speech = createSpeechModel;
   provider.speechModel = createSpeechModel;
+  provider.reranking = createRerankingModel;
+  provider.rerankingModel = createRerankingModel;
 
   return provider as AI302Provider;
 }
