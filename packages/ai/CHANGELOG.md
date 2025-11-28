@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.4
+
+### Patch Changes
+
+- db7b117: feat: add reranking model support
+
 ## 0.2.3
 
 ### Patch Changes
