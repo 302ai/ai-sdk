@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.3
+
+### Patch Changes
+
+- 9289228: feat(ai): add embedding model support
+
 ## 0.2.2
 
 ### Patch Changes
