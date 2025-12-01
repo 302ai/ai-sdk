@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.6
+
+### Patch Changes
+
+- 70fa625: refactor: improve API key handling in AI302Provider for lazy loading and enhanced header management
+
 ## 0.2.5
 
 ### Patch Changes
