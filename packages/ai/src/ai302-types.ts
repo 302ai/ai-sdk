@@ -999,6 +999,106 @@ export type FluxKontextResultResponse = z.infer<
   typeof FluxKontextResultResponseSchema
 >;
 
+// Flux-2-Pro
+export const Flux2ProRequestSchema = z
+  .object({
+    prompt: z.string(),
+    input_image: z.string().nullable().optional(),
+    input_image_2: z.string().nullable().optional(),
+    input_image_3: z.string().nullable().optional(),
+    input_image_4: z.string().nullable().optional(),
+    input_image_5: z.string().nullable().optional(),
+    input_image_6: z.string().nullable().optional(),
+    input_image_7: z.string().nullable().optional(),
+    input_image_8: z.string().nullable().optional(),
+    seed: z.number().nullable().optional(),
+    width: z.number().min(64).optional(),
+    height: z.number().min(64).optional(),
+    safety_tolerance: z.number().min(0).max(5).optional().default(2),
+    output_format: z.enum(['jpeg', 'png']).optional().default('jpeg'),
+    webhook_url: z.string().url().min(1).max(2083).nullable().optional(),
+    webhook_secret: z.string().nullable().optional(),
+  })
+  .loose();
+
+export type Flux2ProRequest = z.infer<typeof Flux2ProRequestSchema>;
+
+export const Flux2ProSubmitResponseSchema = z
+  .object({
+    id: z.string(),
+    polling_url: z.string(),
+    cost: z.number().optional(),
+    input_mp: z.number().optional(),
+    output_mp: z.number().optional(),
+  })
+  .loose();
+
+export type Flux2ProSubmitResponse = z.infer<typeof Flux2ProSubmitResponseSchema>;
+
+export const Flux2ProResultDataSchema = z
+  .object({
+    seed: z.number().optional(),
+    prompt: z.string().optional(),
+    sample: z.string(),
+    duration: z.number().optional(),
+    end_time: z.number().optional(),
+    start_time: z.number().optional(),
+  })
+  .loose();
+
+export type Flux2ProResultData = z.infer<typeof Flux2ProResultDataSchema>;
+
+export const Flux2ProResultResponseSchema = z
+  .object({
+    id: z.string(),
+    result: Flux2ProResultDataSchema.optional(),
+    status: z.string(),
+  })
+  .loose();
+
+export type Flux2ProResultResponse = z.infer<typeof Flux2ProResultResponseSchema>;
+
+// Z-Image-Turbo
+export const ZImageTurboRequestSchema = z
+  .object({
+    prompt: z.string(),
+    image_size: z.object({
+      width: z.number().min(512).max(2048),
+      height: z.number().min(512).max(2048),
+    }),
+    num_inference_steps: z.number().min(8).max(30).optional(),
+    enable_safety_checker: z.boolean().optional(),
+    output_format: z.enum(['png', 'jpg', 'webp']).optional(),
+  })
+  .loose();
+
+export type ZImageTurboRequest = z.infer<typeof ZImageTurboRequestSchema>;
+
+export const ZImageTurboImageDataSchema = z
+  .object({
+    url: z.string(),
+    width: z.number(),
+    height: z.number(),
+    content_type: z.string(),
+  })
+  .loose();
+
+export type ZImageTurboImageData = z.infer<typeof ZImageTurboImageDataSchema>;
+
+export const ZImageTurboResponseSchema = z
+  .object({
+    images: z.array(ZImageTurboImageDataSchema),
+    timings: z.object({
+      inference: z.number(),
+    }),
+    seed: z.number(),
+    has_nsfw_concepts: z.array(z.boolean()),
+    prompt: z.string(),
+  })
+  .loose();
+
+export type ZImageTurboResponse = z.infer<typeof ZImageTurboResponseSchema>;
+
 // Soul
 export const SoulQualitySchema = z.enum(['720p', '1080p']);
 

@@ -25,6 +25,11 @@ const MAX_POLL_TIME = 300000; // 5 minutes
 
 // Ref 1: https://302ai.apifox.cn/api-160578879
 export class MidjourneyHandler extends BaseModelHandler {
+  private getHeaders() {
+    // Use Midjourney-specific headers if available (includes mj-api-secret)
+    return this.config.midjourneyHeaders?.() ?? this.config.headers();
+  }
+
   private getVersionFlag(): string {
     switch (this.modelId) {
       case 'midjourney/6.0':
@@ -64,7 +69,7 @@ export class MidjourneyHandler extends BaseModelHandler {
         `${this.config.url({ modelId: this.modelId, path: `/mj/task/${taskId}/fetch` })}`,
         {
           method: "GET",
-          headers: this.config.headers() as HeadersInit,
+          headers: this.getHeaders() as HeadersInit,
           signal: abortSignal,
         },
       );
@@ -101,7 +106,7 @@ export class MidjourneyHandler extends BaseModelHandler {
     const { value: actionResponse } =
       await postJsonToApi<MidjourneySubmitResponse>({
         url: this.config.url({ modelId: this.modelId, path: `/mj/submit/action` }),
-        headers: this.config.headers(),
+        headers: this.getHeaders(),
         body: {
           customId: upscaleButton.customId,
           taskId: taskId,
@@ -198,7 +203,7 @@ export class MidjourneyHandler extends BaseModelHandler {
     const { value: submitResponse, responseHeaders } =
       await postJsonToApi<MidjourneySubmitResponse>({
         url: this.config.url({ modelId: this.modelId, path: `/mj/submit/imagine` }),
-        headers: combineHeaders(this.config.headers(), headers),
+        headers: combineHeaders(this.getHeaders(), headers),
         body: {
           prompt,
           botType: this.getBotType(),

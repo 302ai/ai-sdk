@@ -10,6 +10,7 @@ import { DallEHandler } from './dalle';
 import { FluxProDevHandler } from './flux-pro-dev';
 import { FluxKreaHandler } from './flux-1-krea';
 import { FluxKontextHandler } from './flux-kontext';
+import { Flux2ProHandler } from './flux-2-pro';
 import { GPTImageHandler } from './gpt-image';
 import { HidreamHandler } from './hidream';
 import { IdeogramHandler, IdeogramV3Handler } from './ideogram';
@@ -37,6 +38,7 @@ import { PlaygroundHandler } from './playground';
 import { QwenImageHandler } from './qwen-image';
 import { Gemini25FlashImagePreviewHandler } from './gemini-2.5-flash-image-preview';
 import { Gemini3ProImagePreviewHandler } from './gemini-3-pro-image-preview';
+import { ZImageTurboHandler } from './z-image-turbo';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -59,6 +61,9 @@ export function createImageModelHandler(
     case 'flux-kontext-max':
     case 'flux-kontext-pro':
       return new FluxKontextHandler(modelId, settings, config);
+    case 'flux-2-pro':
+    case 'flux-2-flex':
+      return new Flux2ProHandler(modelId, settings, config);
     case 'ideogram/V_1':
     case 'ideogram/V_1_TURBO':
     case 'ideogram/V_2':
@@ -144,6 +149,8 @@ export function createImageModelHandler(
       return new Gemini25FlashImagePreviewHandler(modelId, settings, config);
     case 'gemini-3-pro-image-preview':
       return new Gemini3ProImagePreviewHandler(modelId, settings, config);
+    case 'z-image-turbo':
+      return new ZImageTurboHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

@@ -7,6 +7,8 @@ export type AI302ImageModelId =
   | 'flux-1-krea'
   | 'flux-kontext-max'
   | 'flux-kontext-pro'
+  | 'flux-2-pro'
+  | 'flux-2-flex'
   | 'ideogram/V_1'
   | 'ideogram/V_1_TURBO'
   | 'ideogram/V_2'
@@ -62,6 +64,7 @@ export type AI302ImageModelId =
   | 'qwen-image'
   | 'gemini-2.5-flash-image-preview'
   | 'gemini-3-pro-image-preview'
+  | 'z-image-turbo'
   | (string & {});
 
 export interface AI302ImageSettings {}
@@ -95,6 +98,12 @@ export const modelToBackendConfig: Partial<
     supportsSize: true,
   },
   'flux-kontext-pro': {
+    supportsSize: true,
+  },
+  'flux-2-pro': {
+    supportsSize: true,
+  },
+  'flux-2-flex': {
     supportsSize: true,
   },
   'ideogram/V_1': {
@@ -258,5 +267,8 @@ export const modelToBackendConfig: Partial<
   },
   'gemini-3-pro-image-preview': {
     supportsSize: false,
+  },
+  'z-image-turbo': {
+    supportsSize: true,
   },
 };

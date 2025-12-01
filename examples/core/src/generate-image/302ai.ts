@@ -9,8 +9,8 @@ const model = createAI302({
 });
 
 const MODELS = [
-  'flux-v1.1-ultra',
-  'flux-pro-v1.1',
+  // 'flux-v1.1-ultra',
+  // 'flux-pro-v1.1',
   // 'flux-pro',
   // 'flux-dev',
   // 'flux-schnell',
@@ -74,7 +74,10 @@ const MODELS = [
   // 'qwen-image',
   // 'gemini-2.5-flash-image-preview',
   // 'gemini-3-pro-image-preview',
-  'doubao-seedream-4-0-250828',
+  // 'doubao-seedream-4-0-250828',
+  'flux-2-pro',
+  'flux-2-flex',
+  'z-image-turbo',
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';
