@@ -1,12 +1,12 @@
-# 302 AI SDK
+# <p align="center"> 🤖 302 AI SDK </p>
 
-This is an official provider SDK for [302AI](https://302.ai) that integrates with [Vercel AI SDK](https://sdk.vercel.ai).
+<p align="center"> This is an official provider SDK for <a href="https://302.ai">302AI</a> that integrates with <a href="https://sdk.vercel.ai">Vercel AI SDK</a>. </p>
 
-## Overview
+## 📋 Overview
 
 The 302AI provider enables seamless integration with the Vercel AI SDK, offering access to a wide range of AI models for:
 
-### Text Generation
+### 💬 Text Generation
 - Advanced language models including:
   - GPT-4 series (gpt-4-turbo, gpt-4o, etc.)
   - Claude-3 series (opus, sonnet, haiku)
@@ -14,7 +14,7 @@ The 302AI provider enables seamless integration with the Vercel AI SDK, offering
   - Llama 3 series
   - And many other leading models
 
-### Image Generation
+### 🎨 Image Generation
 - State-of-the-art image models including:
   - Midjourney 6.0/6.1/7.0
   - DALL-E 3
@@ -25,14 +25,14 @@ The 302AI provider enables seamless integration with the Vercel AI SDK, offering
   - Omnigen models
   - And more specialized image generators
 
-### Embeddings
+### 🔢 Embeddings
 - High-quality embedding models including:
   - OpenAI text-embedding-3 (small/large)
   - BGE models
   - Zhipu embeddings
   - And other specialized embedding models
 
-### Speech (TTS)
+### 🔊Speech (TTS)
 - Text-to-Speech with 10+ providers:
   - OpenAI (alloy, nova, shimmer, etc.)
   - Azure Cognitive Services
@@ -42,57 +42,75 @@ The 302AI provider enables seamless integration with the Vercel AI SDK, offering
   - Qwen (Alibaba)
   - And more specialized TTS providers
 - Features:
-  - Sync and async modes
-  - Customizable speed, volume, emotion
-  - Multiple output formats (mp3, wav, ogg)
+  - ⚡ Sync and async modes
+  - 🎚️ Customizable speed, volume, emotion
+  - 📦 Multiple output formats (mp3, wav, ogg)
 
 All models are accessible through a unified, type-safe API that follows Vercel AI SDK standards. For a complete list of supported models, please refer to our [detailed documentation](/packages/ai/README.md).
 
-## Features
+## ✨ Features
 - 🚀 Simple, unified API for all AI operations
 - 💪 Full TypeScript support
 - 🔄 Streaming responses support
 - 🛡️ Built-in error handling
 - 📝 Comprehensive documentation
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @302ai/ai-sdk
 ```
 
-## Quick Start
+## 🚀 Quick Start
+
+### 💬 Text Generation
 
 ```typescript
 import { ai302 } from '@302ai/ai-sdk';
 import { generateText } from 'ai';
 
-// Text Generation
+// Generate text using GPT-4 Turbo
 const { text } = await generateText({
   model: ai302('gpt-4-turbo'),
   prompt: 'Hello, how can I help you today?'
 });
 
-// Image Generation
+console.log(text);
+```
+
+### 🎨 Image Generation
+
+```typescript
 import { experimental_generateImage as generateImage } from 'ai';
 
+// Generate image with Midjourney
 const { image } = await generateImage({
   model: ai302.image('midjourney/6.1'),
   prompt: 'A beautiful sunset over mountains'
 });
+```
 
-// Embeddings
+### 🔢 Embeddings
+
+```typescript
 import { embed } from 'ai';
 
+// Generate text embeddings
 const { embedding } = await embed({
   model: ai302.textEmbeddingModel('text-embedding-3-large'),
   value: 'Text to embed'
 });
 
-// Speech (TTS)
+console.log(embedding);
+```
+
+### 🔊 Speech (TTS)
+
+```typescript
 import { generateSpeech } from 'ai';
 import fs from 'fs';
 
+// Generate speech file
 const { audio } = await generateSpeech({
   model: ai302.speech('openai/alloy'),
   text: 'Hello, welcome to 302AI!'
@@ -101,23 +119,25 @@ const { audio } = await generateSpeech({
 fs.writeFileSync('speech.mp3', audio.uint8Array);
 ```
 
-## What's inside?
+## 📚 What's inside?
 
 This SDK includes the following packages:
 
-### Packages
+### 📦 Packages
 
-- `ai`: The [@302ai/ai-sdk](/packages/ai/README.md) Core SDK for 302AI.
+| Package Name | Description |
+|--------------|-------------|
+| [@302ai/ai-sdk](/packages/ai/README.md) | 302AI core SDK providing access to all AI models |
 
-Each package is 100% [TypeScript](https://www.typescriptlang.org/).
+> 💡 Each package is 100% [TypeScript](https://www.typescriptlang.org/) and provides full type support.
 
-## Documentation
+## 📖 Documentation
 
 For detailed documentation about available models and usage, please check:
 
-- [302AI Provider Documentation](/packages/ai/README.md)
-- [Vercel AI SDK Documentation](https://sdk.vercel.ai/docs)
+- 📘 [302AI Provider Documentation](/packages/ai/README.md)
+- 📗 [Vercel AI SDK Documentation](https://sdk.vercel.ai/docs)
 
-## License
+## 📄 License
 
 Apache License 2.0 - See [LICENSE](./LICENSE) for details.
