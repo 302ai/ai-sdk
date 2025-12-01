@@ -8,8 +8,8 @@ The 302AI provider enables seamless integration with the Vercel AI SDK, offering
 
 ### 💬 Text Generation
 - Advanced language models including:
-  - GPT-4 series (gpt-4-turbo, gpt-4o, etc.)
-  - Claude-3 series (opus, sonnet, haiku)
+  - GPT 5.1 series (gpt-5.1-plus, gpt-5.1-codex, etc.)
+  - Claude 4-5 series (opus, sonnet, haiku)
   - Gemini series
   - Llama 3 series
   - And many other leading models
@@ -17,12 +17,13 @@ The 302AI provider enables seamless integration with the Vercel AI SDK, offering
 ### 🎨 Image Generation
 - State-of-the-art image models including:
   - Midjourney 6.0/6.1/7.0
-  - DALL-E 3
+  - GPT-Image-1
   - Stable Diffusion variants (SD3, SDXL)
   - Flux models
   - Ideogram models
-  - Playground models
-  - Omnigen models
+  - Qwen models
+  - Doubao models (Seedream 3.0/4.0)
+  - Gemini-2.5-flash-image (Nano-banana)、Gemini-3-pro-image-preview (Nano-banana-pro)
   - And more specialized image generators
 
 ### 🔢 Embeddings
