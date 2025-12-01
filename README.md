@@ -1,6 +1,6 @@
 # <p align="center"> 🤖 302 AI SDK </p>
 
-<p align="center"> This is an official provider SDK for <a href="https://302.ai">302AI</a> that integrates with <a href="https://sdk.vercel.ai">Vercel AI SDK</a>. </p>
+<p align="center"> This is the official provider SDK for <a href="https://302.ai">302AI</a> based on the <a href="https://v6.ai-sdk.dev/docs/introduction"><strong>v6 (Beta)</strong></a> version, integrated with the <a href="https://sdk.vercel.ai">Vercel AI SDK</a>. </p>
 
 ## 📋 Overview
 
@@ -137,7 +137,7 @@ This SDK includes the following packages:
 For detailed documentation about available models and usage, please check:
 
 - 📘 [302AI Provider Documentation](/packages/ai/README.md)
-- 📗 [Vercel AI SDK Documentation](https://sdk.vercel.ai/docs)
+- 📗 [Vercel AI SDK Documentation](https://v6.ai-sdk.dev/docs/introduction)
 
 ## 📄 License
 
