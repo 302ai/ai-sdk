@@ -57,6 +57,14 @@ const { embedding, usage } = await embed({
 - `BAAI/bge-m3`
 - `Baichuan-Text-Embedding`
 - `bce-embedding-base_v1`
+- `jina-clip-v1`
+- `jina-clip-v2`
+- `jina-embeddings-v2-base-en`
+- `jina-embeddings-v2-base-es`
+- `jina-embeddings-v2-base-de`
+- `jina-embeddings-v2-base-zh`
+- `jina-embeddings-v2-base-code`
+- `jina-embeddings-v3`
 
 ## Image Model Examples
 
