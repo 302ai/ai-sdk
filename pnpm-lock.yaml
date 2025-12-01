@@ -70,8 +70,8 @@ importers:
         specifier: 2.0.0-beta.37
         version: 2.0.0-beta.37(zod@4.1.13)
       '@ai-sdk/provider':
-        specifier: 3.0.0-beta.19
-        version: 3.0.0-beta.19
+        specifier: 3.0.0-beta.22
+        version: 3.0.0-beta.22
       '@ai-sdk/provider-utils':
         specifier: 4.0.0-beta.36
         version: 4.0.0-beta.36(zod@4.1.13)
@@ -156,6 +156,10 @@ packages:
 
   '@ai-sdk/provider@3.0.0-beta.19':
     resolution: {integrity: sha512-Y641zQvvycaKDLrQrKfi7JbzSVg6dITo1HRD2arUJ//XnxRbYkkO7wDp9BJncIW8wGtlMjfiL63GbXqCyX5kGA==}
+    engines: {node: '>=18'}
+
+  '@ai-sdk/provider@3.0.0-beta.22':
+    resolution: {integrity: sha512-Ss0tgCZwzccS6MREhjAI28lkAV5PfJnoBFbv8mas74Cs5OseFKqxg3dEd1lRL8mf4Qapu1xpBLkV4/ldSShSdA==}
     engines: {node: '>=18'}
 
   '@babel/code-frame@7.27.1':
@@ -3578,6 +3582,10 @@ snapshots:
       zod: 4.1.13
 
   '@ai-sdk/provider@3.0.0-beta.19':
+    dependencies:
+      json-schema: 0.4.0
+
+  '@ai-sdk/provider@3.0.0-beta.22':
     dependencies:
       json-schema: 0.4.0
 
