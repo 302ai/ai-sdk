@@ -312,7 +312,7 @@ describe('AI302Provider', () => {
 
       const constructorCall = vi.mocked(AI302ImageModel).mock.calls[0];
       const config = constructorCall[2];
-      const headers = await resolve(config.headers());
+      const headers = await resolve(config.midjourneyHeaders!());
 
       expect(headers['mj-api-secret']).toBe('test-api-key');
     });

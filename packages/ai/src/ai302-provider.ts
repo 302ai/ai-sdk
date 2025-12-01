@@ -123,24 +123,28 @@ export function createAI302(
   options: AI302ProviderSettings = {},
 ): AI302Provider {
   const baseURL = withoutTrailingSlash(options.baseURL) ?? defaultBaseURL;
-  const apiKey = loadApiKey({
-    apiKey: options.apiKey,
-    environmentVariableName: 'AI302_API_KEY',
-    description: '302 AI API key',
-  });
+
+  // Lazy API key resolution - only load when actually needed (during API calls)
+  const getApiKey = () =>
+    loadApiKey({
+      apiKey: options.apiKey,
+      environmentVariableName: 'AI302_API_KEY',
+      description: '302 AI API key',
+    });
 
   const getHeaders = () =>
     withUserAgentSuffix(
       {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${getApiKey()}`,
         ...options.headers,
       },
       `ai-sdk/ai302/${VERSION}`,
     );
 
   // Midjourney-specific headers (includes mj-api-secret)
-  const getMidjourneyHeaders = () =>
-    withUserAgentSuffix(
+  const getMidjourneyHeaders = () => {
+    const apiKey = getApiKey();
+    return withUserAgentSuffix(
       {
         Authorization: `Bearer ${apiKey}`,
         'mj-api-secret': apiKey,
@@ -148,6 +152,7 @@ export function createAI302(
       },
       `ai-sdk/ai302/${VERSION}`,
     );
+  };
 
   const getCommonModelConfig = (modelType: string): AI302Config => ({
     provider: `ai302.${modelType}`,
