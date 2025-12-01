@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.5
+
+### Patch Changes
+
+- 11af3a4: feat: add support for Flux-2-Pro and Z-Image-Turbo models, including request schemas and handlers
+
 ## 0.2.4
 
 ### Patch Changes
