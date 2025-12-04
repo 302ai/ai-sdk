@@ -39,6 +39,7 @@ import { QwenImageHandler } from './qwen-image';
 import { Gemini25FlashImagePreviewHandler } from './gemini-2.5-flash-image-preview';
 import { Gemini3ProImagePreviewHandler } from './gemini-3-pro-image-preview';
 import { ZImageTurboHandler } from './z-image-turbo';
+import { ViduReference2ImageHandler } from './vidu-reference2image';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -152,6 +153,9 @@ export function createImageModelHandler(
       return new Gemini3ProImagePreviewHandler(modelId, settings, config);
     case 'z-image-turbo':
       return new ZImageTurboHandler(modelId, settings, config);
+    case 'vidu-viduq1':
+    case 'vidu-viduq2':
+      return new ViduReference2ImageHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

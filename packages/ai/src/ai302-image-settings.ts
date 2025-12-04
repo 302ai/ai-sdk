@@ -66,6 +66,8 @@ export type AI302ImageModelId =
   | 'gemini-2.5-flash-image-preview'
   | 'gemini-3-pro-image-preview'
   | 'z-image-turbo'
+  | 'vidu-viduq1'
+  | 'vidu-viduq2'
   | (string & {});
 
 export interface AI302ImageSettings {}
@@ -274,5 +276,11 @@ export const modelToBackendConfig: Partial<
   },
   'z-image-turbo': {
     supportsSize: true,
+  },
+  'vidu-viduq1': {
+    supportsSize: false,
+  },
+  'vidu-viduq2': {
+    supportsSize: false,
   },
 };

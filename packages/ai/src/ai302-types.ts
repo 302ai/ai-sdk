@@ -1099,6 +1099,62 @@ export const ZImageTurboResponseSchema = z
 
 export type ZImageTurboResponse = z.infer<typeof ZImageTurboResponseSchema>;
 
+// Vidu Reference2Image
+export const ViduReference2ImageRequestSchema = z
+  .object({
+    model: z.enum(['viduq1', 'viduq2']),
+    prompt: z.string(),
+    images: z.array(z.string()).optional(),
+    seed: z.number().optional(),
+    aspect_ratio: z.enum(['16:9', '9:16', '1:1', '3:4', '4:3', '21:9', '2:3', '3:2', 'auto']).optional(),
+    resolution: z.enum(['1080p', '2K', '4K']).optional(),
+    payload: z.string().optional(),
+  })
+  .loose();
+
+export type ViduReference2ImageRequest = z.infer<typeof ViduReference2ImageRequestSchema>;
+
+export const ViduSubmitResponseSchema = z
+  .object({
+    task_id: z.string(),
+    state: z.string().optional(),
+    model: z.string().optional(),
+    prompt: z.string().optional(),
+    credits: z.number().optional(),
+  })
+  .loose();
+
+export type ViduSubmitResponse = z.infer<typeof ViduSubmitResponseSchema>;
+
+export const ViduCreationSchema = z
+  .object({
+    id: z.string(),
+    url: z.string(),
+    cover_url: z.string().optional(),
+    video: z.object({
+      duration: z.number(),
+      fps: z.number(),
+      resolution: z.object({
+        width: z.number(),
+        height: z.number(),
+      }),
+    }).optional(),
+  })
+  .loose();
+
+export type ViduCreation = z.infer<typeof ViduCreationSchema>;
+
+export const ViduTaskResultSchema = z
+  .object({
+    state: z.string(),
+    err_code: z.string(),
+    creations: z.array(ViduCreationSchema),
+    id: z.string().optional(),
+  })
+  .loose();
+
+export type ViduTaskResult = z.infer<typeof ViduTaskResultSchema>;
+
 // Soul
 export const SoulQualitySchema = z.enum(['720p', '1080p']);
 
