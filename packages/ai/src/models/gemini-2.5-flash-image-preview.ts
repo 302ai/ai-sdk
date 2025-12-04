@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import { BaseModelHandler } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 
@@ -64,24 +64,24 @@ export class Gemini25FlashImagePreviewHandler extends BaseModelHandler {
     }
 
     if (size != null) {
-      warnings.push({ 
-        type: 'unsupported-setting', 
+      warnings.push({
+        type: 'unsupported-setting',
         setting: 'size',
         details: 'Gemini 2.5 Flash Image Preview does not support custom size control',
       });
     }
 
     if (aspectRatio != null) {
-      warnings.push({ 
-        type: 'unsupported-setting', 
+      warnings.push({
+        type: 'unsupported-setting',
         setting: 'aspectRatio',
         details: 'Gemini 2.5 Flash Image Preview does not support custom aspect ratio control',
       });
     }
 
     if (seed != null) {
-      warnings.push({ 
-        type: 'unsupported-setting', 
+      warnings.push({
+        type: 'unsupported-setting',
         setting: 'seed',
         details: 'Gemini 2.5 Flash Image Preview does not support seed control',
       });
@@ -102,15 +102,17 @@ export class Gemini25FlashImagePreviewHandler extends BaseModelHandler {
       },
     };
 
-    const baseUrl = this.config.url({ 
-      modelId: this.modelId, 
+    const baseUrl = this.config.url({
+      modelId: this.modelId,
       path: '/google/v1/models/gemini-2.5-flash-image-preview'
     });
     const urlWithQuery = `${baseUrl}?response_format=url`;
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<GeminiFlashImagePreviewApiResponse>({
       url: urlWithQuery,
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         ...requestBody,
         ...(providerOptions.ai302 ?? {}),

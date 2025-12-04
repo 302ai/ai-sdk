@@ -2,7 +2,7 @@ import type {
   ImageModelV3CallOptions,
   ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import type { FluxKreaResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
@@ -64,12 +64,14 @@ export class FluxKreaHandler extends BaseModelHandler {
       );
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<FluxKreaResponse>({
       url: this.config.url({
         modelId: this.modelId,
         path: `/302/submit/${this.modelId}`,
       }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         prompt,
         image_size: backendConfig?.supportsSize

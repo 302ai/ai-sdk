@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
-import { combineHeaders, postJsonToApi } from "@ai-sdk/provider-utils";
+import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import {
   type MidjourneySubmitResponse,
   type MidjourneyTaskResponse,
@@ -25,9 +25,10 @@ const MAX_POLL_TIME = 300000; // 5 minutes
 
 // Ref 1: https://302ai.apifox.cn/api-160578879
 export class MidjourneyHandler extends BaseModelHandler {
-  private getHeaders() {
+  private async getResolvedHeaders(): Promise<Record<string, string | undefined>> {
     // Use Midjourney-specific headers if available (includes mj-api-secret)
-    return this.config.midjourneyHeaders?.() ?? this.config.headers();
+    const headers = this.config.midjourneyHeaders?.() ?? this.config.headers();
+    return await resolve(headers);
   }
 
   private getVersionFlag(): string {
@@ -51,6 +52,7 @@ export class MidjourneyHandler extends BaseModelHandler {
 
   private async pollTask(
     taskId: string,
+    resolvedHeaders: Record<string, string | undefined>,
     abortSignal?: AbortSignal,
   ): Promise<MidjourneyTaskResponse> {
     const startTime = Date.now();
@@ -69,7 +71,7 @@ export class MidjourneyHandler extends BaseModelHandler {
         `${this.config.url({ modelId: this.modelId, path: `/mj/task/${taskId}/fetch` })}`,
         {
           method: "GET",
-          headers: this.getHeaders() as HeadersInit,
+          headers: resolvedHeaders as HeadersInit,
           signal: abortSignal,
         },
       );
@@ -95,6 +97,7 @@ export class MidjourneyHandler extends BaseModelHandler {
   private async upscaleImage(
     taskId: string,
     response: MidjourneyTaskResponse,
+    resolvedHeaders: Record<string, string | undefined>,
     abortSignal?: AbortSignal,
     buttonIndex: number = 1,
   ): Promise<MidjourneyTaskResponse> {
@@ -106,7 +109,7 @@ export class MidjourneyHandler extends BaseModelHandler {
     const { value: actionResponse } =
       await postJsonToApi<MidjourneySubmitResponse>({
         url: this.config.url({ modelId: this.modelId, path: `/mj/submit/action` }),
-        headers: this.getHeaders(),
+        headers: resolvedHeaders,
         body: {
           customId: upscaleButton.customId,
           taskId: taskId,
@@ -117,7 +120,7 @@ export class MidjourneyHandler extends BaseModelHandler {
         fetch: this.config.fetch,
       });
 
-    return await this.pollTask(actionResponse.result, abortSignal);
+    return await this.pollTask(actionResponse.result, resolvedHeaders, abortSignal);
   }
 
   private async splitImageIntoFour(imageUrl: string): Promise<string[]> {
@@ -200,10 +203,12 @@ export class MidjourneyHandler extends BaseModelHandler {
 
     prompt = `${prompt} ${this.getVersionFlag()}`;
 
+    const resolvedHeaders = await this.getResolvedHeaders();
+
     const { value: submitResponse, responseHeaders } =
       await postJsonToApi<MidjourneySubmitResponse>({
         url: this.config.url({ modelId: this.modelId, path: `/mj/submit/imagine` }),
-        headers: combineHeaders(this.getHeaders(), headers),
+        headers: combineHeaders(resolvedHeaders, headers),
         body: {
           prompt,
           botType: this.getBotType(),
@@ -217,6 +222,7 @@ export class MidjourneyHandler extends BaseModelHandler {
 
     const initialResult = await this.pollTask(
       submitResponse.result,
+      resolvedHeaders,
       abortSignal,
     );
 
@@ -250,7 +256,7 @@ export class MidjourneyHandler extends BaseModelHandler {
 
     // Perform upscale for selected images
     const upscalePromises = validUpscaleIndexes.map(index => {
-      return this.upscaleImage(submitResponse.result, initialResult, abortSignal, index);
+      return this.upscaleImage(submitResponse.result, initialResult, resolvedHeaders, abortSignal, index);
     });
 
     const finalResults = await Promise.all(upscalePromises);

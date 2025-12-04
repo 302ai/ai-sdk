@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
-import { combineHeaders, postToApi } from "@ai-sdk/provider-utils";
+import { combineHeaders, postToApi, resolve } from "@ai-sdk/provider-utils";
 import type { SDXLResponse } from "../ai302-types";
 import {
   createJsonResponseHandler,
@@ -53,9 +53,11 @@ export class SDXLHandler extends BaseModelHandler {
       }
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postToApi<SDXLResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/sdxl' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         content: formData,
         values: {

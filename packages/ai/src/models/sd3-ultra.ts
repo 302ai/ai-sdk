@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
-import { combineHeaders, postToApi } from "@ai-sdk/provider-utils";
+import { combineHeaders, postToApi, resolve } from "@ai-sdk/provider-utils";
 import { statusCodeErrorResponseHandler } from "../utils/api-handlers";
 import { BaseModelHandler } from "./base-model";
 
@@ -38,7 +38,8 @@ export class SD3UltraHandler extends BaseModelHandler {
 
     let parsedAspectRatio = this.findClosestAspectRatio(aspectRatio, SUPPORTED_ASPECT_RATIOS, warnings);
 
-    const requestHeaders = combineHeaders(this.config.headers(), headers, {
+    const resolvedHeaders = await resolve(this.config.headers());
+    const requestHeaders = combineHeaders(resolvedHeaders, headers, {
       Accept: "image/*",
     });
 

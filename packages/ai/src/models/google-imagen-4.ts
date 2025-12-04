@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import { BaseModelHandler } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 
@@ -51,9 +51,11 @@ export class GoogleImagen4Handler extends BaseModelHandler {
 
     let parsedAspectRatio = this.findClosestAspectRatio(aspectRatio, SUPPORTED_ASPECT_RATIOS, warnings);
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<GoogleImagen4ApiResponse>( {
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/imagen-4-preview' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         prompt,
         aspect_ratio: parsedAspectRatio,

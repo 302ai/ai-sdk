@@ -2,7 +2,7 @@ import type {
   ImageModelV3CallOptions,
   ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
-import { combineHeaders, postToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postToApi, resolve } from '@ai-sdk/provider-utils';
 import type { AuraflowResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
@@ -53,13 +53,15 @@ export class AuraflowHandler extends BaseModelHandler {
     const formData = new FormData();
     formData.append('prompt', prompt);
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } =
       await postToApi<AuraflowResponse>({
         url: this.config.url({
           modelId: this.modelId,
           path: '/302/submit/aura-flow',
         }),
-        headers: combineHeaders(this.config.headers(), headers),
+        headers: combineHeaders(resolvedHeaders, headers),
         body: {
           content: formData,
           values: { prompt },

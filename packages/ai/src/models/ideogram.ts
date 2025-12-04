@@ -2,7 +2,7 @@ import type {
   ImageModelV3CallOptions,
   ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import {
   IdeogramAspectRatioSchema,
   IdeogramResolutionSchema,
@@ -63,13 +63,15 @@ export class IdeogramHandler extends BaseModelHandler {
       });
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } =
       await postJsonToApi<IdeogramResponse>({
         url: this.config.url({
           modelId: this.modelId,
           path: '/ideogram/generate',
         }),
-        headers: combineHeaders(this.config.headers(), headers),
+        headers: combineHeaders(resolvedHeaders, headers),
         body: {
           image_request: {
             aspect_ratio: convertedAspectRatio,
@@ -179,13 +181,15 @@ export class IdeogramV3Handler extends IdeogramHandler {
       renderingSpeed = 'QUALITY';
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } =
       await postJsonToApi<IdeogramResponse>({
         url: this.config.url({
           modelId: this.modelId,
           path: '/ideogram/v1/ideogram-v3/generate',
         }),
-        headers: combineHeaders(this.config.headers(), headers),
+        headers: combineHeaders(resolvedHeaders, headers),
         body: {
           // No image_request wrapper for v3
           aspect_ratio: convertedAspectRatio,

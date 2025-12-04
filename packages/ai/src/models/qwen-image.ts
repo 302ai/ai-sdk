@@ -2,7 +2,7 @@ import type {
   ImageModelV3CallOptions,
   ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
-import { combineHeaders, postToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postToApi, resolve } from '@ai-sdk/provider-utils';
 import type { QwenImageResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
@@ -69,12 +69,14 @@ export class QwenImageHandler extends BaseModelHandler {
       });
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postToApi<QwenImageResponse>({
       url: this.config.url({
         modelId: this.modelId,
         path: `/302/submit/${this.modelId}`,
       }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         content: formData,
         values: {

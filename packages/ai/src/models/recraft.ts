@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
-import { combineHeaders, postJsonToApi } from "@ai-sdk/provider-utils";
+import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import type { RecraftResponse } from "../ai302-types";
 import {
   createJsonResponseHandler,
@@ -47,9 +47,11 @@ export class RecraftHandler extends BaseModelHandler {
 
     parsedSize = this.validateSizeOption(parsedSize, SUPPORTED_SIZES, warnings);
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<RecraftResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/recraft-v3' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         prompt,
         size: `${parsedSize.width}x${parsedSize.height}`,

@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import type { MinimaxResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
@@ -74,9 +74,11 @@ export class MinimaxHandler extends BaseModelHandler {
       }
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<MinimaxResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/minimaxi/v1/image_generation' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         model: 'minimaxi-image-01',
         prompt,

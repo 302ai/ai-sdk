@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import type { CogViewResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
@@ -70,9 +70,11 @@ export class CogViewHandler extends BaseModelHandler {
     // Determine which model variant to use
     const modelVariant = this.modelId === 'cogview-4-250304' ? 'cogview-4-250304' : 'cogview-4';
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<CogViewResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/bigmodel/api/paas/v4/images/generations' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         model: modelVariant,
         prompt,

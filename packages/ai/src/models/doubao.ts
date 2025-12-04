@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import { BaseModelHandler } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 
@@ -105,9 +105,11 @@ export class DoubaoHandler extends BaseModelHandler {
       requestBody.req_schedule_conf = doubaoReqScheduleConf;
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<DoubaoResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/doubao/drawing' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: requestBody,
       failedResponseHandler: statusCodeErrorResponseHandler,
       successfulResponseHandler: createJsonResponseHandler(),

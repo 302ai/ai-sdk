@@ -2,7 +2,7 @@ import type {
   ImageModelV3CallOptions,
   ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import { type SoulSubmitResponse, type SoulTaskResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
@@ -31,6 +31,7 @@ const DEFAULT_STYLE_ID = '464ea177-8d40-4940-8d9d-b438bab269c7';
 export class SoulHandler extends BaseModelHandler {
   private async pollTask(
     taskId: string,
+    resolvedHeaders: Record<string, string | undefined>,
     abortSignal?: AbortSignal,
   ): Promise<SoulTaskResponse> {
     const startTime = Date.now();
@@ -49,7 +50,7 @@ export class SoulHandler extends BaseModelHandler {
         `${this.config.url({ modelId: this.modelId, path: `/higgsfield/task/${taskId}/fetch` })}`,
         {
           method: 'GET',
-          headers: this.config.headers() as HeadersInit,
+          headers: resolvedHeaders as HeadersInit,
           signal: abortSignal,
         },
       );
@@ -145,13 +146,15 @@ export class SoulHandler extends BaseModelHandler {
       });
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: submitResponse, responseHeaders } =
       await postJsonToApi<SoulSubmitResponse>({
         url: this.config.url({
           modelId: this.modelId,
           path: `/higgsfield/text2image_soul`,
         }),
-        headers: combineHeaders(this.config.headers(), headers),
+        headers: combineHeaders(resolvedHeaders, headers),
         body: {
           quality: SUPPORTED_QUALITIES.includes(quality as any)
             ? quality
@@ -170,7 +173,7 @@ export class SoulHandler extends BaseModelHandler {
         fetch: this.config.fetch,
       });
 
-    const taskResult = await this.pollTask(submitResponse.id, abortSignal);
+    const taskResult = await this.pollTask(submitResponse.id, resolvedHeaders, abortSignal);
 
     if (!taskResult.jobs || taskResult.jobs.length === 0) {
       throw new Error('No images generated');

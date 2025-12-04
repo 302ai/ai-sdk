@@ -2,7 +2,7 @@ import type {
   ImageModelV3CallOptions,
   ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import {
   type ViduSubmitResponse,
   type ViduTaskResult,
@@ -29,6 +29,7 @@ export class ViduReference2ImageHandler extends BaseModelHandler {
 
   private async pollTask(
     taskId: string,
+    resolvedHeaders: Record<string, string | undefined>,
     abortSignal?: AbortSignal,
   ): Promise<ViduTaskResult> {
     const startTime = Date.now();
@@ -47,7 +48,7 @@ export class ViduReference2ImageHandler extends BaseModelHandler {
         `${this.config.url({ modelId: this.modelId, path: `/vidu/ent/v2/tasks/${taskId}/creations` })}`,
         {
           method: 'GET',
-          headers: this.config.headers() as HeadersInit,
+          headers: resolvedHeaders as HeadersInit,
           signal: abortSignal,
         },
       );
@@ -141,13 +142,15 @@ export class ViduReference2ImageHandler extends BaseModelHandler {
       }
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: submitResponse, responseHeaders } =
       await postJsonToApi<ViduSubmitResponse>({
         url: this.config.url({
           modelId: this.modelId,
           path: '/vidu/ent/v2/reference2image',
         }),
-        headers: combineHeaders(this.config.headers(), headers),
+        headers: combineHeaders(resolvedHeaders, headers),
         body: {
           model: viduModel,
           prompt,
@@ -164,7 +167,7 @@ export class ViduReference2ImageHandler extends BaseModelHandler {
         fetch: this.config.fetch,
       });
 
-    const taskResult = await this.pollTask(submitResponse.task_id, abortSignal);
+    const taskResult = await this.pollTask(submitResponse.task_id, resolvedHeaders, abortSignal);
 
     if (!taskResult.creations || taskResult.creations.length === 0) {
       throw new Error('No image generated');

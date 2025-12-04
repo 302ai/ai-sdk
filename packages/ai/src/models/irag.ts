@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import type { IRAGResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
@@ -52,9 +52,11 @@ export class IRAGHandler extends BaseModelHandler {
       });
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<IRAGResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/baidubce/v2/images/generations' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         model: 'irag-1.0',
         prompt,

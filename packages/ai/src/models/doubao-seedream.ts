@@ -2,7 +2,7 @@ import type {
   ImageModelV3CallOptions,
   ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import type { DoubaoSeedreamResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
@@ -95,12 +95,14 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
       }
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<DoubaoSeedreamResponse>({
       url: this.config.url({
         modelId: this.modelId,
         path: '/doubao/images/generations',
       }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: requestBody,
       failedResponseHandler: statusCodeErrorResponseHandler,
       successfulResponseHandler: createJsonResponseHandler(),

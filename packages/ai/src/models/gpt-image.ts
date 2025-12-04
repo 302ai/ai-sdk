@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import { BaseModelHandler } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 import type { GPTImageResponse } from '../ai302-types';
@@ -58,10 +58,12 @@ export class GPTImageHandler extends BaseModelHandler {
     const baseUrl = this.config.url({ modelId: this.modelId, path: '/v1/images/generations' });
     const url = `${baseUrl}?response_format=${responseFormat}`;
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     // Make API request
     const { value: response, responseHeaders } = await postJsonToApi<GPTImageResponse>({
       url,
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: requestBody,
       failedResponseHandler: statusCodeErrorResponseHandler,
       successfulResponseHandler: createJsonResponseHandler(),

@@ -2,7 +2,7 @@ import type {
   ImageModelV3CallOptions,
   ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import {
   type Flux2ProSubmitResponse,
   type Flux2ProResultResponse,
@@ -39,6 +39,7 @@ export class Flux2ProHandler extends BaseModelHandler {
 
   private async pollTask(
     taskId: string,
+    resolvedHeaders: Record<string, string | undefined>,
     abortSignal?: AbortSignal,
   ): Promise<Flux2ProResultResponse> {
     const startTime = Date.now();
@@ -57,7 +58,7 @@ export class Flux2ProHandler extends BaseModelHandler {
         `${this.config.url({ modelId: this.modelId, path: `/flux/v1/get_result?id=${taskId}` })}`,
         {
           method: 'GET',
-          headers: this.config.headers() as HeadersInit,
+          headers: resolvedHeaders as HeadersInit,
           signal: abortSignal,
         },
       );
@@ -149,13 +150,15 @@ export class Flux2ProHandler extends BaseModelHandler {
     const webhookUrl = ai302Options.webhook_url as string | undefined;
     const webhookSecret = ai302Options.webhook_secret as string | undefined;
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: submitResponse, responseHeaders } =
       await postJsonToApi<Flux2ProSubmitResponse>({
         url: this.config.url({
           modelId: this.modelId,
           path: this.getEndpointPath(),
         }),
-        headers: combineHeaders(this.config.headers(), headers),
+        headers: combineHeaders(resolvedHeaders, headers),
         body: {
           prompt,
           ...(inputImage !== undefined && { input_image: inputImage }),
@@ -182,7 +185,7 @@ export class Flux2ProHandler extends BaseModelHandler {
         fetch: this.config.fetch,
       });
 
-    const taskResult = await this.pollTask(submitResponse.id, abortSignal);
+    const taskResult = await this.pollTask(submitResponse.id, resolvedHeaders, abortSignal);
 
     if (!taskResult.result?.sample) {
       throw new Error('No image generated');

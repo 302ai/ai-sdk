@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
-import { combineHeaders, postJsonToApi } from "@ai-sdk/provider-utils";
+import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import { type SD3Response } from "../ai302-types";
 import {
   createJsonResponseHandler,
@@ -39,9 +39,11 @@ export class SD3V2Handler extends BaseModelHandler {
 
     parsedSize = this.validateSizeOption(parsedSize, SUPPORTED_SIZES, warnings);
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<SD3Response>({
       url: this.config.url({ modelId: this.modelId, path: `/302/submit/stable-diffusion-3-v2` }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         prompt,
         image_size: `${parsedSize.width}x${parsedSize.height}`,

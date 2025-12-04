@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
-import { combineHeaders, postJsonToApi } from "@ai-sdk/provider-utils";
+import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import type { DallEResponse } from "../ai302-types";
 import {
   createJsonResponseHandler,
@@ -44,9 +44,11 @@ export class DallEHandler extends BaseModelHandler {
 
     parsedSize = this.validateSizeOption(parsedSize, SUPPORTED_SIZE_OPTIONS, warnings);
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<DallEResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/v1/images/generations' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         prompt,
         model: "dall-e-3",

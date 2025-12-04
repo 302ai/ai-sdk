@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import { BaseModelHandler } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 
@@ -126,9 +126,11 @@ export class Gemini3ProImagePreviewHandler extends BaseModelHandler {
     });
     const urlWithQuery = `${baseUrl}?response_format=url`;
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<Gemini3ProImagePreviewApiResponse>({
       url: urlWithQuery,
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         ...requestBody,
         ...(providerOptions.ai302 ?? {}),

@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
-import { combineHeaders, postJsonToApi } from '@ai-sdk/provider-utils';
+import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import { BaseModelHandler } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 import { ImageSize } from '../ai302-types';
@@ -69,9 +69,11 @@ export class LuminaImageHandler extends BaseModelHandler {
       ...(providerOptions.ai302 ?? {}), // Allow overriding defaults
     };
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<LuminaImageResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/lumina-image-v2' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: requestBody,
       failedResponseHandler: statusCodeErrorResponseHandler,
       successfulResponseHandler: createJsonResponseHandler(),

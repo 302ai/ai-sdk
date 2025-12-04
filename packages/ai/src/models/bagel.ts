@@ -1,5 +1,5 @@
 import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
-import { combineHeaders, postJsonToApi } from "@ai-sdk/provider-utils";
+import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import type { BagelResponse } from "../ai302-types";
 import {
   createJsonResponseHandler,
@@ -36,9 +36,11 @@ export class BagelHandler extends BaseModelHandler {
       warnings.push({ type: 'unsupported-setting', setting: 'seed', details: 'Bagel does not support custom seed' });
     }
 
+    const resolvedHeaders = await resolve(this.config.headers());
+
     const { value: response, responseHeaders } = await postJsonToApi<BagelResponse>({
       url: this.config.url({ modelId: this.modelId, path: '/302/submit/bagel' }),
-      headers: combineHeaders(this.config.headers(), headers),
+      headers: combineHeaders(resolvedHeaders, headers),
       body: {
         prompt,
         use_thought: providerOptions.ai302?.use_thought ?? false,
