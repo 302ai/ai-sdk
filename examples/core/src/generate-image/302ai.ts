@@ -75,9 +75,10 @@ const MODELS = [
   // 'gemini-2.5-flash-image-preview',
   // 'gemini-3-pro-image-preview',
   // 'doubao-seedream-4-0-250828',
-  'flux-2-pro',
-  'flux-2-flex',
-  'z-image-turbo',
+  // 'flux-2-pro',
+  // 'flux-2-flex',
+  // 'z-image-turbo',
+  'doubao-seedream-4-5-251128',
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';

@@ -119,6 +119,7 @@ export function createImageModelHandler(
       return new DoubaoHandler(modelId, settings, config);
     case 'doubao-seedream-3-0-t2i-250415':
     case 'doubao-seedream-4-0-250828':
+    case 'doubao-seedream-4-5-251128':
       return new DoubaoSeedreamHandler(modelId, settings, config);
     case 'lumina-image-v2':
       return new LuminaImageHandler(modelId, settings, config);

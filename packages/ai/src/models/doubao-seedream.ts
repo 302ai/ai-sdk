@@ -23,13 +23,13 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
   }: ImageModelV3CallOptions) {
     const warnings: ImageModelV3CallWarning[] = [];
 
-    // Handle batch generation for doubao-seedream-4-0-250828
-    if (this.modelId === 'doubao-seedream-4-0-250828') {
+    // Handle batch generation for doubao-seedream-4.x models
+    if (this.modelId === 'doubao-seedream-4-0-250828' || this.modelId === 'doubao-seedream-4-5-251128') {
       if (n != null && n > 15) {
         warnings.push({
           type: 'unsupported-setting',
           setting: 'n',
-          details: 'Doubao Seedream 4.0 supports maximum 15 images per generation',
+          details: 'Doubao Seedream 4.x supports maximum 15 images per generation',
         });
       }
     } else {
@@ -64,8 +64,8 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
       ...(providerOptions.ai302 ?? {}),
     };
 
-    // Add model-specific parameters for doubao-seedream-4-0-250828
-    if (this.modelId === 'doubao-seedream-4-0-250828') {
+    // Add model-specific parameters for doubao-seedream-4.x models
+    if (this.modelId === 'doubao-seedream-4-0-250828' || this.modelId === 'doubao-seedream-4-5-251128') {
       // Support for reference images
       if (providerOptions.ai302?.image) {
         requestBody.image = providerOptions.ai302.image;
@@ -124,7 +124,65 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
 
   private handleSizeParameter(size: string | undefined, warnings: ImageModelV3CallWarning[]): string {
     if (!size) {
+      // Default size based on model
+      if (this.modelId === 'doubao-seedream-4-5-251128') {
+        return '2K'; // Seedream 4.5 minimum is 2K
+      }
       return '1024x1024';
+    }
+
+    // For doubao-seedream-4-5-251128, only support 2K and 4K
+    if (this.modelId === 'doubao-seedream-4-5-251128') {
+      // Check if it's a quality level (2K, 4K)
+      const qualityLevels = ['2K', '4K', '2k', '4k'];
+      if (qualityLevels.includes(size)) {
+        return size.toUpperCase();
+      }
+
+      // Parse specific dimensions and map to 2K/4K
+      const parsedSize = this.parseSize(size);
+      if (parsedSize) {
+        const { width, height } = parsedSize;
+        const totalPixels = width * height;
+
+        // Seedream 4.5 supported resolutions
+        const supportedSizes2K = [
+          '2048x2048', '2304x1728', '1728x2304', '2496x1664', '1664x2496', '2560x1440', '1440x2560', '3024x1296', '1296x3024'
+        ];
+        const supportedSizes4K = [
+          '4096x4096', '4694x3520', '3520x4694', '4992x3328', '3328x4992', '5404x3040', '3040x5404', '6198x2656', '2656x6198'
+        ];
+
+        const sizeStr = `${width}x${height}`;
+        if (supportedSizes2K.includes(sizeStr)) {
+          return sizeStr;
+        }
+        if (supportedSizes4K.includes(sizeStr)) {
+          return sizeStr;
+        }
+
+        // Map to closest quality level based on pixel count
+        // 2K ~= 4M pixels, 4K ~= 16M pixels
+        if (totalPixels >= 10000000) {
+          warnings.push({
+            type: 'other',
+            message: `Size ${sizeStr} mapped to 4K for doubao-seedream-4-5-251128.`,
+          });
+          return '4K';
+        } else {
+          warnings.push({
+            type: 'other',
+            message: `Size ${sizeStr} mapped to 2K for doubao-seedream-4-5-251128.`,
+          });
+          return '2K';
+        }
+      }
+
+      warnings.push({
+        type: 'other',
+        message: `Invalid size format: ${size}. Using default 2K for doubao-seedream-4-5-251128.`,
+      });
+      return '2K';
     }
 
     // For doubao-seedream-4-0-250828, support 1K, 2K, 4K format and specific dimensions
@@ -139,7 +197,7 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
       const parsedSize = this.parseSize(size);
       if (parsedSize) {
         const { width, height } = parsedSize;
-        
+
         // Define supported resolutions for doubao-seedream-4-0-250828
         const supportedSizes = [
           // 1K
