@@ -1,5 +1,13 @@
 # @302ai/ai-sdk
 
+## 0.2.7
+
+### Patch Changes
+
+- c133adc: refactor: integrate header resolution across multiple model handlers for improved API request consistency
+- 8d2b22e: feat: add support for Vidu models (viduq1 and viduq2) with request schemas, handlers, and configuration updates
+- 48d7a6f: feat: add support for doubao-seedream-4-5-251128 model, including size handling and batch generation logic
+
 ## 0.2.6
 
 ### Patch Changes
