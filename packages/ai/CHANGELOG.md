@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.10
+
+### Patch Changes
+
+- ab0e6b5: chore: update ai package version to 6.0.0-beta.144 and adjust dependencies in pnpm-lock.yaml; refactor token usage structure in AI302LanguageModel and AI302SpeechModel
+
 ## 0.2.9
 
 ### Patch Changes
