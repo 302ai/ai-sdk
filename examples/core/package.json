@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@302ai/ai-sdk": "workspace:*",
-    "ai": "6.0.0-beta.118",
+    "ai": "6.0.0-beta.144",
     "dotenv": "17.2.3",
     "zod": "^4.1.12",
     "zod-to-json-schema": "^3.25.0"

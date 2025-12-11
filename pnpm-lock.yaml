@@ -42,8 +42,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ai
       ai:
-        specifier: 6.0.0-beta.118
-        version: 6.0.0-beta.118(zod@4.1.12)
+        specifier: 6.0.0-beta.144
+        version: 6.0.0-beta.144(zod@4.1.12)
       dotenv:
         specifier: 17.2.3
         version: 17.2.3
@@ -126,8 +126,8 @@ importers:
 
 packages:
 
-  '@ai-sdk/gateway@2.0.0-beta.63':
-    resolution: {integrity: sha512-vCD0go1PTgJgCgUUx3vtY6dzK0ivQ+d6HEyrGdcOMrzoxKqKm/Zra4KJqIJHHGOh9mpTgfSsQqPtTNU/Cbasbg==}
+  '@ai-sdk/gateway@2.0.0-beta.75':
+    resolution: {integrity: sha512-hxfPJLt80SHEuSmhlcbtgextRSH7aHAySWaN2CVuPASfqidigTEsOt+4t0/9Xqf7v3I5lHqlgMEbqfhzc7eGOQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -137,22 +137,6 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
-
-  '@ai-sdk/provider-utils@4.0.0-beta.36':
-    resolution: {integrity: sha512-HNziunw+Ah4aU8CgBbhKg3TgjiUG4ay035tlzasct1wwVvg8dnsa/9UGmQIf62ZV9s4ozVWcaUq4Vk9xa2nuEw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      '@valibot/to-json-schema': ^1.3.0
-      arktype: ^2.1.22
-      effect: ^3.18.4
-      zod: ^3.25.76 || ^4.1.8
-    peerDependenciesMeta:
-      '@valibot/to-json-schema':
-        optional: true
-      arktype:
-        optional: true
-      effect:
-        optional: true
 
   '@ai-sdk/provider-utils@4.0.0-beta.46':
     resolution: {integrity: sha512-kVCohWGiqR3SkLNMSwW3vOVFUC/g75+3/4me6u1TH4Zv7/Y6kPIU/3wI9OyrsTx3mqsd2SdG6gKzz1AMHwoupQ==}
@@ -169,10 +153,6 @@ packages:
         optional: true
       effect:
         optional: true
-
-  '@ai-sdk/provider@3.0.0-beta.19':
-    resolution: {integrity: sha512-Y641zQvvycaKDLrQrKfi7JbzSVg6dITo1HRD2arUJ//XnxRbYkkO7wDp9BJncIW8wGtlMjfiL63GbXqCyX5kGA==}
-    engines: {node: '>=18'}
 
   '@ai-sdk/provider@3.0.0-beta.26':
     resolution: {integrity: sha512-UQyOlrpahFL1CZ/QA0ZpFhAkE32fw1XXBx+6gu23YWSCMJCjaf/fiJUPV7xUhp/nXqVO/IC+PIIfLomx55D16A==}
@@ -1477,8 +1457,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  ai@6.0.0-beta.118:
-    resolution: {integrity: sha512-yFHX21QNXNkXn4M46pEGGRYM7pJl/kvd3U0PiFJ+ai9OiUYV97/DZSd+fPyH7994DNQ7CMCiYgLiJ+fWeHqgiA==}
+  ai@6.0.0-beta.144:
+    resolution: {integrity: sha512-6+RP0ZCmfYp0omEafUZXj4c466dVR5IpO1TSr4zCwno6Lir+M/SQmD4Vioz3uayC6TWJZWcI04mflGEUcMfb6g==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -3708,10 +3688,10 @@ packages:
 
 snapshots:
 
-  '@ai-sdk/gateway@2.0.0-beta.63(zod@4.1.12)':
+  '@ai-sdk/gateway@2.0.0-beta.75(zod@4.1.12)':
     dependencies:
-      '@ai-sdk/provider': 3.0.0-beta.19
-      '@ai-sdk/provider-utils': 4.0.0-beta.36(zod@4.1.12)
+      '@ai-sdk/provider': 3.0.0-beta.26
+      '@ai-sdk/provider-utils': 4.0.0-beta.46(zod@4.1.12)
       '@vercel/oidc': 3.0.5
       zod: 4.1.12
     transitivePeerDependencies:
@@ -3729,9 +3709,9 @@ snapshots:
       - arktype
       - effect
 
-  '@ai-sdk/provider-utils@4.0.0-beta.36(zod@4.1.12)':
+  '@ai-sdk/provider-utils@4.0.0-beta.46(zod@4.1.12)':
     dependencies:
-      '@ai-sdk/provider': 3.0.0-beta.19
+      '@ai-sdk/provider': 3.0.0-beta.26
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
       zod: 4.1.12
@@ -3742,10 +3722,6 @@ snapshots:
       '@standard-schema/spec': 1.0.0
       eventsource-parser: 3.0.6
       zod: 4.1.13
-
-  '@ai-sdk/provider@3.0.0-beta.19':
-    dependencies:
-      json-schema: 0.4.0
 
   '@ai-sdk/provider@3.0.0-beta.26':
     dependencies:
@@ -4922,11 +4898,11 @@ snapshots:
 
   acorn@8.15.0: {}
 
-  ai@6.0.0-beta.118(zod@4.1.12):
+  ai@6.0.0-beta.144(zod@4.1.12):
     dependencies:
-      '@ai-sdk/gateway': 2.0.0-beta.63(zod@4.1.12)
-      '@ai-sdk/provider': 3.0.0-beta.19
-      '@ai-sdk/provider-utils': 4.0.0-beta.36(zod@4.1.12)
+      '@ai-sdk/gateway': 2.0.0-beta.75(zod@4.1.12)
+      '@ai-sdk/provider': 3.0.0-beta.26
+      '@ai-sdk/provider-utils': 4.0.0-beta.46(zod@4.1.12)
       '@opentelemetry/api': 1.9.0
       zod: 4.1.12
     transitivePeerDependencies:

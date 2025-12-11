@@ -1,4 +1,4 @@
-import type { SpeechModelV3, SpeechModelV3CallWarning } from '@ai-sdk/provider';
+import type { SpeechModelV3, SharedV3Warning } from '@ai-sdk/provider';
 import {
   combineHeaders,
   createJsonErrorResponseHandler,
@@ -83,7 +83,7 @@ export class AI302SpeechModel implements SpeechModelV3 {
     speed,
     providerOptions,
   }: Parameters<SpeechModelV3['doGenerate']>[0]) {
-    const warnings: SpeechModelV3CallWarning[] = [];
+    const warnings: SharedV3Warning[] = [];
 
     // Parse provider options
     const ai302Options = await parseProviderOptions({

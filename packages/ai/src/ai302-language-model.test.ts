@@ -294,11 +294,17 @@ describe('AI302LanguageModel', () => {
       const result = await model.doGenerate({ prompt: TEST_PROMPT });
 
       expect(result.usage).toEqual({
-        inputTokens: 15,
-        outputTokens: 25,
-        totalTokens: 40,
-        reasoningTokens: undefined,
-        cachedInputTokens: undefined,
+        inputTokens: {
+          total: 15,
+          noCache: undefined,
+          cacheRead: undefined,
+          cacheWrite: undefined,
+        },
+        outputTokens: {
+          total: 25,
+          text: undefined,
+          reasoning: undefined,
+        },
       });
     });
 
@@ -493,11 +499,17 @@ describe('AI302LanguageModel', () => {
       expect(finishChunk).toBeDefined();
       expect(finishChunk.finishReason).toBe('stop');
       expect(finishChunk.usage).toEqual({
-        inputTokens: 10,
-        outputTokens: 5,
-        totalTokens: 15,
-        reasoningTokens: undefined,
-        cachedInputTokens: undefined,
+        inputTokens: {
+          total: 10,
+          noCache: undefined,
+          cacheRead: undefined,
+          cacheWrite: undefined,
+        },
+        outputTokens: {
+          total: 5,
+          text: undefined,
+          reasoning: undefined,
+        },
       });
     });
 

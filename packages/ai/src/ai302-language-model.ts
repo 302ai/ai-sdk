@@ -1,11 +1,11 @@
 import type {
   LanguageModelV3,
   LanguageModelV3CallOptions,
-  LanguageModelV3CallWarning,
   LanguageModelV3Content,
   LanguageModelV3FinishReason,
   LanguageModelV3Prompt,
   LanguageModelV3StreamPart,
+  SharedV3Warning,
 } from '@ai-sdk/provider';
 import {
   combineHeaders,
@@ -203,9 +203,9 @@ function prepareTools({
     | 'none'
     | 'required'
     | undefined;
-  toolWarnings: LanguageModelV3CallWarning[];
+  toolWarnings: SharedV3Warning[];
 } {
-  const toolWarnings: LanguageModelV3CallWarning[] = [];
+  const toolWarnings: SharedV3Warning[] = [];
 
   // When tools array is empty, change to undefined
   if (!tools?.length) {
@@ -215,8 +215,8 @@ function prepareTools({
   const openaiTools: OpenAITool[] = [];
 
   for (const tool of tools) {
-    if (tool.type === 'provider-defined') {
-      toolWarnings.push({ type: 'unsupported-tool', tool });
+    if (tool.type === 'provider') {
+      toolWarnings.push({ type: 'unsupported', feature: `provider tool: ${tool.name}` });
     } else {
       openaiTools.push({
         type: 'function',
@@ -417,11 +417,11 @@ export class AI302LanguageModel implements LanguageModelV3 {
     toolChoice,
     tools,
   }: Parameters<LanguageModelV3['doGenerate']>[0]) {
-    const warnings: LanguageModelV3CallWarning[] = [];
+    const warnings: SharedV3Warning[] = [];
 
     // topK is not supported by OpenAI
     if (topK != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'topK' });
+      warnings.push({ type: 'unsupported', feature: 'topK' });
     }
 
     // Prepare tools
@@ -532,13 +532,17 @@ export class AI302LanguageModel implements LanguageModelV3 {
       content,
       finishReason: mapOpenAIFinishReason(choice.finish_reason),
       usage: {
-        inputTokens: responseBody.usage?.prompt_tokens ?? undefined,
-        outputTokens: responseBody.usage?.completion_tokens ?? undefined,
-        totalTokens: responseBody.usage?.total_tokens ?? undefined,
-        reasoningTokens:
-          responseBody.usage?.completion_tokens_details?.reasoning_tokens ?? undefined,
-        cachedInputTokens:
-          responseBody.usage?.prompt_tokens_details?.cached_tokens ?? undefined,
+        inputTokens: {
+          total: responseBody.usage?.prompt_tokens ?? undefined,
+          noCache: undefined,
+          cacheRead: responseBody.usage?.prompt_tokens_details?.cached_tokens ?? undefined,
+          cacheWrite: undefined,
+        },
+        outputTokens: {
+          total: responseBody.usage?.completion_tokens ?? undefined,
+          text: undefined,
+          reasoning: responseBody.usage?.completion_tokens_details?.reasoning_tokens ?? undefined,
+        },
       },
       request: { body: JSON.stringify(body) },
       response: {
@@ -761,11 +765,17 @@ export class AI302LanguageModel implements LanguageModelV3 {
               type: 'finish',
               finishReason,
               usage: {
-                inputTokens: usage.promptTokens,
-                outputTokens: usage.completionTokens,
-                totalTokens: usage.totalTokens,
-                reasoningTokens: usage.reasoningTokens,
-                cachedInputTokens: usage.cachedTokens,
+                inputTokens: {
+                  total: usage.promptTokens,
+                  noCache: undefined,
+                  cacheRead: usage.cachedTokens,
+                  cacheWrite: undefined,
+                },
+                outputTokens: {
+                  total: usage.completionTokens,
+                  text: undefined,
+                  reasoning: usage.reasoningTokens,
+                },
               },
             });
           },

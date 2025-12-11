@@ -110,6 +110,7 @@ export class AI302EmbeddingModel implements EmbeddingModelV3 {
         ? { tokens: response.usage.prompt_tokens }
         : undefined,
       response: { headers: responseHeaders, body: rawValue },
+      warnings: [],
     };
   }
 }
