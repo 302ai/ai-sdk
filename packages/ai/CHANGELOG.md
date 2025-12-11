@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.8
+
+### Patch Changes
+
+- f7e8019: feat: add thinking mode support for AI302 chat models, enabling reasoning content handling in requests and responses
+
 ## 0.2.7
 
 ### Patch Changes
