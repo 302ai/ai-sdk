@@ -1,23 +1,21 @@
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 // Common types
-export const ImageResponseSchema = z
-  .object({
+export const ImageResponseSchema = z.looseObject({
     content_type: z.string().optional(),
     height: z.number().optional(),
     url: z.string().optional(),
     width: z.number().optional(),
   })
-  .loose();
+;
 
 export type Image = z.infer<typeof ImageResponseSchema>;
 
-export const ImageSizeSchema = z
-  .object({
+export const ImageSizeSchema = z.looseObject({
     height: z.number(),
     width: z.number(),
   })
-  .loose();
+;
 
 export type ImageSize = z.infer<typeof ImageSizeSchema>;
 
@@ -38,66 +36,60 @@ export const IdeogramAspectRatioSchema = z.enum([
 export type IdeogramAspectRatio = z.infer<typeof IdeogramAspectRatioSchema>;
 
 // Flux V1.1 Ultra
-export const FluxV11UltraRequestSchema = z
-  .object({
+export const FluxV11UltraRequestSchema = z.looseObject({
     aspect_ratio: z.string(),
     prompt: z.string(),
     raw: z.boolean(),
   })
-  .loose();
+;
 
 export type FluxV11UltraRequest = z.infer<typeof FluxV11UltraRequestSchema>;
 
-export const FluxV11UltraResponseSchema = z
-  .object({
+export const FluxV11UltraResponseSchema = z.looseObject({
     has_nsfw_concepts: z.array(z.boolean()),
     images: z.array(ImageResponseSchema),
     prompt: z.string(),
     seed: z.number(),
     timings: z.record(z.string(), z.any()),
   })
-  .loose();
+;
 
 export type FluxV11UltraResponse = z.infer<typeof FluxV11UltraResponseSchema>;
 
 // Flux Pro V1.1
-export const FluxProV11RequestSchema = z
-  .object({
+export const FluxProV11RequestSchema = z.looseObject({
     guidance_scale: z.number().optional(),
     image_size: ImageSizeSchema.optional(),
     num_inference_steps: z.number().optional(),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type FluxProV11Request = z.infer<typeof FluxProV11RequestSchema>;
 
-export const FluxProV11ResponseSchema = z
-  .object({
+export const FluxProV11ResponseSchema = z.looseObject({
     has_nsfw_concepts: z.array(z.boolean()),
     images: z.array(ImageResponseSchema),
     prompt: z.string(),
     seed: z.number(),
     timings: z.record(z.string(), z.any()),
   })
-  .loose();
+;
 
 export type FluxProV11Response = z.infer<typeof FluxProV11ResponseSchema>;
 
 // Flux Pro & Dev
-export const FluxProDevRequestSchema = z
-  .object({
+export const FluxProDevRequestSchema = z.looseObject({
     guidance_scale: z.number().optional().default(3.5),
     image_size: ImageSizeSchema,
     num_inference_steps: z.number().optional().default(28),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type FluxProDevRequest = z.infer<typeof FluxProDevRequestSchema>;
 
-export const FluxProDevResponseSchema = z
-  .object({
+export const FluxProDevResponseSchema = z.looseObject({
     images: z.array(
       z.object({
         url: z.string(),
@@ -111,23 +103,21 @@ export const FluxProDevResponseSchema = z
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type FluxProDevResponse = z.infer<typeof FluxProDevResponseSchema>;
 
 // Flux Schnell
-export const FluxSchnellRequestSchema = z
-  .object({
+export const FluxSchnellRequestSchema = z.looseObject({
     image_size: ImageSizeSchema.optional(),
     num_inference_steps: z.number().optional(),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type FluxSchnellRequest = z.infer<typeof FluxSchnellRequestSchema>;
 
-export const FluxSchnellResponseSchema = z
-  .object({
+export const FluxSchnellResponseSchema = z.looseObject({
     images: z.array(
       z.object({
         url: z.string(),
@@ -141,7 +131,7 @@ export const FluxSchnellResponseSchema = z
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type FluxSchnellResponse = z.infer<typeof FluxSchnellResponseSchema>;
 
@@ -229,8 +219,7 @@ export const IdeogramResolutionSchema = z.enum([
 
 export type IdeogramResolution = z.infer<typeof IdeogramResolutionSchema>;
 
-export const IdeogramRequestSchema = z
-  .object({
+export const IdeogramRequestSchema = z.looseObject({
     image_request: z
       .object({
         aspect_ratio:
@@ -252,74 +241,67 @@ export const IdeogramRequestSchema = z
           .optional()
           .default('GENERAL'),
       })
-      .loose(),
+,
   })
-  .loose();
+;
 
 export type IdeogramRequest = z.infer<typeof IdeogramRequestSchema>;
 
-export const IdeogramImageDataSchema = z
-  .object({
+export const IdeogramImageDataSchema = z.looseObject({
     is_image_safe: z.boolean(),
     prompt: z.string(),
     resolution: z.string(),
     seed: z.number(),
     url: z.string(),
   })
-  .loose();
+;
 
 export type IdeogramImageData = z.infer<typeof IdeogramImageDataSchema>;
 
-export const IdeogramResponseSchema = z
-  .object({
+export const IdeogramResponseSchema = z.looseObject({
     created: z.string(),
     data: z.array(IdeogramImageDataSchema),
   })
-  .loose();
+;
 
 export type IdeogramResponse = z.infer<typeof IdeogramResponseSchema>;
 
 // DALL-E
-export const DallERequestSchema = z
-  .object({
+export const DallERequestSchema = z.looseObject({
     prompt: z.string(),
     model: z.enum(['dall-e-3']),
     size: z.string(),
   })
-  .loose();
+;
 
 export type DallERequest = z.infer<typeof DallERequestSchema>;
 
-export const DallEImageDataSchema = z
-  .object({
+export const DallEImageDataSchema = z.looseObject({
     revised_prompt: z.string().optional(),
     url: z.string(),
   })
-  .loose();
+;
 
 export type DallEImageData = z.infer<typeof DallEImageDataSchema>;
 
-export const DallEResponseSchema = z
-  .object({
+export const DallEResponseSchema = z.looseObject({
     created: z.number(),
     data: z.array(DallEImageDataSchema),
   })
-  .loose();
+;
 
 export type DallEResponse = z.infer<typeof DallEResponseSchema>;
 
 // Recraft V3
-export const RecraftTextLayoutSchema = z
-  .object({
+export const RecraftTextLayoutSchema = z.looseObject({
     text: z.string(),
     bbox: z.array(z.tuple([z.number(), z.number()])).length(4),
   })
-  .loose();
+;
 
 export type RecraftTextLayout = z.infer<typeof RecraftTextLayoutSchema>;
 
-export const RecraftControlsSchema = z
-  .object({
+export const RecraftControlsSchema = z.looseObject({
     colors: z
       .array(
         z.object({
@@ -329,7 +311,7 @@ export const RecraftControlsSchema = z
       .optional(),
     background_color: z.string().optional(),
   })
-  .loose();
+;
 
 export type RecraftControls = z.infer<typeof RecraftControlsSchema>;
 
@@ -342,8 +324,7 @@ export const RecraftStyleSchema = z.enum([
 
 export type RecraftStyle = z.infer<typeof RecraftStyleSchema>;
 
-export const RecraftResponseSchema = z
-  .object({
+export const RecraftResponseSchema = z.looseObject({
     images: z.array(
       z.object({
         url: z.string(),
@@ -352,122 +333,112 @@ export const RecraftResponseSchema = z
       }),
     ),
   })
-  .loose();
+;
 
 export type RecraftResponse = z.infer<typeof RecraftResponseSchema>;
 
 // SDXL Lightning V2
-export const SDXLLightningImageSizeSchema = z
-  .object({
+export const SDXLLightningImageSizeSchema = z.looseObject({
     width: z.number(),
     height: z.number(),
   })
-  .loose();
+;
 
 export type SDXLLightningImageSize = z.infer<
   typeof SDXLLightningImageSizeSchema
 >;
 
-export const SDXLLightningRequestSchema = z
-  .object({
+export const SDXLLightningRequestSchema = z.looseObject({
     prompt: z.string(),
     image_size: SDXLLightningImageSizeSchema,
     embeddings: z.array(z.any()).optional(),
     format: z.enum(['jpeg', 'png']).optional(),
   })
-  .loose();
+;
 
 export type SDXLLightningRequest = z.infer<typeof SDXLLightningRequestSchema>;
 
-export const SDXLLightningImageDataSchema = z
-  .object({
+export const SDXLLightningImageDataSchema = z.looseObject({
     url: z.string(),
     width: z.number(),
     height: z.number(),
     content_type: z.string(),
   })
-  .loose();
+;
 
 export type SDXLLightningImageData = z.infer<
   typeof SDXLLightningImageDataSchema
 >;
 
-export const SDXLLightningResponseSchema = z
-  .object({
+export const SDXLLightningResponseSchema = z.looseObject({
     images: z.array(SDXLLightningImageDataSchema),
     timings: z.record(z.string(), z.number()),
     seed: z.number(),
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type SDXLLightningResponse = z.infer<typeof SDXLLightningResponseSchema>;
 
 // Kolors
-export const KolorsImageSizeSchema = z
-  .object({
+export const KolorsImageSizeSchema = z.looseObject({
     width: z.number(),
     height: z.number(),
   })
-  .loose();
+;
 
 export type KolorsImageSize = z.infer<typeof KolorsImageSizeSchema>;
 
-export const KolorsRequestSchema = z
-  .object({
+export const KolorsRequestSchema = z.looseObject({
     prompt: z.string(),
     negative_prompt: z.string().optional(),
     guidance_scale: z.number().optional(),
     image_size: KolorsImageSizeSchema,
   })
-  .loose();
+;
 
 export type KolorsRequest = z.infer<typeof KolorsRequestSchema>;
 
-export const KolorsImageDataSchema = z
-  .object({
+export const KolorsImageDataSchema = z.looseObject({
     url: z.string(),
     width: z.number(),
     height: z.number(),
     content_type: z.string(),
   })
-  .loose();
+;
 
 export type KolorsImageData = z.infer<typeof KolorsImageDataSchema>;
 
-export const KolorsResponseSchema = z
-  .object({
+export const KolorsResponseSchema = z.looseObject({
     images: z.array(KolorsImageDataSchema),
     timings: z.record(z.string(), z.number()),
     seed: z.number(),
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type KolorsResponse = z.infer<typeof KolorsResponseSchema>;
 
 // Auraflow
-export const AuraflowImageDataSchema = z
-  .object({
+export const AuraflowImageDataSchema = z.looseObject({
     url: z.string(),
     content_type: z.string(),
     file_size: z.number(),
     width: z.number(),
     height: z.number(),
   })
-  .loose();
+;
 
 export type AuraflowImageData = z.infer<typeof AuraflowImageDataSchema>;
 
-export const AuraflowResponseSchema = z
-  .object({
+export const AuraflowResponseSchema = z.looseObject({
     images: z.array(AuraflowImageDataSchema),
     seed: z.number(),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type AuraflowResponse = z.infer<typeof AuraflowResponseSchema>;
 
@@ -484,47 +455,42 @@ export const LumaPhotonAspectRatioSchema = z.enum([
 
 export type LumaPhotonAspectRatio = z.infer<typeof LumaPhotonAspectRatioSchema>;
 
-export const LumaPhotonRequestSchema = z
-  .object({
+export const LumaPhotonRequestSchema = z.looseObject({
     prompt: z.string(),
     aspect_ratio: LumaPhotonAspectRatioSchema.optional().default('16:9'),
   })
-  .loose();
+;
 
 export type LumaPhotonRequest = z.infer<typeof LumaPhotonRequestSchema>;
 
-export const LumaPhotonImageDataSchema = z
-  .object({
+export const LumaPhotonImageDataSchema = z.looseObject({
     url: z.string(),
     content_type: z.string(),
     file_size: z.number(),
   })
-  .loose();
+;
 
 export type LumaPhotonImageData = z.infer<typeof LumaPhotonImageDataSchema>;
 
-export const LumaPhotonResponseSchema = z
-  .object({
+export const LumaPhotonResponseSchema = z.looseObject({
     images: z.array(LumaPhotonImageDataSchema),
   })
-  .loose();
+;
 
 export type LumaPhotonResponse = z.infer<typeof LumaPhotonResponseSchema>;
 
 // SDXL
-export const SDXLRequestSchema = z
-  .object({
+export const SDXLRequestSchema = z.looseObject({
     prompt: z.string(),
     negative_prompt: z.string().optional(),
     width: z.string().optional(),
     height: z.string().optional(),
   })
-  .loose();
+;
 
 export type SDXLRequest = z.infer<typeof SDXLRequestSchema>;
 
-export const SDXLResponseSchema = z
-  .object({
+export const SDXLResponseSchema = z.looseObject({
     completed_at: z.string(),
     created_at: z.string(),
     error: z.string(),
@@ -534,7 +500,7 @@ export const SDXLResponseSchema = z
     started_at: z.string(),
     status: z.enum(['succeeded', 'failed']),
   })
-  .loose();
+;
 
 export type SDXLResponse = z.infer<typeof SDXLResponseSchema>;
 
@@ -553,15 +519,14 @@ export const SD3UltraAspectRatioSchema = z.enum([
 
 export type SD3UltraAspectRatio = z.infer<typeof SD3UltraAspectRatioSchema>;
 
-export const SD3UltraRequestSchema = z
-  .object({
+export const SD3UltraRequestSchema = z.looseObject({
     prompt: z.string(),
     negative_prompt: z.string().optional(),
     aspect_ratio: SD3UltraAspectRatioSchema.optional().default('1:1'),
     output_format: z.enum(['jpeg', 'png']).optional(),
     seed: z.number().optional(),
   })
-  .loose();
+;
 
 export type SD3UltraRequest = z.infer<typeof SD3UltraRequestSchema>;
 
@@ -577,33 +542,30 @@ export const SD3ImageSizeSchema = z.enum([
 
 export type SD3ImageSize = z.infer<typeof SD3ImageSizeSchema>;
 
-export const SD3RequestSchema = z
-  .object({
+export const SD3RequestSchema = z.looseObject({
     prompt: z.string(),
     image_size: SD3ImageSizeSchema.optional().default('1024x1024'),
     batch_size: z.number().min(1).max(4).optional().default(1),
     num_inference_steps: z.number().min(1).max(100).optional().default(20),
     guidance_scale: z.number().min(0).max(100).optional().default(7.5),
   })
-  .loose();
+;
 
 export type SD3Request = z.infer<typeof SD3RequestSchema>;
 
-export const SD3ImageDataSchema = z
-  .object({
+export const SD3ImageDataSchema = z.looseObject({
     url: z.string(),
     content_type: z.string(),
     file_size: z.number(),
   })
-  .loose();
+;
 
 export type SD3ImageData = z.infer<typeof SD3ImageDataSchema>;
 
-export const SD3ResponseSchema = z
-  .object({
+export const SD3ResponseSchema = z.looseObject({
     images: z.array(SD3ImageDataSchema),
   })
-  .loose();
+;
 
 export type SD3Response = z.infer<typeof SD3ResponseSchema>;
 
@@ -630,8 +592,7 @@ export const SD35ModelSchema = z.enum([
 
 export type SD35Model = z.infer<typeof SD35ModelSchema>;
 
-export const SD35RequestSchema = z
-  .object({
+export const SD35RequestSchema = z.looseObject({
     prompt: z.string(),
     aspect_ratio: SD35AspectRatioSchema.optional().default('1:1'),
     mode: z
@@ -643,7 +604,7 @@ export const SD35RequestSchema = z
     output_format: z.enum(['jpeg', 'png']).optional(),
     seed: z.number().optional(),
   })
-  .loose();
+;
 
 export type SD35Request = z.infer<typeof SD35RequestSchema>;
 
@@ -652,39 +613,36 @@ export const MidjourneyBotTypeSchema = z.enum(['MID_JOURNEY', 'NIJI_JOURNEY']);
 
 export type MidjourneyBotType = z.infer<typeof MidjourneyBotTypeSchema>;
 
-export const MidjourneySubmitRequestSchema = z
-  .object({
+export const MidjourneySubmitRequestSchema = z.looseObject({
     prompt: z.string(),
     botType: MidjourneyBotTypeSchema.optional().default('MID_JOURNEY'),
     state: z.string().optional(),
   })
-  .loose();
+;
 
 export type MidjourneySubmitRequest = z.infer<
   typeof MidjourneySubmitRequestSchema
 >;
 
-export const MidjourneySubmitResponseSchema = z
-  .object({
+export const MidjourneySubmitResponseSchema = z.looseObject({
     code: z.number(),
     description: z.string(),
     result: z.string(),
   })
-  .loose();
+;
 
 export type MidjourneySubmitResponse = z.infer<
   typeof MidjourneySubmitResponseSchema
 >;
 
-export const MidjourneyButtonSchema = z
-  .object({
+export const MidjourneyButtonSchema = z.looseObject({
     customId: z.string(),
     emoji: z.string(),
     label: z.string(),
     style: z.number(),
     type: z.number(),
   })
-  .loose();
+;
 
 export type MidjourneyButton = z.infer<typeof MidjourneyButtonSchema>;
 
@@ -696,8 +654,7 @@ export const MidjourneyTaskStatusSchema = z.enum([
 
 export type MidjourneyTaskStatus = z.infer<typeof MidjourneyTaskStatusSchema>;
 
-export const MidjourneyTaskResponseSchema = z
-  .object({
+export const MidjourneyTaskResponseSchema = z.looseObject({
     action: z.string(),
     botType: z.string(),
     buttons: z.array(MidjourneyButtonSchema),
@@ -718,26 +675,24 @@ export const MidjourneyTaskResponseSchema = z
     status: MidjourneyTaskStatusSchema,
     submitTime: z.number(),
   })
-  .loose();
+;
 
 export type MidjourneyTaskResponse = z.infer<
   typeof MidjourneyTaskResponseSchema
 >;
 
-export const MidjourneyActionRequestSchema = z
-  .object({
+export const MidjourneyActionRequestSchema = z.looseObject({
     customId: z.string(),
     taskId: z.string(),
   })
-  .loose();
+;
 
 export type MidjourneyActionRequest = z.infer<
   typeof MidjourneyActionRequestSchema
 >;
 
 // Omnigen V1
-export const OmnigenRequestSchema = z
-  .object({
+export const OmnigenRequestSchema = z.looseObject({
     prompt: z.string(),
     negative_prompt: z.string().optional(),
     image_size: ImageSizeSchema.optional(),
@@ -746,77 +701,70 @@ export const OmnigenRequestSchema = z
     output_format: z.string().optional(),
     seed: z.number().optional(),
   })
-  .loose();
+;
 
 export type OmnigenRequest = z.infer<typeof OmnigenRequestSchema>;
 
-export const OmnigenImageDataSchema = z
-  .object({
+export const OmnigenImageDataSchema = z.looseObject({
     url: z.string(),
     content_type: z.string(),
     file_size: z.number(),
     width: z.number(),
     height: z.number(),
   })
-  .loose();
+;
 
 export type OmnigenImageData = z.infer<typeof OmnigenImageDataSchema>;
 
-export const OmnigenResponseSchema = z
-  .object({
+export const OmnigenResponseSchema = z.looseObject({
     images: z.array(OmnigenImageDataSchema),
     seed: z.number(),
     has_nsfw_concepts: z.array(z.boolean()),
     debug_latents: z.any().nullable(),
     debug_per_pass_latents: z.any().nullable(),
   })
-  .loose();
+;
 
 export type OmnigenResponse = z.infer<typeof OmnigenResponseSchema>;
 
 // CogView-4
-export const CogViewRequestSchema = z
-  .object({
+export const CogViewRequestSchema = z.looseObject({
     model: z.string(),
     prompt: z.string(),
     size: z.string().optional(),
   })
-  .loose();
+;
 
 export type CogViewRequest = z.infer<typeof CogViewRequestSchema>;
 
-export const CogViewImageDataSchema = z
-  .object({
+export const CogViewImageDataSchema = z.looseObject({
     url: z.string(),
   })
-  .loose();
+;
 
 export type CogViewImageData = z.infer<typeof CogViewImageDataSchema>;
 
-export const CogViewResponseSchema = z
-  .object({
+export const CogViewResponseSchema = z.looseObject({
     created: z.number(),
     data: z.array(CogViewImageDataSchema),
   })
-  .loose();
+;
 
 export type CogViewResponse = z.infer<typeof CogViewResponseSchema>;
 
 // Minimax Image
-export const MinimaxRequestSchema = z
-  .object({
+export const MinimaxRequestSchema = z.looseObject({
     model: z.string(),
     prompt: z.string(),
     aspect_ratio: z.string().optional(),
     prompt_optimizer: z.boolean().optional(),
     response_format: z.string().optional(),
   })
-  .loose();
+;
 
 export type MinimaxRequest = z.infer<typeof MinimaxRequestSchema>;
 
-export const MinimaxResponseSchema = z
-  .object({
+export const MinimaxResponseSchema = z.looseObject({
     base_resp: z.object({
       status_code: z.number(),
       status_msg: z.string(),
@@ -830,7 +778,7 @@ export const MinimaxResponseSchema = z
       success_count: z.string(),
     }),
   })
-  .loose();
+;
 
 export type MinimaxResponse = z.infer<typeof MinimaxResponseSchema>;
 
@@ -863,8 +811,7 @@ export const GPTImageQualitySchema = z.enum(['auto', 'high', 'medium', 'low']);
 
 export type GPTImageQuality = z.infer<typeof GPTImageQualitySchema>;
 
-export const GPTImageRequestSchema = z
-  .object({
+export const GPTImageRequestSchema = z.looseObject({
     prompt: z.string(),
     model: z.string().optional(),
     size: GPTImageSizeSchema.optional().default('1024x1024'),
@@ -873,21 +820,19 @@ export const GPTImageRequestSchema = z
     n: z.number().min(1).max(10).optional(),
     response_format: z.enum(['url', 'b64_json']).optional(),
   })
-  .loose();
+;
 
 export type GPTImageRequest = z.infer<typeof GPTImageRequestSchema>;
 
-export const GPTImageDataSchema = z
-  .object({
+export const GPTImageDataSchema = z.looseObject({
     url: z.string().optional(),
     b64_json: z.string().optional(),
   })
-  .loose();
+;
 
 export type GPTImageData = z.infer<typeof GPTImageDataSchema>;
 
-export const GPTImageResponseSchema = z
-  .object({
+export const GPTImageResponseSchema = z.looseObject({
     created: z.number(),
     data: z.array(GPTImageDataSchema),
     usage: z
@@ -908,47 +853,43 @@ export const GPTImageResponseSchema = z
       })
       .optional(),
   })
-  .loose();
+;
 
 export type GPTImageResponse = z.infer<typeof GPTImageResponseSchema>;
 
 // Bagel
-export const BagelRequestSchema = z
-  .object({
+export const BagelRequestSchema = z.looseObject({
     prompt: z.string(),
     use_thought: z.boolean().optional(),
   })
-  .loose();
+;
 
 export type BagelRequest = z.infer<typeof BagelRequestSchema>;
 
-export const BagelImageDataSchema = z
-  .object({
+export const BagelImageDataSchema = z.looseObject({
     url: z.string(),
     content_type: z.string(),
     file_size: z.number(),
     width: z.number(),
     height: z.number(),
   })
-  .loose();
+;
 
 export type BagelImageData = z.infer<typeof BagelImageDataSchema>;
 
-export const BagelResponseSchema = z
-  .object({
+export const BagelResponseSchema = z.looseObject({
     images: z.array(BagelImageDataSchema),
     seed: z.number(),
     has_nsfw_concepts: z.array(z.boolean()),
     debug_latents: z.any().nullable(),
     debug_per_pass_latents: z.any().nullable(),
   })
-  .loose();
+;
 
 export type BagelResponse = z.infer<typeof BagelResponseSchema>;
 
 // Flux Kontext
-export const FluxKontextRequestSchema = z
-  .object({
+export const FluxKontextRequestSchema = z.looseObject({
     prompt: z.string(),
     input_image: z.string().nullable().optional(),
     seed: z.number().nullable().optional(),
@@ -959,23 +900,21 @@ export const FluxKontextRequestSchema = z
     prompt_upsampling: z.boolean().optional().default(false),
     safety_tolerance: z.number().min(0).max(6).optional().default(2),
   })
-  .loose();
+;
 
 export type FluxKontextRequest = z.infer<typeof FluxKontextRequestSchema>;
 
-export const FluxKontextSubmitResponseSchema = z
-  .object({
+export const FluxKontextSubmitResponseSchema = z.looseObject({
     id: z.string(),
     polling_url: z.string(),
   })
-  .loose();
+;
 
 export type FluxKontextSubmitResponse = z.infer<
   typeof FluxKontextSubmitResponseSchema
 >;
 
-export const FluxKontextResultDataSchema = z
-  .object({
+export const FluxKontextResultDataSchema = z.looseObject({
     seed: z.number(),
     prompt: z.string(),
     sample: z.string(),
@@ -983,25 +922,23 @@ export const FluxKontextResultDataSchema = z
     end_time: z.number(),
     start_time: z.number(),
   })
-  .loose();
+;
 
 export type FluxKontextResultData = z.infer<typeof FluxKontextResultDataSchema>;
 
-export const FluxKontextResultResponseSchema = z
-  .object({
+export const FluxKontextResultResponseSchema = z.looseObject({
     id: z.string(),
     result: FluxKontextResultDataSchema.optional(),
     status: z.string(),
   })
-  .loose();
+;
 
 export type FluxKontextResultResponse = z.infer<
   typeof FluxKontextResultResponseSchema
 >;
 
 // Flux-2-Pro
-export const Flux2ProRequestSchema = z
-  .object({
+export const Flux2ProRequestSchema = z.looseObject({
     prompt: z.string(),
     input_image: z.string().nullable().optional(),
     input_image_2: z.string().nullable().optional(),
@@ -1019,24 +956,22 @@ export const Flux2ProRequestSchema = z
     webhook_url: z.string().url().min(1).max(2083).nullable().optional(),
     webhook_secret: z.string().nullable().optional(),
   })
-  .loose();
+;
 
 export type Flux2ProRequest = z.infer<typeof Flux2ProRequestSchema>;
 
-export const Flux2ProSubmitResponseSchema = z
-  .object({
+export const Flux2ProSubmitResponseSchema = z.looseObject({
     id: z.string(),
     polling_url: z.string(),
     cost: z.number().optional(),
     input_mp: z.number().optional(),
     output_mp: z.number().optional(),
   })
-  .loose();
+;
 
 export type Flux2ProSubmitResponse = z.infer<typeof Flux2ProSubmitResponseSchema>;
 
-export const Flux2ProResultDataSchema = z
-  .object({
+export const Flux2ProResultDataSchema = z.looseObject({
     seed: z.number().optional(),
     prompt: z.string().optional(),
     sample: z.string(),
@@ -1044,23 +979,21 @@ export const Flux2ProResultDataSchema = z
     end_time: z.number().optional(),
     start_time: z.number().optional(),
   })
-  .loose();
+;
 
 export type Flux2ProResultData = z.infer<typeof Flux2ProResultDataSchema>;
 
-export const Flux2ProResultResponseSchema = z
-  .object({
+export const Flux2ProResultResponseSchema = z.looseObject({
     id: z.string(),
     result: Flux2ProResultDataSchema.optional(),
     status: z.string(),
   })
-  .loose();
+;
 
 export type Flux2ProResultResponse = z.infer<typeof Flux2ProResultResponseSchema>;
 
 // Z-Image-Turbo
-export const ZImageTurboRequestSchema = z
-  .object({
+export const ZImageTurboRequestSchema = z.looseObject({
     prompt: z.string(),
     image_size: z.object({
       width: z.number().min(512).max(2048),
@@ -1070,23 +1003,21 @@ export const ZImageTurboRequestSchema = z
     enable_safety_checker: z.boolean().optional(),
     output_format: z.enum(['png', 'jpg', 'webp']).optional(),
   })
-  .loose();
+;
 
 export type ZImageTurboRequest = z.infer<typeof ZImageTurboRequestSchema>;
 
-export const ZImageTurboImageDataSchema = z
-  .object({
+export const ZImageTurboImageDataSchema = z.looseObject({
     url: z.string(),
     width: z.number(),
     height: z.number(),
     content_type: z.string(),
   })
-  .loose();
+;
 
 export type ZImageTurboImageData = z.infer<typeof ZImageTurboImageDataSchema>;
 
-export const ZImageTurboResponseSchema = z
-  .object({
+export const ZImageTurboResponseSchema = z.looseObject({
     images: z.array(ZImageTurboImageDataSchema),
     timings: z.object({
       inference: z.number(),
@@ -1095,13 +1026,12 @@ export const ZImageTurboResponseSchema = z
     has_nsfw_concepts: z.array(z.boolean()),
     prompt: z.string(),
   })
-  .loose();
+;
 
 export type ZImageTurboResponse = z.infer<typeof ZImageTurboResponseSchema>;
 
 // Vidu Reference2Image
-export const ViduReference2ImageRequestSchema = z
-  .object({
+export const ViduReference2ImageRequestSchema = z.looseObject({
     model: z.enum(['viduq1', 'viduq2']),
     prompt: z.string(),
     images: z.array(z.string()).optional(),
@@ -1110,24 +1040,22 @@ export const ViduReference2ImageRequestSchema = z
     resolution: z.enum(['1080p', '2K', '4K']).optional(),
     payload: z.string().optional(),
   })
-  .loose();
+;
 
 export type ViduReference2ImageRequest = z.infer<typeof ViduReference2ImageRequestSchema>;
 
-export const ViduSubmitResponseSchema = z
-  .object({
+export const ViduSubmitResponseSchema = z.looseObject({
     task_id: z.string(),
     state: z.string().optional(),
     model: z.string().optional(),
     prompt: z.string().optional(),
     credits: z.number().optional(),
   })
-  .loose();
+;
 
 export type ViduSubmitResponse = z.infer<typeof ViduSubmitResponseSchema>;
 
-export const ViduCreationSchema = z
-  .object({
+export const ViduCreationSchema = z.looseObject({
     id: z.string(),
     url: z.string(),
     cover_url: z.string().optional(),
@@ -1140,18 +1068,17 @@ export const ViduCreationSchema = z
       }),
     }).optional(),
   })
-  .loose();
+;
 
 export type ViduCreation = z.infer<typeof ViduCreationSchema>;
 
-export const ViduTaskResultSchema = z
-  .object({
+export const ViduTaskResultSchema = z.looseObject({
     state: z.string(),
     err_code: z.string(),
     creations: z.array(ViduCreationSchema),
     id: z.string().optional(),
   })
-  .loose();
+;
 
 export type ViduTaskResult = z.infer<typeof ViduTaskResultSchema>;
 
@@ -1172,8 +1099,7 @@ export const SoulAspectRatioSchema = z.enum([
 
 export type SoulAspectRatio = z.infer<typeof SoulAspectRatioSchema>;
 
-export const SoulRequestSchema = z
-  .object({
+export const SoulRequestSchema = z.looseObject({
     quality: SoulQualitySchema,
     aspect_ratio: SoulAspectRatioSchema,
     prompt: z.string(),
@@ -1182,20 +1108,18 @@ export const SoulRequestSchema = z
     style_id: z.string(),
     negative_prompt: z.string(),
   })
-  .loose();
+;
 
 export type SoulRequest = z.infer<typeof SoulRequestSchema>;
 
-export const SoulSubmitResponseSchema = z
-  .object({
+export const SoulSubmitResponseSchema = z.looseObject({
     id: z.string(),
   })
-  .loose();
+;
 
 export type SoulSubmitResponse = z.infer<typeof SoulSubmitResponseSchema>;
 
-export const SoulJobResultSchema = z
-  .object({
+export const SoulJobResultSchema = z.looseObject({
     min: z.object({
       type: z.string(),
       url: z.string(),
@@ -1205,29 +1129,27 @@ export const SoulJobResultSchema = z
       url: z.string(),
     }),
   })
-  .loose();
+;
 
 export type SoulJobResult = z.infer<typeof SoulJobResultSchema>;
 
-export const SoulJobSchema = z
-  .object({
+export const SoulJobSchema = z.looseObject({
     board_ids: z.array(z.string()),
     created_at: z.number(),
     id: z.string(),
-    meta: z.object({}).loose(),
+    meta: z.looseObject({}),
     results: SoulJobResultSchema,
     status: z.string(),
   })
-  .loose();
+;
 
 export type SoulJob = z.infer<typeof SoulJobSchema>;
 
-export const SoulTaskResponseSchema = z
-  .object({
+export const SoulTaskResponseSchema = z.looseObject({
     id: z.string(),
     jobs: z.array(SoulJobSchema).optional(),
   })
-  .loose();
+;
 
 export type SoulTaskResponse = z.infer<typeof SoulTaskResponseSchema>;
 
@@ -1244,8 +1166,7 @@ export const KlingAspectRatioSchema = z.enum([
 
 export type KlingAspectRatio = z.infer<typeof KlingAspectRatioSchema>;
 
-export const KlingRequestSchema = z
-  .object({
+export const KlingRequestSchema = z.looseObject({
     model_name: z.enum(['kling-v1', 'kling-v1-5', 'kling-v2']),
     prompt: z.string(),
     negative_prompt: z.string().optional(),
@@ -1256,12 +1177,11 @@ export const KlingRequestSchema = z
     n: z.number().min(1).max(9).optional(),
     aspect_ratio: KlingAspectRatioSchema.optional(),
   })
-  .loose();
+;
 
 export type KlingRequest = z.infer<typeof KlingRequestSchema>;
 
-export const KlingSubmitResponseSchema = z
-  .object({
+export const KlingSubmitResponseSchema = z.looseObject({
     code: z.number(),
     data: z.object({
       task_id: z.string(),
@@ -1269,12 +1189,11 @@ export const KlingSubmitResponseSchema = z
     }),
     message: z.string(),
   })
-  .loose();
+;
 
 export type KlingSubmitResponse = z.infer<typeof KlingSubmitResponseSchema>;
 
-export const KlingTaskResponseSchema = z
-  .object({
+export const KlingTaskResponseSchema = z.looseObject({
     code: z.number(),
     data: z.object({
       task_id: z.string(),
@@ -1294,24 +1213,22 @@ export const KlingTaskResponseSchema = z
     }),
     message: z.string(),
   })
-  .loose();
+;
 
 export type KlingTaskResponse = z.infer<typeof KlingTaskResponseSchema>;
 
 // Flux-1-Krea
-export const FluxKreaRequestSchema = z
-  .object({
+export const FluxKreaRequestSchema = z.looseObject({
     prompt: z.string(),
     image_size: ImageSizeSchema.optional(),
     num_inference_steps: z.number().optional(),
     guidance_scale: z.number().optional(),
   })
-  .loose();
+;
 
 export type FluxKreaRequest = z.infer<typeof FluxKreaRequestSchema>;
 
-export const FluxKreaResponseSchema = z
-  .object({
+export const FluxKreaResponseSchema = z.looseObject({
     images: z.array(
       z.object({
         url: z.string().optional(),
@@ -1326,13 +1243,12 @@ export const FluxKreaResponseSchema = z
     debug_latents: z.string().nullable(),
     debug_per_pass_latents: z.string().nullable(),
   })
-  .loose();
+;
 
 export type FluxKreaResponse = z.infer<typeof FluxKreaResponseSchema>;
 
 // Doubao Seedream (OpenAI-compatible format)
-export const DoubaoSeedreamRequestSchema = z
-  .object({
+export const DoubaoSeedreamRequestSchema = z.looseObject({
     model: z.string(),
     prompt: z.string(),
     image: z.array(z.string()).optional(),
@@ -1347,21 +1263,19 @@ export const DoubaoSeedreamRequestSchema = z
     seed: z.number().min(-1).max(2147483647).optional(),
     guidance_scale: z.number().min(1).max(10).optional(),
   })
-  .loose();
+;
 
 export type DoubaoSeedreamRequest = z.infer<typeof DoubaoSeedreamRequestSchema>;
 
-export const DoubaoSeedreamDataSchema = z
-  .object({
+export const DoubaoSeedreamDataSchema = z.looseObject({
     url: z.string().optional(),
     b64_json: z.string().optional(),
   })
-  .loose();
+;
 
 export type DoubaoSeedreamData = z.infer<typeof DoubaoSeedreamDataSchema>;
 
-export const DoubaoSeedreamResponseSchema = z
-  .object({
+export const DoubaoSeedreamResponseSchema = z.looseObject({
     model: z.string(),
     created: z.number(),
     data: z.array(DoubaoSeedreamDataSchema),
@@ -1369,7 +1283,7 @@ export const DoubaoSeedreamResponseSchema = z
       generated_images: z.number(),
     }),
   })
-  .loose();
+;
 
 export type DoubaoSeedreamResponse = z.infer<typeof DoubaoSeedreamResponseSchema>;
 
@@ -1384,17 +1298,15 @@ export const QwenImageAspectRatioSchema = z.enum([
 
 export type QwenImageAspectRatio = z.infer<typeof QwenImageAspectRatioSchema>;
 
-export const QwenImageRequestSchema = z
-  .object({
+export const QwenImageRequestSchema = z.looseObject({
     prompt: z.string(),
     aspect_ratio: QwenImageAspectRatioSchema.optional().default('1:1'),
   })
-  .loose();
+;
 
 export type QwenImageRequest = z.infer<typeof QwenImageRequestSchema>;
 
-export const QwenImageResponseSchema = z
-  .object({
+export const QwenImageResponseSchema = z.looseObject({
     completed_at: z.string(),
     created_at: z.string(),
     error: z.string(),
@@ -1404,6 +1316,6 @@ export const QwenImageResponseSchema = z
     started_at: z.string(),
     status: z.enum(['succeeded', 'failed']),
   })
-  .loose();
+;
 
 export type QwenImageResponse = z.infer<typeof QwenImageResponseSchema>;
