@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.9
+
+### Patch Changes
+
+- d8224c9: build(deps): update @ai-sdk/openai-compatible and @ai-sdk/provider versions
+
 ## 0.2.8
 
 ### Patch Changes
