@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.11
+
+### Patch Changes
+
+- 1085b30: refactor: replace z.object() with z.looseObject() in AI302 types for improved schema flexibility
+
 ## 0.2.10
 
 ### Patch Changes
