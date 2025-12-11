@@ -163,16 +163,23 @@ function createOpenAIStreamResponse(chunks: Array<{
 let mockFetch: FetchFunction;
 let capturedRequest: { url: string; init: RequestInit } | null;
 
-const createTestModel = (config: Partial<AI302Config> = {}) => {
-  return new AI302LanguageModel('gpt-4o', {
-    provider: 'ai302.chat',
-    url: ({ path }) => `https://api.302.ai${path}`,
-    headers: () => ({
-      Authorization: 'Bearer test-token',
-    }),
-    fetch: mockFetch,
-    ...config,
-  });
+const createTestModel = (options: {
+  config?: Partial<AI302Config>;
+  settings?: { thinking?: { type: 'enabled' | 'disabled' } };
+} = {}) => {
+  return new AI302LanguageModel(
+    'gpt-4o',
+    options.settings ?? {},
+    {
+      provider: 'ai302.chat',
+      url: ({ path }) => `https://api.302.ai${path}`,
+      headers: () => ({
+        Authorization: 'Bearer test-token',
+      }),
+      fetch: mockFetch,
+      ...options.config,
+    },
+  );
 };
 
 describe('AI302LanguageModel', () => {
@@ -561,6 +568,142 @@ describe('AI302LanguageModel', () => {
       expect(toolCallChunk.toolCallId).toBe('call_123');
       expect(toolCallChunk.toolName).toBe('get_weather');
       expect(toolCallChunk.input).toBe('{"location":"Tokyo"}');
+    });
+  });
+
+  describe('thinking mode', () => {
+    it('should include thinking parameter in request body when enabled', async () => {
+      const model = createTestModel({
+        settings: { thinking: { type: 'enabled' } },
+      });
+
+      await model.doGenerate({ prompt: TEST_PROMPT });
+
+      const body = JSON.parse(capturedRequest?.init.body as string);
+      expect(body.thinking).toEqual({ type: 'enabled' });
+    });
+
+    it('should not include thinking parameter when not configured', async () => {
+      const model = createTestModel();
+
+      await model.doGenerate({ prompt: TEST_PROMPT });
+
+      const body = JSON.parse(capturedRequest?.init.body as string);
+      expect(body.thinking).toBeUndefined();
+    });
+
+    it('should include reasoning_content in assistant messages for tool call continuations', async () => {
+      const model = createTestModel({
+        settings: { thinking: { type: 'enabled' } },
+      });
+
+      const promptWithReasoning: LanguageModelV3Prompt = [
+        { role: 'user', content: [{ type: 'text', text: "How's the weather in Hangzhou tomorrow?" }] },
+        {
+          role: 'assistant',
+          content: [
+            { type: 'reasoning', text: 'I need to get the current date first, then fetch the weather.' },
+            {
+              type: 'tool-call',
+              toolCallId: 'call_123',
+              toolName: 'get_date',
+              input: {},
+            },
+          ],
+        },
+        {
+          role: 'tool',
+          content: [
+            {
+              type: 'tool-result',
+              toolCallId: 'call_123',
+              toolName: 'get_date',
+              output: { type: 'text', value: '2025-12-01' },
+            },
+          ],
+        },
+      ];
+
+      await model.doGenerate({ prompt: promptWithReasoning });
+
+      const body = JSON.parse(capturedRequest?.init.body as string);
+      const assistantMessage = body.messages.find((m: any) => m.role === 'assistant');
+
+      expect(assistantMessage.reasoning_content).toBe(
+        'I need to get the current date first, then fetch the weather.',
+      );
+      expect(assistantMessage.tool_calls).toHaveLength(1);
+      expect(assistantMessage.tool_calls[0].function.name).toBe('get_date');
+    });
+
+    it('should handle assistant message with only reasoning content', async () => {
+      const model = createTestModel({
+        settings: { thinking: { type: 'enabled' } },
+      });
+
+      const promptWithOnlyReasoning: LanguageModelV3Prompt = [
+        { role: 'user', content: [{ type: 'text', text: 'What is 2+2?' }] },
+        {
+          role: 'assistant',
+          content: [
+            { type: 'reasoning', text: 'Let me calculate step by step...' },
+            { type: 'text', text: 'The answer is 4.' },
+          ],
+        },
+        { role: 'user', content: [{ type: 'text', text: 'Thanks!' }] },
+      ];
+
+      await model.doGenerate({ prompt: promptWithOnlyReasoning });
+
+      const body = JSON.parse(capturedRequest?.init.body as string);
+      const assistantMessage = body.messages.find((m: any) => m.role === 'assistant');
+
+      expect(assistantMessage.reasoning_content).toBe('Let me calculate step by step...');
+      expect(assistantMessage.content).toBe('The answer is 4.');
+    });
+
+    it('should not include reasoning_content when assistant has no reasoning parts', async () => {
+      const model = createTestModel();
+
+      const promptWithoutReasoning: LanguageModelV3Prompt = [
+        { role: 'user', content: [{ type: 'text', text: 'Hello' }] },
+        {
+          role: 'assistant',
+          content: [{ type: 'text', text: 'Hi there!' }],
+        },
+        { role: 'user', content: [{ type: 'text', text: 'How are you?' }] },
+      ];
+
+      await model.doGenerate({ prompt: promptWithoutReasoning });
+
+      const body = JSON.parse(capturedRequest?.init.body as string);
+      const assistantMessage = body.messages.find((m: any) => m.role === 'assistant');
+
+      expect(assistantMessage.reasoning_content).toBeUndefined();
+      expect(assistantMessage.content).toBe('Hi there!');
+    });
+
+    it('should include thinking parameter in streaming request', async () => {
+      const model = createTestModel({
+        settings: { thinking: { type: 'enabled' } },
+      });
+
+      mockFetch = vi.fn((url, init) => {
+        capturedRequest = { url: url.toString(), init };
+        return Promise.resolve(
+          createOpenAIStreamResponse([
+            { reasoning_content: 'Thinking...' },
+            { content: 'Done!' },
+            { finish_reason: 'stop' },
+          ]),
+        );
+      }) as FetchFunction;
+
+      await model.doStream({ prompt: TEST_PROMPT });
+
+      const body = JSON.parse(capturedRequest?.init.body as string);
+      expect(body.thinking).toEqual({ type: 'enabled' });
+      expect(body.stream).toBe(true);
     });
   });
 });

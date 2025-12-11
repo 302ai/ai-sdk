@@ -20,7 +20,7 @@ import {
 } from '@ai-sdk/provider-utils';
 import { z } from 'zod';
 import type { AI302Config } from './ai302-config';
-import type { AI302ChatModelId } from './ai302-chat-settings';
+import type { AI302ChatModelId, AI302ChatSettings } from './ai302-chat-settings';
 
 // OpenAI Chat Message types
 type OpenAIChatMessage =
@@ -29,6 +29,12 @@ type OpenAIChatMessage =
   | {
       role: 'assistant';
       content: string | null;
+      /**
+       * Reasoning content for thinking mode (e.g., DeepSeek).
+       * This field must be passed back to the API during tool call continuations
+       * within the same turn to maintain the model's chain of thought.
+       */
+      reasoning_content?: string | null;
       tool_calls?: OpenAIToolCall[];
     }
   | { role: 'tool'; tool_call_id: string; content: string };
@@ -104,12 +110,18 @@ function convertToOpenAIChatMessages(
 
       case 'assistant': {
         let text = '';
+        let reasoningText = '';
         const toolCalls: OpenAIToolCall[] = [];
 
         for (const part of content) {
           switch (part.type) {
             case 'text': {
               text += part.text;
+              break;
+            }
+            case 'reasoning': {
+              // Collect reasoning content for thinking mode
+              reasoningText += part.text;
               break;
             }
             case 'tool-call': {
@@ -129,6 +141,8 @@ function convertToOpenAIChatMessages(
         messages.push({
           role: 'assistant',
           content: text || null,
+          // Include reasoning_content for thinking mode tool call continuations
+          reasoning_content: reasoningText || undefined,
           tool_calls: toolCalls.length > 0 ? toolCalls : undefined,
         });
         break;
@@ -381,6 +395,7 @@ export class AI302LanguageModel implements LanguageModelV3 {
 
   constructor(
     readonly modelId: AI302ChatModelId,
+    private readonly settings: AI302ChatSettings,
     private readonly config: AI302Config,
   ) {}
 
@@ -451,6 +466,9 @@ export class AI302LanguageModel implements LanguageModelV3 {
         // tools
         tools: openaiTools,
         tool_choice: openaiToolChoice,
+
+        // thinking mode for DeepSeek models
+        ...(this.settings.thinking && { thinking: this.settings.thinking }),
       },
       warnings: [...warnings, ...toolWarnings],
     };

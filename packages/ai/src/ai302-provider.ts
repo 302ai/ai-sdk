@@ -185,7 +185,7 @@ export function createAI302(
     modelId: AI302ChatModelId,
     settings: AI302ChatSettings = {},
   ) => {
-    return new AI302LanguageModel(modelId, getCommonModelConfig('chat'));
+    return new AI302LanguageModel(modelId, settings, getCommonModelConfig('chat'));
   };
 
   const createTextEmbeddingModel = (modelId: AI302EmbeddingModelId) => {

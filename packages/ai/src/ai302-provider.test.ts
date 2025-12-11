@@ -44,6 +44,7 @@ describe('AI302Provider', () => {
 
       expect(AI302LanguageModel).toHaveBeenCalledWith(
         'gpt-4o',
+        {},  // settings
         expect.objectContaining({
           provider: 'ai302.chat',
           url: expect.any(Function),
@@ -54,7 +55,7 @@ describe('AI302Provider', () => {
 
       // Verify headers function
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
       const headers = await resolve(config.headers());
 
       expect(headers).toMatchObject({
@@ -72,7 +73,7 @@ describe('AI302Provider', () => {
       provider('gpt-4o');
 
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
       const url = config.url({ modelId: 'gpt-4o', path: '/v1/chat/completions' });
 
       expect(url).toBe('https://api.302.ai/v1/chat/completions');
@@ -87,7 +88,7 @@ describe('AI302Provider', () => {
         provider('gpt-4o');
 
         const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-        const config = constructorCall[1];
+        const config = constructorCall[2];
         const headers = await resolve(config.headers());
 
         expect(headers.authorization).toBe('Bearer env-api-key');
@@ -111,7 +112,7 @@ describe('AI302Provider', () => {
         provider('gpt-4o');
 
         const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-        const config = constructorCall[1];
+        const config = constructorCall[2];
         const headers = await resolve(config.headers());
 
         expect(headers.authorization).toBe('Bearer options-api-key');
@@ -170,6 +171,7 @@ describe('AI302Provider', () => {
 
       expect(AI302LanguageModel).toHaveBeenCalledWith(
         'gpt-4o',
+        {},  // settings
         expect.objectContaining({
           provider: 'ai302.chat',
         }),
@@ -185,6 +187,7 @@ describe('AI302Provider', () => {
 
       expect(AI302LanguageModel).toHaveBeenCalledWith(
         'gpt-4o',
+        {},  // settings
         expect.objectContaining({
           provider: 'ai302.chat',
         }),
@@ -236,7 +239,7 @@ describe('AI302Provider', () => {
       provider('gpt-4o');
 
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
 
       expect(config.fetch).toBe(customFetch);
     });
@@ -250,7 +253,7 @@ describe('AI302Provider', () => {
       provider('gpt-4o');
 
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
       const url = config.url({ modelId: 'gpt-4o', path: '/v1/chat/completions' });
 
       // Should remove trailing slash
@@ -266,7 +269,7 @@ describe('AI302Provider', () => {
       provider('gpt-4o');
 
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
       const url = config.url({ modelId: 'gpt-4o', path: '/v1/chat/completions' });
 
       expect(url).toBe('https://api.example.com/v1/chat/completions');
@@ -329,7 +332,7 @@ describe('AI302Provider', () => {
       provider('gpt-4o');
 
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
       const headers = await resolve(config.headers());
 
       expect(headers).toMatchObject({
@@ -347,7 +350,7 @@ describe('AI302Provider', () => {
       provider('gpt-4o');
 
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
       const headers = await resolve(config.headers());
 
       expect(headers['user-agent']).toContain('ai-sdk/ai302/0.0.0-test');
@@ -376,7 +379,7 @@ describe('AI302Provider', () => {
       ai302('gpt-4o');
 
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
       const url = config.url({ modelId: 'gpt-4o', path: '/v1/chat/completions' });
 
       expect(url).toBe('https://api.302.ai/v1/chat/completions');
@@ -393,7 +396,7 @@ describe('AI302Provider', () => {
       provider('gpt-4o');
 
       const constructorCall = vi.mocked(AI302LanguageModel).mock.calls[0];
-      const config = constructorCall[1];
+      const config = constructorCall[2];
 
       expect(config.url({ modelId: 'gpt-4o', path: '/v1/chat/completions' }))
         .toBe('https://custom.api.com/v1/chat/completions');
@@ -407,7 +410,7 @@ describe('AI302Provider', () => {
 
       // Chat model
       provider('gpt-4o');
-      const chatConfig = vi.mocked(AI302LanguageModel).mock.calls[0][1];
+      const chatConfig = vi.mocked(AI302LanguageModel).mock.calls[0][2];
       expect(chatConfig.url({ modelId: 'gpt-4o', path: '/v1/chat/completions' }))
         .toBe('https://api.example.com/v1/chat/completions');
 

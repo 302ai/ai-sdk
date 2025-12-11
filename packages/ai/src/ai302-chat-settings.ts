@@ -32,6 +32,7 @@ export type AI302ChatModelId =
   | 'gemini-1.5-pro'
   | 'command-r-plus'
   | 'deepseek-chat'
+  | 'deepseek-reasoner'
   | 'gpt-4o'
   | 'qwen-long'
   | 'glm-4-air'
@@ -198,4 +199,20 @@ export type AI302ChatModelId =
   | (string & {});
 
 // Settings interface for AI302 chat models (v2)
-export interface AI302ChatSettings {}
+export interface AI302ChatSettings {
+  /**
+   * Enable thinking mode for models that support it (e.g., DeepSeek).
+   * When enabled, the model outputs reasoning content before the final answer.
+   *
+   * During tool calling in thinking mode, reasoning_content must be passed back
+   * to the API to continue the model's chain of thought.
+   *
+   * @example
+   * ```typescript
+   * ai302('deepseek-chat', { thinking: { type: 'enabled' } })
+   * ```
+   */
+  thinking?: {
+    type: 'enabled' | 'disabled';
+  };
+}
