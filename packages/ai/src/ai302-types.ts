@@ -1319,3 +1319,74 @@ export const QwenImageResponseSchema = z.looseObject({
 ;
 
 export type QwenImageResponse = z.infer<typeof QwenImageResponseSchema>;
+
+// Kling O1
+export const KlingO1AspectRatioSchema = z.enum([
+  'auto',
+  '9:16',
+  '2:3',
+  '3:4',
+  '1:1',
+  '4:3',
+  '3:2',
+  '16:9',
+]);
+
+export type KlingO1AspectRatio = z.infer<typeof KlingO1AspectRatioSchema>;
+
+export const KlingO1RequestSchema = z.looseObject({
+  images: z.array(z.string()),
+  prompt: z.string(),
+  imageCount: z.number().min(1).max(9).optional(),
+  aspect_ratio: KlingO1AspectRatioSchema,
+  img_resolution: z.enum(['1k', '2k']),
+});
+
+export type KlingO1Request = z.infer<typeof KlingO1RequestSchema>;
+
+export const KlingO1SubmitResponseSchema = z.looseObject({
+  code: z.number(),
+  data: z.object({
+    created_at: z.number(),
+    task_id: z.string(),
+    task_info: z.object({
+      aspect_ratio: z.string(),
+      images: z.array(z.string()),
+      prompt: z.string(),
+    }),
+    task_result: z.any(),
+    task_status: z.string(),
+    task_status_msg: z.string(),
+    updated_at: z.number(),
+  }),
+  message: z.string(),
+  request_id: z.string(),
+});
+
+export type KlingO1SubmitResponse = z.infer<typeof KlingO1SubmitResponseSchema>;
+
+export const KlingO1TaskResultSchema = z.looseObject({
+  code: z.number(),
+  data: z.object({
+    created_at: z.number(),
+    task_id: z.string(),
+    task_info: z.object({
+      aspect_ratio: z.string(),
+      images: z.array(z.string()),
+      prompt: z.string(),
+    }).optional(),
+    task_result: z.object({
+      images: z.array(z.object({
+        id: z.string(),
+        url: z.string(),
+      })).optional(),
+    }).optional(),
+    task_status: z.enum(['submitted', 'processing', 'succeed', 'failed']),
+    task_status_msg: z.string(),
+    updated_at: z.number(),
+  }),
+  message: z.string(),
+  request_id: z.string(),
+});
+
+export type KlingO1TaskResult = z.infer<typeof KlingO1TaskResultSchema>;

@@ -68,6 +68,7 @@ export type AI302ImageModelId =
   | 'z-image-turbo'
   | 'vidu-viduq1'
   | 'vidu-viduq2'
+  | 'kling-o1'
   | (string & {});
 
 export interface AI302ImageSettings {}
@@ -281,6 +282,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: false,
   },
   'vidu-viduq2': {
+    supportsSize: false,
+  },
+  'kling-o1': {
     supportsSize: false,
   },
 };

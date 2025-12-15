@@ -40,6 +40,7 @@ import { Gemini25FlashImagePreviewHandler } from './gemini-2.5-flash-image-previ
 import { Gemini3ProImagePreviewHandler } from './gemini-3-pro-image-preview';
 import { ZImageTurboHandler } from './z-image-turbo';
 import { ViduReference2ImageHandler } from './vidu-reference2image';
+import { KlingO1Handler } from './kling-o1';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -156,6 +157,8 @@ export function createImageModelHandler(
     case 'vidu-viduq1':
     case 'vidu-viduq2':
       return new ViduReference2ImageHandler(modelId, settings, config);
+    case 'kling-o1':
+      return new KlingO1Handler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }
