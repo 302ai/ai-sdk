@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.12
+
+### Patch Changes
+
+- cbeec15: feat: add Kling O1 model support with request and response schemas, and integrate into model factory
+
 ## 0.2.11
 
 ### Patch Changes
