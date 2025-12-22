@@ -56,6 +56,7 @@ export type AI302ImageModelId =
   | 'hidream-i1-dev'
   | 'hidream-i1-fast'
   | 'gpt-image-1'
+  | 'gpt-image-1.5'
   | 'bagel'
   | 'soul'
   | 'kling-v1'
@@ -246,6 +247,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: true,
   },
   'gpt-image-1': {
+    supportsSize: true,
+  },
+  'gpt-image-1.5': {
     supportsSize: true,
   },
   bagel: {

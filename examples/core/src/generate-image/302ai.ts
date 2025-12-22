@@ -79,7 +79,8 @@ const MODELS = [
   // 'flux-2-flex',
   // 'z-image-turbo',
   // 'doubao-seedream-4-5-251128',
-  'kling-o1',
+  // 'kling-o1',
+  "gpt-image-1.5"
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';

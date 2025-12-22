@@ -141,6 +141,7 @@ export function createImageModelHandler(
     case 'hidream-i1-fast':
       return new HidreamHandler(modelId, settings, config);
     case 'gpt-image-1':
+    case 'gpt-image-1.5':
       return new GPTImageHandler(modelId, settings, config);
     case 'bagel':
       return new BagelHandler(modelId, settings, config);

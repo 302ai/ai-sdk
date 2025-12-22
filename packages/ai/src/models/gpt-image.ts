@@ -40,7 +40,7 @@ export class GPTImageHandler extends BaseModelHandler {
     // Prepare request body
     const requestBody = {
       prompt,
-      model: 'gpt-image-1',
+      model: this.modelId,
       size: sizeStr,
       n: n || 1,
       ...(providerOptions.ai302 ?? {}),
