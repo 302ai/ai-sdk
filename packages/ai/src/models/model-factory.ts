@@ -66,6 +66,7 @@ export function createImageModelHandler(
       return new FluxKontextHandler(modelId, settings, config);
     case 'flux-2-pro':
     case 'flux-2-flex':
+    case 'flux-2-max':
       return new Flux2ProHandler(modelId, settings, config);
     case 'ideogram/V_1':
     case 'ideogram/V_1_TURBO':

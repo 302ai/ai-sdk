@@ -21,6 +21,8 @@ export class Flux2ProHandler extends BaseModelHandler {
     switch (this.modelId) {
       case 'flux-2-flex':
         return '/flux/v1/flux-2-flex';
+      case 'flux-2-max':
+        return '/flux/v1/flux-2-max';
       case 'flux-2-pro':
       default:
         return '/flux/v1/flux-2-pro';
@@ -31,6 +33,8 @@ export class Flux2ProHandler extends BaseModelHandler {
     switch (this.modelId) {
       case 'flux-2-flex':
         return 'Flux-2-Flex';
+      case 'flux-2-max':
+        return 'Flux-2-Max';
       case 'flux-2-pro':
       default:
         return 'Flux-2-Pro';

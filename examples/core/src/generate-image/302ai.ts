@@ -81,7 +81,8 @@ const MODELS = [
   // 'doubao-seedream-4-5-251128',
   // 'kling-o1',
   // "gpt-image-1.5",
-  "wan2.6-image"
+  // "wan2.6-image",
+  "flux-2-max"
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';

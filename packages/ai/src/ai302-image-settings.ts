@@ -9,6 +9,7 @@ export type AI302ImageModelId =
   | 'flux-kontext-pro'
   | 'flux-2-pro'
   | 'flux-2-flex'
+  | 'flux-2-max'
   | 'ideogram/V_1'
   | 'ideogram/V_1_TURBO'
   | 'ideogram/V_2'
@@ -110,6 +111,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: true,
   },
   'flux-2-flex': {
+    supportsSize: true,
+  },
+  'flux-2-max': {
     supportsSize: true,
   },
   'ideogram/V_1': {
