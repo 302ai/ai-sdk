@@ -80,7 +80,8 @@ const MODELS = [
   // 'z-image-turbo',
   // 'doubao-seedream-4-5-251128',
   // 'kling-o1',
-  "gpt-image-1.5"
+  // "gpt-image-1.5",
+  "wan2.6-image"
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';

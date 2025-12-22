@@ -41,6 +41,7 @@ import { Gemini3ProImagePreviewHandler } from './gemini-3-pro-image-preview';
 import { ZImageTurboHandler } from './z-image-turbo';
 import { ViduReference2ImageHandler } from './vidu-reference2image';
 import { KlingO1Handler } from './kling-o1';
+import { WanImageHandler } from './wan-image';
 
 export function createImageModelHandler(
   modelId: AI302ImageModelId,
@@ -160,6 +161,8 @@ export function createImageModelHandler(
       return new ViduReference2ImageHandler(modelId, settings, config);
     case 'kling-o1':
       return new KlingO1Handler(modelId, settings, config);
+    case 'wan2.6-image':
+      return new WanImageHandler(modelId, settings, config);
     default:
       throw new Error(`Unsupported model: ${modelId}`);
   }

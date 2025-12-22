@@ -1390,3 +1390,85 @@ export const KlingO1TaskResultSchema = z.looseObject({
 });
 
 export type KlingO1TaskResult = z.infer<typeof KlingO1TaskResultSchema>;
+
+// Wan2.6-Image (通义万相图像生成与编辑)
+export const Wan26ImageSizeSchema = z.enum([
+  '1280*1280',
+  '1024*1024',
+  '800*1200',
+  '1200*800',
+  '960*1280',
+  '1280*960',
+  '720*1280',
+  '1280*720',
+  '1344*576',
+]);
+
+export type Wan26ImageSize = z.infer<typeof Wan26ImageSizeSchema>;
+
+export const Wan26ImageRequestSchema = z.looseObject({
+  model: z.string(),
+  input: z.object({
+    messages: z.array(z.object({
+      role: z.string(),
+      content: z.array(z.object({
+        text: z.string().optional(),
+        image: z.string().optional(),
+      })),
+    })),
+  }),
+  parameters: z.object({
+    negative_prompt: z.string().optional(),
+    prompt_extend: z.boolean().optional(),
+    watermark: z.boolean().optional(),
+    n: z.number().min(1).max(4).optional(),
+    size: Wan26ImageSizeSchema.optional(),
+    max_images: z.number().min(1).max(5).optional(),
+    enable_interleave: z.enum(['true', 'false']).optional(),
+    seed: z.number().min(0).max(2147483647).optional(),
+  }).optional(),
+});
+
+export type Wan26ImageRequest = z.infer<typeof Wan26ImageRequestSchema>;
+
+export const Wan26ImageSubmitResponseSchema = z.looseObject({
+  request_id: z.string(),
+  output: z.object({
+    task_id: z.string(),
+    task_status: z.string(),
+  }),
+});
+
+export type Wan26ImageSubmitResponse = z.infer<typeof Wan26ImageSubmitResponseSchema>;
+
+export const Wan26ImageTaskResultSchema = z.looseObject({
+  request_id: z.string(),
+  output: z.object({
+    task_id: z.string(),
+    task_status: z.enum(['PENDING', 'RUNNING', 'SUCCEEDED', 'FAILED']),
+    submit_time: z.string().optional(),
+    scheduled_time: z.string().optional(),
+    end_time: z.string().optional(),
+    finished: z.boolean().optional(),
+    choices: z.array(z.object({
+      finish_reason: z.string().optional(),
+      message: z.object({
+        role: z.string(),
+        content: z.array(z.object({
+          image: z.string().optional(),
+          text: z.string().optional(),
+          type: z.string().optional(),
+        })),
+      }),
+    })).optional(),
+  }),
+  usage: z.object({
+    size: z.string().optional(),
+    total_tokens: z.number().optional(),
+    image_count: z.number().optional(),
+    output_tokens: z.number().optional(),
+    input_tokens: z.number().optional(),
+  }).optional(),
+});
+
+export type Wan26ImageTaskResult = z.infer<typeof Wan26ImageTaskResultSchema>;

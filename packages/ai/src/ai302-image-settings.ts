@@ -70,6 +70,7 @@ export type AI302ImageModelId =
   | 'vidu-viduq1'
   | 'vidu-viduq2'
   | 'kling-o1'
+  | 'wan2.6-image'
   | (string & {});
 
 export interface AI302ImageSettings {}
@@ -290,5 +291,8 @@ export const modelToBackendConfig: Partial<
   },
   'kling-o1': {
     supportsSize: false,
+  },
+  'wan2.6-image': {
+    supportsSize: true,
   },
 };
