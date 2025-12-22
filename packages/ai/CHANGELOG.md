@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.13
+
+### Patch Changes
+
+- 532eec2: chore(versions): release
+
 ## 0.2.12
 
 ### Patch Changes
