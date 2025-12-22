@@ -1,6 +1,6 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
+import type { ImageModelV3CallOptions } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 
 interface GeminiFlashImagePreviewApiRequest {
@@ -53,36 +53,36 @@ export class Gemini25FlashImagePreviewHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Gemini 2.5 Flash Image Preview does not support batch generation',
       });
     }
 
     if (size != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'size',
+        type: 'unsupported',
+        feature: 'size',
         details: 'Gemini 2.5 Flash Image Preview does not support custom size control',
       });
     }
 
     if (aspectRatio != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'aspectRatio',
+        type: 'unsupported',
+        feature: 'aspectRatio',
         details: 'Gemini 2.5 Flash Image Preview does not support custom aspect ratio control',
       });
     }
 
     if (seed != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'seed',
+        type: 'unsupported',
+        feature: 'seed',
         details: 'Gemini 2.5 Flash Image Preview does not support seed control',
       });
     }

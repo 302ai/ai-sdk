@@ -1,7 +1,7 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
+import type { ImageModelV3CallOptions } from "@ai-sdk/provider";
 import { combineHeaders, postToApi, resolve } from "@ai-sdk/provider-utils";
 import { statusCodeErrorResponseHandler } from "../utils/api-handlers";
-import { BaseModelHandler } from "./base-model";
+import { BaseModelHandler, type ImageModelWarning } from "./base-model";
 
 const SUPPORTED_ASPECT_RATIOS = [
   "16:9",
@@ -26,14 +26,14 @@ export class SD3UltraHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
-      warnings.push({ type: 'unsupported-setting', setting: 'n', details: 'SD3 Ultra does not support batch generation' });
+      warnings.push({ type: 'unsupported', feature: 'n', details: 'SD3 Ultra does not support batch generation' });
     }
 
     if (size != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'size' });
+      warnings.push({ type: 'unsupported', feature: 'size' });
     }
 
     let parsedAspectRatio = this.findClosestAspectRatio(aspectRatio, SUPPORTED_ASPECT_RATIOS, warnings);

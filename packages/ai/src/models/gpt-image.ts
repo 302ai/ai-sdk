@@ -1,6 +1,6 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
+import type { ImageModelV3CallOptions } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 import type { GPTImageResponse } from '../ai302-types';
 
@@ -21,7 +21,7 @@ export class GPTImageHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     // Parse size or use aspect ratio to determine size
     let parsedSize = this.parseSize(size);

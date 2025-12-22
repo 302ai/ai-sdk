@@ -1,6 +1,6 @@
 import type {
   ImageModelV3CallOptions,
-  ImageModelV3CallWarning,
+
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import {
@@ -11,7 +11,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 const POLL_INTERVAL = 2000; // 2 seconds
 const MAX_POLL_TIME = 300000; // 5 minutes
@@ -91,12 +91,12 @@ export class Flux2ProHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: `${this.getModelDisplayName()} generates one image per request`,
       });
     }
@@ -129,9 +129,9 @@ export class Flux2ProHandler extends BaseModelHandler {
 
     if (size != null && aspectRatio != null) {
       warnings.push({
-        type: 'other',
-        message:
-          'Both size and aspectRatio provided. Size will be used and aspectRatio will be ignored.',
+        type: 'unsupported',
+        feature: 'aspectRatio',
+        details: 'Both size and aspectRatio provided. Size will be used and aspectRatio will be ignored.',
       });
     }
 

@@ -1,6 +1,6 @@
 import type {
   ImageModelV3CallOptions,
-  ImageModelV3CallWarning,
+
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import type { DoubaoSeedreamResponse } from '../ai302-types';
@@ -8,7 +8,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 export class DoubaoSeedreamHandler extends BaseModelHandler {
   protected async processRequest({
@@ -21,22 +21,22 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     // Handle batch generation for doubao-seedream-4.x models
     if (this.modelId === 'doubao-seedream-4-0-250828' || this.modelId === 'doubao-seedream-4-5-251128') {
       if (n != null && n > 15) {
         warnings.push({
-          type: 'unsupported-setting',
-          setting: 'n',
+          type: 'unsupported',
+          feature: 'n',
           details: 'Doubao Seedream 4.x supports maximum 15 images per generation',
         });
       }
     } else {
       if (n != null && n > 1) {
         warnings.push({
-          type: 'unsupported-setting',
-          setting: 'n',
+          type: 'unsupported',
+          feature: 'n',
           details: 'Doubao Seedream 3.0 does not support batch generation',
         });
       }
@@ -44,8 +44,8 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
 
     if (aspectRatio != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'aspectRatio',
+        type: 'unsupported',
+        feature: 'aspectRatio',
         details: 'Doubao Seedream uses size parameter instead of aspectRatio',
       });
     }
@@ -124,7 +124,7 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
     };
   }
 
-  private handleSizeParameter(size: string | undefined, warnings: ImageModelV3CallWarning[]): string {
+  private handleSizeParameter(size: string | undefined, warnings: ImageModelWarning[]): string {
     if (!size) {
       // Default size based on model
       if (this.modelId === 'doubao-seedream-4-5-251128') {
@@ -167,22 +167,25 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
         // 2K ~= 4M pixels, 4K ~= 16M pixels
         if (totalPixels >= 10000000) {
           warnings.push({
-            type: 'other',
-            message: `Size ${sizeStr} mapped to 4K for doubao-seedream-4-5-251128.`,
+            type: 'compatibility',
+            feature: 'size',
+            details: `Size ${sizeStr} mapped to 4K for doubao-seedream-4-5-251128.`,
           });
           return '4K';
         } else {
           warnings.push({
-            type: 'other',
-            message: `Size ${sizeStr} mapped to 2K for doubao-seedream-4-5-251128.`,
+            type: 'compatibility',
+            feature: 'size',
+            details: `Size ${sizeStr} mapped to 2K for doubao-seedream-4-5-251128.`,
           });
           return '2K';
         }
       }
 
       warnings.push({
-        type: 'other',
-        message: `Invalid size format: ${size}. Using default 2K for doubao-seedream-4-5-251128.`,
+        type: 'unsupported',
+        feature: 'size',
+        details: `Invalid size format: ${size}. Using default 2K for doubao-seedream-4-5-251128.`,
       });
       return '2K';
     }
@@ -215,8 +218,9 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
           return sizeStr;
         } else {
           warnings.push({
-            type: 'other',
-            message: `Size ${sizeStr} is not supported for doubao-seedream-4-0-250828. Using default 1024x1024.`,
+            type: 'unsupported',
+            feature: 'size',
+            details: `Size ${sizeStr} is not supported for doubao-seedream-4-0-250828. Using default 1024x1024.`,
           });
           return '1024x1024';
         }
@@ -228,8 +232,9 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
         const { width, height } = parsedSize;
         if (width < 512 || height < 512 || width > 2048 || height > 2048) {
           warnings.push({
-            type: 'other',
-            message: `Size ${width}x${height} is outside allowed range [512x512, 2048x2048]. Using default 1024x1024.`,
+            type: 'unsupported',
+            feature: 'size',
+            details: `Size ${width}x${height} is outside allowed range [512x512, 2048x2048]. Using default 1024x1024.`,
           });
           return '1024x1024';
         }
@@ -238,8 +243,9 @@ export class DoubaoSeedreamHandler extends BaseModelHandler {
     }
 
     warnings.push({
-      type: 'other',
-      message: `Invalid size format: ${size}. Using default 1024x1024.`,
+      type: 'unsupported',
+      feature: 'size',
+      details: `Invalid size format: ${size}. Using default 1024x1024.`,
     });
     return '1024x1024';
   }

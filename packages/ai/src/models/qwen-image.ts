@@ -1,6 +1,6 @@
 import type {
   ImageModelV3CallOptions,
-  ImageModelV3CallWarning,
+  
 } from '@ai-sdk/provider';
 import { combineHeaders, postToApi, resolve } from '@ai-sdk/provider-utils';
 import type { QwenImageResponse } from '../ai302-types';
@@ -8,7 +8,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 export class QwenImageHandler extends BaseModelHandler {
   protected async processRequest({
@@ -21,28 +21,28 @@ export class QwenImageHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Qwen Image does not support batch generation',
       });
     }
 
     if (size != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'size',
+        type: 'unsupported',
+        feature: 'size',
         details: 'Qwen Image uses aspect_ratio instead of size parameter',
       });
     }
 
     if (seed != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'seed',
+        type: 'unsupported',
+        feature: 'seed',
         details: 'Qwen Image does not support seed parameter',
       });
     }

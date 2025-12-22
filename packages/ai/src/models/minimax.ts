@@ -1,11 +1,11 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
+import type { ImageModelV3CallOptions } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import type { MinimaxResponse } from '../ai302-types';
 import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 // Supported aspect ratios for Minimax
 const SUPPORTED_ASPECT_RATIOS = [
@@ -30,28 +30,28 @@ export class MinimaxHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Minimax does not support batch generation',
       });
     }
 
     if (seed != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'seed',
+        type: 'unsupported',
+        feature: 'seed',
         details: 'Minimax does not support seed parameter'
       });
     }
 
     if (size != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'size',
+        type: 'unsupported',
+        feature: 'size',
         details: 'Minimax uses aspect_ratio instead of size'
       });
     }

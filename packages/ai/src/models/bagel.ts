@@ -1,11 +1,11 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
+import type { ImageModelV3CallOptions } from "@ai-sdk/provider";
 import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import type { BagelResponse } from "../ai302-types";
 import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from "../utils/api-handlers";
-import { BaseModelHandler } from "./base-model";
+import { BaseModelHandler, type ImageModelWarning } from "./base-model";
 
 export class BagelHandler extends BaseModelHandler {
   protected async processRequest({
@@ -18,22 +18,22 @@ export class BagelHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
-      warnings.push({ type: 'unsupported-setting', setting: 'n', details: 'Bagel does not support batch generation' });
+      warnings.push({ type: 'unsupported', feature: 'n', details: 'Bagel does not support batch generation' });
     }
 
     if (size != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'size', details: 'Bagel does not support custom size' });
+      warnings.push({ type: 'unsupported', feature: 'size', details: 'Bagel does not support custom size' });
     }
 
     if (aspectRatio != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'aspectRatio', details: 'Bagel does not support custom aspect ratio' });
+      warnings.push({ type: 'unsupported', feature: 'aspectRatio', details: 'Bagel does not support custom aspect ratio' });
     }
 
     if (seed != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'seed', details: 'Bagel does not support custom seed' });
+      warnings.push({ type: 'unsupported', feature: 'seed', details: 'Bagel does not support custom seed' });
     }
 
     const resolvedHeaders = await resolve(this.config.headers());

@@ -1,6 +1,6 @@
 import type {
   ImageModelV3CallOptions,
-  ImageModelV3CallWarning,
+  
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import {
@@ -11,7 +11,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 const POLL_INTERVAL = 2000; // 2 seconds
 const MAX_POLL_TIME = 300000; // 5 minutes
@@ -81,21 +81,21 @@ export class ViduReference2ImageHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
     const viduModel = this.getViduModel();
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Vidu generates one image per request',
       });
     }
 
     if (size != null) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'size',
+        type: 'unsupported',
+        feature: 'size',
         details: 'Vidu uses resolution and aspect_ratio instead of size',
       });
     }
@@ -108,8 +108,8 @@ export class ViduReference2ImageHandler extends BaseModelHandler {
     let finalAspectRatio: string | undefined = aspectRatio;
     if (aspectRatio && !supportedAspectRatios.includes(aspectRatio)) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'aspectRatio',
+        type: 'unsupported',
+        feature: 'aspectRatio',
         details: `Aspect ratio ${aspectRatio} not supported. Supported: ${supportedAspectRatios.join(', ')}`,
       });
       finalAspectRatio = '16:9';
@@ -124,8 +124,9 @@ export class ViduReference2ImageHandler extends BaseModelHandler {
     // Validate resolution for viduq1
     if (viduModel === 'viduq1' && resolution && resolution !== '1080p') {
       warnings.push({
-        type: 'other',
-        message: 'viduq1 only supports 1080p resolution. Using 1080p.',
+        type: 'unsupported',
+        feature: 'resolution',
+        details: 'viduq1 only supports 1080p resolution. Using 1080p.',
       });
     }
 
@@ -136,8 +137,9 @@ export class ViduReference2ImageHandler extends BaseModelHandler {
       }
       if (images.length > 7) {
         warnings.push({
-          type: 'other',
-          message: 'Maximum 7 reference images allowed. Using first 7.',
+          type: 'unsupported',
+          feature: 'images',
+          details: 'Maximum 7 reference images allowed. Using first 7.',
         });
       }
     }

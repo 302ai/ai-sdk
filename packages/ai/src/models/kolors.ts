@@ -1,11 +1,11 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
+import type { ImageModelV3CallOptions } from "@ai-sdk/provider";
 import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import type { KolorsResponse } from "../ai302-types";
 import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from "../utils/api-handlers";
-import { BaseModelHandler } from "./base-model";
+import { BaseModelHandler, type ImageModelWarning } from "./base-model";
 import { modelToBackendConfig } from "../ai302-image-settings";
 
 // Ref 1: https://fal.ai/models/fal-ai/kolors/api
@@ -20,7 +20,7 @@ export class KolorsHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     const backendConfig = modelToBackendConfig[this.modelId];
 

@@ -1,6 +1,6 @@
 import type {
   ImageModelV3CallOptions,
-  ImageModelV3CallWarning,
+  
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import type { ZImageTurboResponse } from '../ai302-types';
@@ -8,7 +8,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 export class ZImageTurboHandler extends BaseModelHandler {
   protected async processRequest({
@@ -20,12 +20,12 @@ export class ZImageTurboHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Z-Image-Turbo generates one image per request',
       });
     }
@@ -40,8 +40,9 @@ export class ZImageTurboHandler extends BaseModelHandler {
     // Validate dimensions: min 512, max 2048
     if (parsedSize.width < 512 || parsedSize.height < 512) {
       warnings.push({
-        type: 'other',
-        message: `Minimum size is 512x512. Adjusted from ${parsedSize.width}x${parsedSize.height}`,
+        type: 'unsupported',
+        feature: 'size',
+        details: `Minimum size is 512x512. Adjusted from ${parsedSize.width}x${parsedSize.height}`,
       });
       parsedSize = {
         width: Math.max(512, parsedSize.width),
@@ -51,8 +52,9 @@ export class ZImageTurboHandler extends BaseModelHandler {
 
     if (parsedSize.width > 2048 || parsedSize.height > 2048) {
       warnings.push({
-        type: 'other',
-        message: `Maximum size is 2048x2048. Adjusted from ${parsedSize.width}x${parsedSize.height}`,
+        type: 'unsupported',
+        feature: 'size',
+        details: `Maximum size is 2048x2048. Adjusted from ${parsedSize.width}x${parsedSize.height}`,
       });
       parsedSize = {
         width: Math.min(2048, parsedSize.width),
@@ -62,9 +64,9 @@ export class ZImageTurboHandler extends BaseModelHandler {
 
     if (size != null && aspectRatio != null) {
       warnings.push({
-        type: 'other',
-        message:
-          'Both size and aspectRatio provided. Size will be used and aspectRatio will be ignored.',
+        type: 'unsupported',
+        feature: 'aspectRatio',
+        details: 'Both size and aspectRatio provided. Size will be used and aspectRatio will be ignored.',
       });
     }
 

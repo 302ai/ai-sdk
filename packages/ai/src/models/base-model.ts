@@ -1,8 +1,14 @@
 import {
   ImageModelV3,
   type ImageModelV3CallOptions,
-  type ImageModelV3CallWarning,
 } from '@ai-sdk/provider';
+
+/**
+ * Warning type compatible with SharedV3Warning expected by ImageModelV3
+ */
+export type ImageModelWarning =
+  | { type: 'unsupported'; feature: string; details?: string }
+  | { type: 'compatibility'; feature: string; details?: string };
 import type {
   AI302ImageModelId,
   AI302ImageSettings,
@@ -47,7 +53,7 @@ export abstract class BaseModelHandler {
 
   protected validateAspectRatio(
     aspectRatio: string | undefined,
-    warnings: ImageModelV3CallWarning[],
+    warnings: ImageModelWarning[],
     maxRatio?: number,
     minRatio?: number,
   ): string | undefined {
@@ -78,8 +84,9 @@ export abstract class BaseModelHandler {
     }
 
     warnings.push({
-      type: 'other',
-      message: `Aspect ratio ${aspectRatio} is outside the allowed range (${adjustedWidth}:${adjustedHeight} to ${adjustedHeight}:${adjustedWidth}). Adjusted to ${adjustedWidth}:${adjustedHeight}`,
+      type: 'unsupported',
+      feature: 'aspectRatio',
+      details: `Aspect ratio ${aspectRatio} is outside the allowed range (${adjustedWidth}:${adjustedHeight} to ${adjustedHeight}:${adjustedWidth}). Adjusted to ${adjustedWidth}:${adjustedHeight}`,
     });
 
     return `${adjustedWidth}:${adjustedHeight}`;
@@ -88,7 +95,7 @@ export abstract class BaseModelHandler {
   protected aspectRatioToSize(
     aspectRatio: string | undefined,
     baseSize: number = 1024,
-    warnings: ImageModelV3CallWarning[],
+    warnings: ImageModelWarning[],
   ): ImageSize | undefined {
     if (!aspectRatio) return undefined;
 
@@ -180,7 +187,7 @@ export abstract class BaseModelHandler {
   protected validateSizeOption(
     parsedSize: ImageSize,
     supportedSizes: string[],
-    warnings: ImageModelV3CallWarning[],
+    warnings: ImageModelWarning[],
   ): ImageSize {
     const validatedSize = this.validateDimensionsMultipleOf32(
       parsedSize,
@@ -191,8 +198,9 @@ export abstract class BaseModelHandler {
     if (!supportedSizes.includes(sizeStr)) {
       const closestSize = this.findClosestSize(validatedSize, supportedSizes);
       warnings.push({
-        type: 'other',
-        message: `Size ${sizeStr} is not supported. Using closest supported size: ${closestSize}`,
+        type: 'unsupported',
+        feature: 'size',
+        details: `Size ${sizeStr} is not supported. Using closest supported size: ${closestSize}`,
       });
       const [width, height] = closestSize.split('x').map(Number);
       return { width, height };
@@ -202,7 +210,7 @@ export abstract class BaseModelHandler {
 
   protected validateDimensionsMultipleOf32(
     size: ImageSize,
-    warnings: ImageModelV3CallWarning[],
+    warnings: ImageModelWarning[],
     minSize: number = 32,
     maxSize: number = 4096,
   ): ImageSize {
@@ -225,8 +233,9 @@ export abstract class BaseModelHandler {
 
     if (adjustedWidth !== size.width || adjustedHeight !== size.height) {
       warnings.push({
-        type: 'other',
-        message: `Image dimensions must be multiples of 32 and within the range ${minSize}-${maxSize}. Adjusted from ${size.width}x${size.height} to ${adjustedWidth}x${adjustedHeight}`,
+        type: 'unsupported',
+        feature: 'size',
+        details: `Image dimensions must be multiples of 32 and within the range ${minSize}-${maxSize}. Adjusted from ${size.width}x${size.height} to ${adjustedWidth}x${adjustedHeight}`,
       });
       return { width: adjustedWidth, height: adjustedHeight };
     }
@@ -262,7 +271,7 @@ export abstract class BaseModelHandler {
   protected findClosestAspectRatio(
     targetRatio: `${number}:${number}` | undefined,
     supportedRatios: readonly `${number}:${number}`[],
-    warnings: ImageModelV3CallWarning[],
+    warnings: ImageModelWarning[],
   ): `${number}:${number}` {
     if (!targetRatio) return supportedRatios[0];
 
@@ -288,8 +297,9 @@ export abstract class BaseModelHandler {
 
     if (closestRatio !== targetRatio) {
       warnings.push({
-        type: 'other',
-        message: `Aspect ratio ${targetRatio} is not supported. Using closest supported ratio: ${closestRatio}`,
+        type: 'unsupported',
+        feature: 'aspectRatio',
+        details: `Aspect ratio ${targetRatio} is not supported. Using closest supported ratio: ${closestRatio}`,
       });
     }
 
@@ -299,15 +309,16 @@ export abstract class BaseModelHandler {
   protected sizeToAspectRatio(
     size: string | undefined,
     supportedRatios: readonly string[],
-    warnings: ImageModelV3CallWarning[],
+    warnings: ImageModelWarning[],
   ): string | undefined {
     if (!size) return undefined;
 
     const parsedSize = this.parseSize(size);
     if (!parsedSize) {
       warnings.push({
-        type: 'other',
-        message: `Invalid size format: ${size}. Expected format: WIDTHxHEIGHT`,
+        type: 'unsupported',
+        feature: 'size',
+        details: `Invalid size format: ${size}. Expected format: WIDTHxHEIGHT`,
       });
       return undefined;
     }
@@ -338,8 +349,9 @@ export abstract class BaseModelHandler {
     if (Math.abs(closestRatioValue - ratio) > 0.05) {
       // 5% tolerance
       warnings.push({
-        type: 'other',
-        message: `Size ${size} (ratio ${ratio.toFixed(2)}) converted to closest supported aspect ratio: ${closestRatio}`,
+        type: 'compatibility',
+        feature: 'size',
+        details: `Size ${size} (ratio ${ratio.toFixed(2)}) converted to closest supported aspect ratio: ${closestRatio}`,
       });
     }
 

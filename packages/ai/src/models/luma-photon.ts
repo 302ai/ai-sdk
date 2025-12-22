@@ -1,6 +1,6 @@
 import type {
   ImageModelV3CallOptions,
-  ImageModelV3CallWarning,
+  
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import {
@@ -10,7 +10,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 const SUPPORTED_ASPECT_RATIOS = [
   '1:1',
@@ -34,18 +34,18 @@ export class LumaPhotonHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
-      warnings.push({ type: 'unsupported-setting', setting: 'n', details: 'Luma Photon does not support batch generation' });
+      warnings.push({ type: 'unsupported', feature: 'n', details: 'Luma Photon does not support batch generation' });
     }
 
     if (size != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'size' });
+      warnings.push({ type: 'unsupported', feature: 'size' });
     }
 
     if (seed != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'seed' });
+      warnings.push({ type: 'unsupported', feature: 'seed' });
     }
 
     let parsedAspectRatio = this.findClosestAspectRatio(aspectRatio, SUPPORTED_ASPECT_RATIOS, warnings);

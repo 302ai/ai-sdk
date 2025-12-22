@@ -1,6 +1,6 @@
 import type {
   ImageModelV3CallOptions,
-  ImageModelV3CallWarning,
+  
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import {
@@ -12,7 +12,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 // Ref 1: https://developer.ideogram.ai/api-reference/api-reference/generate
 export class IdeogramHandler extends BaseModelHandler {
@@ -26,12 +26,12 @@ export class IdeogramHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Ideogram does not support batch generation',
       });
     }
@@ -41,24 +41,24 @@ export class IdeogramHandler extends BaseModelHandler {
 
     if (aspectRatio && !convertedAspectRatio) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'aspectRatio',
+        type: 'unsupported',
+        feature: 'aspectRatio',
         details: `Unsupported aspect ratio: ${aspectRatio}. Supported values are: 1:1, 10:16, 16:10, 9:16, 16:9, 3:2, 2:3, 4:3, 3:4, 1:3, 3:1`,
       });
     }
 
     if (size && !convertedResolution) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'size',
+        type: 'unsupported',
+        feature: 'size',
         details: `Unsupported resolution: ${size}. Please use one of the supported resolutions (e.g., '1024x1024', '768x1024', etc.)`,
       });
     }
 
     if (aspectRatio && size) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'size',
+        type: 'unsupported',
+        feature: 'size',
         details: 'Cannot use both aspectRatio and size for ideogram model',
       });
     }
@@ -133,12 +133,12 @@ export class IdeogramV3Handler extends IdeogramHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Ideogram does not support batch generation',
       });
     }
@@ -149,24 +149,24 @@ export class IdeogramV3Handler extends IdeogramHandler {
 
     if (aspectRatio && !convertedAspectRatio) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'aspectRatio',
+        type: 'unsupported',
+        feature: 'aspectRatio',
         details: `Unsupported aspect ratio: ${aspectRatio}. Supported values are: 1:1, 10:16, 16:10, 9:16, 16:9, 3:2, 2:3, 4:3, 3:4, 1:3, 3:1, 1:2, 2:1, 4:5, 5:4`,
       });
     }
 
     if (size && !convertedResolution) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'size',
+        type: 'unsupported',
+        feature: 'size',
         details: `Unsupported resolution: ${size}. Please use one of the supported resolutions for v3 (e.g., '1024x1024', '768x1024', etc.)`,
       });
     }
 
     if (aspectRatio && size) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'size',
+        type: 'unsupported',
+        feature: 'size',
         details: 'Cannot use both aspectRatio and size for ideogram model',
       });
     }

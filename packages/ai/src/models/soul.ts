@@ -1,6 +1,6 @@
 import type {
   ImageModelV3CallOptions,
-  ImageModelV3CallWarning,
+  
 } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
 import { type SoulSubmitResponse, type SoulTaskResponse } from '../ai302-types';
@@ -8,7 +8,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 const SUPPORTED_ASPECT_RATIOS = [
   '9:16',
@@ -89,12 +89,12 @@ export class SoulHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 4) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details:
           'Soul generates 4 images per request. Use n parameter to control how many to return (max 4)',
       });
@@ -109,9 +109,9 @@ export class SoulHandler extends BaseModelHandler {
 
     if (size != null && aspectRatio != null) {
       warnings.push({
-        type: 'other',
-        message:
-          'Both size and aspectRatio provided. Size will be converted to aspect ratio and aspectRatio parameter will be ignored.',
+        type: 'unsupported',
+        feature: 'aspectRatio',
+        details: 'Both size and aspectRatio provided. Size will be converted to aspect ratio and aspectRatio parameter will be ignored.',
       });
     }
 
@@ -124,8 +124,8 @@ export class SoulHandler extends BaseModelHandler {
         validatedAspectRatio = targetAspectRatio;
       } else {
         warnings.push({
-          type: 'unsupported-setting',
-          setting: sizeBasedAspectRatio ? 'size' : 'aspectRatio',
+          type: 'unsupported',
+          feature: sizeBasedAspectRatio ? 'size' : 'aspectRatio',
           details: `Unsupported aspect ratio: ${targetAspectRatio}. Supported values are: ${SUPPORTED_ASPECT_RATIOS.join(', ')}. Using default 1:1`,
         });
       }
@@ -141,8 +141,9 @@ export class SoulHandler extends BaseModelHandler {
     // Validate quality
     if (!SUPPORTED_QUALITIES.includes(quality as any)) {
       warnings.push({
-        type: 'other',
-        message: `Invalid quality: ${quality}. Supported values are: ${SUPPORTED_QUALITIES.join(', ')}. Using default high`,
+        type: 'unsupported',
+        feature: 'quality',
+        details: `Invalid quality: ${quality}. Supported values are: ${SUPPORTED_QUALITIES.join(', ')}. Using default high`,
       });
     }
 

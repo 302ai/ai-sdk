@@ -1,6 +1,6 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
+import type { ImageModelV3CallOptions } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 import type { OmnigenResponse } from '../ai302-types';
 
@@ -15,12 +15,12 @@ export class HidreamHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Hidream does not support batch generation',
       });
     }

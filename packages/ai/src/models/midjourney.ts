@@ -1,4 +1,4 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
+import type { ImageModelV3CallOptions } from "@ai-sdk/provider";
 import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import {
   type MidjourneySubmitResponse,
@@ -8,7 +8,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from "../utils/api-handlers";
-import { BaseModelHandler } from "./base-model";
+import { BaseModelHandler, type ImageModelWarning } from "./base-model";
 
 const SUPPORTED_ASPECT_RATIOS = [
   "1:1",
@@ -175,21 +175,21 @@ export class MidjourneyHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 4) {
-      warnings.push({ type: 'unsupported-setting', setting: 'n', details: 'Midjourney supports up to 4 images per generation' });
+      warnings.push({ type: 'unsupported', feature: 'n', details: 'Midjourney supports up to 4 images per generation' });
     }
 
     if (size != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'size' });
+      warnings.push({ type: 'unsupported', feature: 'size' });
     }
 
     if (aspectRatio) {
       if (!SUPPORTED_ASPECT_RATIOS.includes(aspectRatio as any)) {
         warnings.push({
-          type: "unsupported-setting",
-          setting: "aspectRatio",
+          type: "unsupported",
+          feature: "aspectRatio",
           details: `Unsupported aspect ratio: ${aspectRatio}. Supported values are: ${SUPPORTED_ASPECT_RATIOS.join(", ")}`,
         });
       } else {
@@ -249,8 +249,9 @@ export class MidjourneyHandler extends BaseModelHandler {
     const validUpscaleIndexes = upscaleIndexes.filter(i => i >= 1 && i <= 4);
     if (validUpscaleIndexes.length !== upscaleIndexes.length) {
       warnings.push({
-        type: "other",
-        message: "Some upscale indexes were invalid. Valid indexes are 1-4.",
+        type: "unsupported",
+        feature: "upscaleIndexes",
+        details: "Some upscale indexes were invalid. Valid indexes are 1-4.",
       });
     }
 

@@ -12,7 +12,7 @@ import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from '../utils/api-handlers';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 
 const SUPPORTED_ASPECT_RATIOS: readonly KlingO1AspectRatio[] = [
   'auto',
@@ -141,8 +141,9 @@ export class KlingO1Handler extends BaseModelHandler {
     // Validate images count
     if (images && images.length > 10) {
       warnings.push({
-        type: 'other',
-        message: 'Maximum 10 reference images allowed. Using first 10.',
+        type: 'unsupported',
+        feature: 'images',
+        details: 'Maximum 10 reference images allowed. Using first 10.',
       });
     }
 

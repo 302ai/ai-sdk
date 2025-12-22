@@ -1,11 +1,11 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from "@ai-sdk/provider";
+import type { ImageModelV3CallOptions } from "@ai-sdk/provider";
 import { combineHeaders, postJsonToApi, resolve } from "@ai-sdk/provider-utils";
 import type { RecraftResponse } from "../ai302-types";
 import {
   createJsonResponseHandler,
   statusCodeErrorResponseHandler,
 } from "../utils/api-handlers";
-import { BaseModelHandler } from "./base-model";
+import { BaseModelHandler, type ImageModelWarning } from "./base-model";
 
 const SUPPORTED_SIZES = [
   "1024x1024",
@@ -36,10 +36,10 @@ export class RecraftHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (seed != null) {
-      warnings.push({ type: 'unsupported-setting', setting: 'seed' });
+      warnings.push({ type: 'unsupported', feature: 'seed' });
     }
 
     let parsedSize =

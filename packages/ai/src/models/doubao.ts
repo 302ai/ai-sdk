@@ -1,6 +1,6 @@
-import type { ImageModelV3CallOptions, ImageModelV3CallWarning } from '@ai-sdk/provider';
+import type { ImageModelV3CallOptions } from '@ai-sdk/provider';
 import { combineHeaders, postJsonToApi, resolve } from '@ai-sdk/provider-utils';
-import { BaseModelHandler } from './base-model';
+import { BaseModelHandler, type ImageModelWarning } from './base-model';
 import { createJsonResponseHandler, statusCodeErrorResponseHandler } from '../utils/api-handlers';
 
 // Define the types based on the provided API documentation
@@ -54,7 +54,7 @@ interface DoubaoResponse {
     image_urls: string[];
     request_id: string;
   };
-  message: string;
+  details: string;
   status: number;
   time_elapsed: string;
 }
@@ -70,12 +70,12 @@ export class DoubaoHandler extends BaseModelHandler {
     headers,
     abortSignal,
   }: ImageModelV3CallOptions) {
-    const warnings: ImageModelV3CallWarning[] = [];
+    const warnings: ImageModelWarning[] = [];
 
     if (n != null && n > 1) {
       warnings.push({
-        type: 'unsupported-setting',
-        setting: 'n',
+        type: 'unsupported',
+        feature: 'n',
         details: 'Doubao does not support batch generation',
       });
     }
@@ -118,7 +118,7 @@ export class DoubaoHandler extends BaseModelHandler {
     });
 
     if (response.code !== 10000 && response.status !== 10000) {
-      throw new Error(`Doubao API error: ${response.message} (code: ${response.code}, status: ${response.status})`);
+      throw new Error(`Doubao API error: ${response.details} (code: ${response.code}, status: ${response.status})`);
     }
 
     const urls = response.data.image_urls;
