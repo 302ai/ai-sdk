@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.14
+
+### Patch Changes
+
+- e45d57c: chore: update package versions and improve error handling
+
 ## 0.2.13
 
 ### Patch Changes
