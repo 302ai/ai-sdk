@@ -149,12 +149,16 @@ export class KlingHandler extends BaseModelHandler {
       }
     }
 
+    if (!prompt) {
+      throw new Error('Prompt is required for Kling');
+    }
+
     const requestBody: KlingRequest = {
       model_name: this.getModelName() as any,
       prompt,
       ...(n && { n }),
       ...(validatedAspectRatio && { aspect_ratio: validatedAspectRatio }),
-      ...(providerOptions?.ai302 || {}),
+      ...(providerOptions?.ai302 ?? {}),
     };
 
     const resolvedHeaders = await resolve(this.config.headers());

@@ -102,6 +102,10 @@ export class Gemini3ProImagePreviewHandler extends BaseModelHandler {
       warnings
     ) || '4:3';
 
+    if (!prompt) {
+      throw new Error('Prompt is required for Gemini 3 Pro Image Preview');
+    }
+
     const requestBody: Gemini3ProImagePreviewApiRequest = {
       contents: [
         {

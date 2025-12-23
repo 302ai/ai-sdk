@@ -275,7 +275,7 @@ describe('AI302LanguageModel', () => {
       const model = createTestModel();
       const result = await model.doGenerate({ prompt: TEST_PROMPT });
 
-      expect(result.finishReason).toBe('stop');
+      expect(result.finishReason).toEqual({ unified: 'stop', raw: 'stop' });
     });
 
     it('should extract usage information', async () => {
@@ -347,7 +347,7 @@ describe('AI302LanguageModel', () => {
         toolName: 'get_weather',
         input: '{"location": "Tokyo"}',
       });
-      expect(result.finishReason).toBe('tool-calls');
+      expect(result.finishReason).toEqual({ unified: 'tool-calls', raw: 'tool_calls' });
     });
 
     it('should not include abortSignal in request body', async () => {
@@ -497,7 +497,7 @@ describe('AI302LanguageModel', () => {
       const finishChunk = chunks.find((c: any) => c.type === 'finish') as any;
 
       expect(finishChunk).toBeDefined();
-      expect(finishChunk.finishReason).toBe('stop');
+      expect(finishChunk.finishReason).toEqual({ unified: 'stop', raw: 'stop' });
       expect(finishChunk.usage).toEqual({
         inputTokens: {
           total: 10,

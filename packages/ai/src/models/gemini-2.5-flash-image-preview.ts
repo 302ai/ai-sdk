@@ -87,6 +87,10 @@ export class Gemini25FlashImagePreviewHandler extends BaseModelHandler {
       });
     }
 
+    if (!prompt) {
+      throw new Error('Prompt is required for Gemini 2.5 Flash Image Preview');
+    }
+
     const requestBody: GeminiFlashImagePreviewApiRequest = {
       contents: [
         {

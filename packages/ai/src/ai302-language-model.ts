@@ -150,31 +150,44 @@ function convertToOpenAIChatMessages(
 
       case 'tool': {
         for (const toolResponse of content) {
-          const output = toolResponse.output;
-          let contentValue: string;
+          // Type guard to distinguish between tool result and approval response
+          if (toolResponse.type === 'tool-result') {
+            const output = toolResponse.output;
+            let contentValue: string;
 
-          switch (output.type) {
-            case 'text':
-            case 'error-text':
-              contentValue = output.value;
-              break;
-            case 'execution-denied':
-              contentValue = output.reason ?? 'Tool execution denied.';
-              break;
-            case 'content':
-            case 'json':
-            case 'error-json':
-              contentValue = JSON.stringify(output.value);
-              break;
-            default:
-              contentValue = '';
+            switch (output.type) {
+              case 'text':
+              case 'error-text':
+                contentValue = output.value;
+                break;
+              case 'execution-denied':
+                contentValue = output.reason ?? 'Tool execution denied.';
+                break;
+              case 'content':
+              case 'json':
+              case 'error-json':
+                contentValue = JSON.stringify(output.value);
+                break;
+              default:
+                contentValue = '';
+            }
+
+            messages.push({
+              role: 'tool',
+              tool_call_id: toolResponse.toolCallId,
+              content: contentValue,
+            });
+          } else if (toolResponse.type === 'tool-approval-response') {
+            // Handle tool approval responses
+            // OpenAI doesn't have a native approval system, so we convert it to a tool result
+            messages.push({
+              role: 'tool',
+              tool_call_id: toolResponse.approvalId,
+              content: toolResponse.approved
+                ? `Approved${toolResponse.reason ? `: ${toolResponse.reason}` : ''}`
+                : `Denied${toolResponse.reason ? `: ${toolResponse.reason}` : ''}`,
+            });
           }
-
-          messages.push({
-            role: 'tool',
-            tool_call_id: toolResponse.toolCallId,
-            content: contentValue,
-          });
         }
         break;
       }
@@ -260,16 +273,16 @@ function mapOpenAIFinishReason(
 ): LanguageModelV3FinishReason {
   switch (finishReason) {
     case 'stop':
-      return 'stop';
+      return { unified: 'stop', raw: finishReason };
     case 'length':
-      return 'length';
+      return { unified: 'length', raw: finishReason };
     case 'content_filter':
-      return 'content-filter';
+      return { unified: 'content-filter', raw: finishReason };
     case 'function_call':
     case 'tool_calls':
-      return 'tool-calls';
+      return { unified: 'tool-calls', raw: finishReason };
     default:
-      return 'unknown';
+      return { unified: 'other', raw: finishReason ?? undefined };
   }
 }
 
@@ -588,7 +601,7 @@ export class AI302LanguageModel implements LanguageModelV3 {
       hasFinished: boolean;
     }> = [];
 
-    let finishReason: LanguageModelV3FinishReason = 'unknown';
+    let finishReason: LanguageModelV3FinishReason = { unified: 'other', raw: undefined };
     const usage: {
       promptTokens: number | undefined;
       completionTokens: number | undefined;
@@ -620,7 +633,7 @@ export class AI302LanguageModel implements LanguageModelV3 {
           transform(chunk, controller) {
             // Handle failed chunk parsing
             if (!chunk.success) {
-              finishReason = 'error';
+              finishReason = { unified: 'error', raw: undefined };
               controller.enqueue({ type: 'error', error: chunk.error });
               return;
             }

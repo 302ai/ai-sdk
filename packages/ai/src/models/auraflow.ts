@@ -50,6 +50,10 @@ export class AuraflowHandler extends BaseModelHandler {
       });
     }
 
+    if (!prompt) {
+      throw new Error('Prompt is required for AuraFlow');
+    }
+
     const formData = new FormData();
     formData.append('prompt', prompt);
 

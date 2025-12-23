@@ -90,6 +90,10 @@ export class DoubaoHandler extends BaseModelHandler {
     const doubaoModelVersion = this.mapModelIdToVersion(this.modelId);
     const doubaoReqScheduleConf = this.mapModelIdToReqScheduleConf(this.modelId);
 
+    if (!prompt) {
+      throw new Error('Prompt is required for Doubao');
+    }
+
     const requestBody: DoubaoRequest = {
       prompt,
       model_version: doubaoModelVersion,

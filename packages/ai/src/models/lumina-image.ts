@@ -61,10 +61,13 @@ export class LuminaImageHandler extends BaseModelHandler {
         parsedSize = this.validateDimensionsMultipleOf32(parsedSize, warnings);
     }
 
+    if (!prompt) {
+      throw new Error('Prompt is required for Lumina Image');
+    }
 
     const requestBody: LuminaImageRequest = {
       prompt,
-      image_size: parsedSize,
+      ...(parsedSize && { image_size: parsedSize }),
       seed,
       ...(providerOptions.ai302 ?? {}), // Allow overriding defaults
     };

@@ -42,6 +42,10 @@ export class SDXLHandler extends BaseModelHandler {
 
     parsedSize = this.validateSizeOption(parsedSize, SUPPORTED_SIZES, warnings);
 
+    if (!prompt) {
+      throw new Error('Prompt is required for SDXL');
+    }
+
     const formData = new FormData();
     formData.append("prompt", prompt);
     formData.append("width", parsedSize.width.toString());

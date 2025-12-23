@@ -10,7 +10,8 @@
       "dependsOn": ["^clean"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "env": ["AI302_API_KEY"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]

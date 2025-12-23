@@ -53,7 +53,11 @@ export class QwenImageHandler extends BaseModelHandler {
       aspectRatio as `${number}:${number}` | undefined,
       supportedRatios,
       warnings,
-    );
+    ) ?? '1:1';
+
+    if (!prompt) {
+      throw new Error('Prompt is required for Qwen Image');
+    }
 
     // Create form data for multipart/form-data request
     const formData = new FormData();

@@ -1,18 +1,23 @@
 module.exports = {
-  extends: ['turbo', 'prettier'],
+  extends: ['prettier'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'turbo'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  rules: {},
+  rules: {
+    'turbo/no-undeclared-env-vars': 'warn',
+  },
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
       parser: '@typescript-eslint/parser',
-      plugins: ['@typescript-eslint'],
-      extends: ['turbo', 'prettier'],
+      plugins: ['@typescript-eslint', 'turbo'],
+      extends: ['prettier'],
+      rules: {
+        'turbo/no-undeclared-env-vars': 'warn',
+      },
     },
   ],
 };

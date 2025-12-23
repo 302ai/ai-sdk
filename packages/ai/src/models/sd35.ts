@@ -37,12 +37,16 @@ export class SD35Handler extends BaseModelHandler {
       warnings.push({ type: 'unsupported', feature: 'size' });
     }
 
-    let parsedAspectRatio = this.findClosestAspectRatio(aspectRatio, SUPPORTED_ASPECT_RATIOS, warnings);
+    let parsedAspectRatio = this.findClosestAspectRatio(aspectRatio, SUPPORTED_ASPECT_RATIOS, warnings) ?? "1:1";
 
     const resolvedHeaders = await resolve(this.config.headers());
     const requestHeaders = combineHeaders(resolvedHeaders, headers, {
       Accept: "image/*",
     });
+
+    if (!prompt) {
+      throw new Error('Prompt is required for SD3.5');
+    }
 
     const formData = new FormData();
     formData.append("prompt", prompt);
