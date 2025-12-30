@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.15
+
+### Patch Changes
+
+- fdbdedd: feat: implement audio transcription functionality with multiple response formats
+
 ## 0.2.14
 
 ### Patch Changes
