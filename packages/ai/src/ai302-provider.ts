@@ -5,6 +5,7 @@ import {
   ProviderV3,
   RerankingModelV3,
   SpeechModelV3,
+  TranscriptionModelV3,
 } from '@ai-sdk/provider';
 import { AI302ImageModelId, AI302ImageSettings } from './ai302-image-settings';
 import {
@@ -23,6 +24,8 @@ import { AI302RerankingModel } from './ai302-reranking-model';
 import { AI302RerankingModelId } from './ai302-reranking-settings';
 import { AI302SpeechModel } from './ai302-speech-model';
 import { AI302SpeechModelId } from './ai302-speech-settings';
+import { AI302TranscriptionModel } from './ai302-transcription-model';
+import { AI302TranscriptionModelId } from './ai302-transcription-settings';
 import { VERSION } from './version';
 
 export interface AI302ProviderSettings {
@@ -115,6 +118,17 @@ Creates a chat model for text generation.
   Creates a model for reranking documents (alias for reranking).
   */
   rerankingModel(modelId: AI302RerankingModelId): RerankingModelV3;
+
+  /**
+  Creates a model for audio transcription (speech-to-text).
+  @param modelId The transcription model ID, e.g. "whisper-1", "gpt-4o-transcribe"
+  */
+  transcription(modelId: AI302TranscriptionModelId): TranscriptionModelV3;
+
+  /**
+  Creates a model for audio transcription (alias for transcription).
+  */
+  transcriptionModel(modelId: AI302TranscriptionModelId): TranscriptionModelV3;
 }
 
 const defaultBaseURL = 'https://api.302.ai';
@@ -200,6 +214,10 @@ export function createAI302(
     return new AI302RerankingModel(modelId, getCommonModelConfig('reranking'));
   };
 
+  const createTranscriptionModel = (modelId: AI302TranscriptionModelId) => {
+    return new AI302TranscriptionModel(modelId, getCommonModelConfig('transcription'));
+  };
+
   const provider = (modelId: AI302ChatModelId, settings?: AI302ChatSettings) =>
     createChatModel(modelId, settings);
 
@@ -214,6 +232,8 @@ export function createAI302(
   provider.speechModel = createSpeechModel;
   provider.reranking = createRerankingModel;
   provider.rerankingModel = createRerankingModel;
+  provider.transcription = createTranscriptionModel;
+  provider.transcriptionModel = createTranscriptionModel;
 
   return provider as AI302Provider;
 }

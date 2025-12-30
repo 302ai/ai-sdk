@@ -17,4 +17,11 @@ export type {
   AI302TTSProvider,
   AI302SpeechProviderOptions,
 } from './ai302-speech-settings';
+export { AI302TranscriptionModel } from './ai302-transcription-model';
+export type {
+  AI302TranscriptionModelId,
+  AI302TranscriptionProvider,
+  AI302TranscriptionProviderOptions,
+  AI302TranscriptionResponseFormat,
+} from './ai302-transcription-settings';
 export { VERSION } from './version';
