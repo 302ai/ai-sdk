@@ -32,12 +32,14 @@ import { GoogleImagen3Handler } from './google-imagen-3';
 import { GoogleImagen4Handler } from './google-imagen-4';
 import { DoubaoHandler } from './doubao';
 import { DoubaoSeedreamHandler } from './doubao-seedream';
+import { Seedream5Handler } from './seedream5';
 import { LuminaImageHandler } from './lumina-image';
 import { OmnigenHandler } from './omnigen';
 import { PlaygroundHandler } from './playground';
 import { QwenImageHandler } from './qwen-image';
 import { Gemini25FlashImagePreviewHandler } from './gemini-2.5-flash-image-preview';
 import { Gemini3ProImagePreviewHandler } from './gemini-3-pro-image-preview';
+import { Gemini31FlashImagePreviewHandler } from './gemini-3.1-flash-image-preview';
 import { ZImageTurboHandler } from './z-image-turbo';
 import { ViduReference2ImageHandler } from './vidu-reference2image';
 import { KlingO1Handler } from './kling-o1';
@@ -125,6 +127,8 @@ export function createImageModelHandler(
     case 'doubao-seedream-4-0-250828':
     case 'doubao-seedream-4-5-251128':
       return new DoubaoSeedreamHandler(modelId, settings, config);
+    case 'seedream-5.0':
+      return new Seedream5Handler(modelId, settings, config);
     case 'lumina-image-v2':
       return new LuminaImageHandler(modelId, settings, config);
     case 'omnigen-v1':
@@ -155,6 +159,8 @@ export function createImageModelHandler(
       return new Gemini25FlashImagePreviewHandler(modelId, settings, config);
     case 'gemini-3-pro-image-preview':
       return new Gemini3ProImagePreviewHandler(modelId, settings, config);
+    case 'gemini-3.1-flash-image-preview':
+      return new Gemini31FlashImagePreviewHandler(modelId, settings, config);
     case 'z-image-turbo':
       return new ZImageTurboHandler(modelId, settings, config);
     case 'vidu-viduq1':
