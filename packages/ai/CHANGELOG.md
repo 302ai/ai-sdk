@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.16
+
+### Patch Changes
+
+- 6053afd: feat: add support for gemini-3.1-flash-image-preview and seedream-5.0 image models
+
 ## 0.2.15
 
 ### Patch Changes
