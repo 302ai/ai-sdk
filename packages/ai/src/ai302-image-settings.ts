@@ -46,6 +46,7 @@ export type AI302ImageModelId =
   | 'doubao-seedream-3-0-t2i-250415'
   | 'doubao-seedream-4-0-250828'
   | 'doubao-seedream-4-5-251128'
+  | 'seedream-5.0'
   | 'lumina-image-v2'
   | 'omnigen-v1'
   | 'playground-v25'
@@ -67,6 +68,7 @@ export type AI302ImageModelId =
   | 'qwen-image'
   | 'gemini-2.5-flash-image-preview'
   | 'gemini-3-pro-image-preview'
+  | 'gemini-3.1-flash-image-preview'
   | 'z-image-turbo'
   | 'vidu-viduq1'
   | 'vidu-viduq2'
@@ -221,6 +223,9 @@ export const modelToBackendConfig: Partial<
   'doubao-seedream-4-5-251128': {
     supportsSize: true,
   },
+  'seedream-5.0': {
+    supportsSize: true,
+  },
   'lumina-image-v2': {
     supportsSize: true,
   },
@@ -282,6 +287,9 @@ export const modelToBackendConfig: Partial<
     supportsSize: false,
   },
   'gemini-3-pro-image-preview': {
+    supportsSize: false,
+  },
+  'gemini-3.1-flash-image-preview': {
     supportsSize: false,
   },
   'z-image-turbo': {
