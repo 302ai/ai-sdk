@@ -74,7 +74,7 @@ const MODELS = [
   // 'qwen-image',
   // 'gemini-2.5-flash-image-preview',
   // 'gemini-3-pro-image-preview',
-  // 'doubao-seedream-4-0-250828',
+//   'doubao-seedream-4-0-250828',
   // 'flux-2-pro',
   // 'flux-2-flex',
   // 'z-image-turbo',
@@ -82,7 +82,8 @@ const MODELS = [
   // 'kling-o1',
   // "gpt-image-1.5",
   // "wan2.6-image",
-  "flux-2-max"
+//   "flux-2-max",
+   "doubao-seedream-5-0-260128"
 ];
 
 const TEST_PROMPT = 'A burrito launched through a tunnel';
