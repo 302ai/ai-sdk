@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.48.0",
-    "@typescript-eslint/parser": "^8.49.0",
+    "@typescript-eslint/parser": "^8.50.1",
     "eslint-config-next": "^16.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-config-turbo": "^2.5.8",
