@@ -85,7 +85,7 @@ export class Seedream5Handler extends BaseModelHandler {
     warnings: ImageModelWarning[],
   ): string {
     if (!size) {
-      return '1024x1024';
+      return '2K';
     }
 
     const qualityLevels = ['1K', '2K', '4K', '1k', '2k', '4k'];
@@ -137,28 +137,28 @@ export class Seedream5Handler extends BaseModelHandler {
           details: `Size ${sizeStr} mapped to 4K for Seedream 5.0.`,
         });
         return '4K';
-      } else if (totalPixels >= 4000000) {
+      } else if (totalPixels >= 3686400) {
         warnings.push({
           type: 'compatibility',
           feature: 'size',
-          details: `Size ${sizeStr} mapped to 2K for Seedream 5.0.`,
+          details: `Size ${sizeStr} mapped to 2K for Seedream 5.0 (minimum 3,686,400 pixels required).`,
         });
         return '2K';
       } else {
         warnings.push({
           type: 'compatibility',
           feature: 'size',
-          details: `Size ${sizeStr} mapped to 1K for Seedream 5.0.`,
+          details: `Size ${sizeStr} mapped to 2K for Seedream 5.0 (minimum 3,686,400 pixels required).`,
         });
-        return '1K';
+        return '2K';
       }
     }
 
     warnings.push({
       type: 'unsupported',
       feature: 'size',
-      details: `Invalid size format: ${size}. Using default 1024x1024.`,
+      details: `Invalid size format: ${size}. Using default 2K.`,
     });
-    return '1024x1024';
+    return '2K';
   }
 }

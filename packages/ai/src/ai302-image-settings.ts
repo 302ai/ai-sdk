@@ -46,7 +46,7 @@ export type AI302ImageModelId =
   | 'doubao-seedream-3-0-t2i-250415'
   | 'doubao-seedream-4-0-250828'
   | 'doubao-seedream-4-5-251128'
-  | 'seedream-5.0'
+  | 'doubao-seedream-5-0-260128'
   | 'lumina-image-v2'
   | 'omnigen-v1'
   | 'playground-v25'
@@ -223,7 +223,7 @@ export const modelToBackendConfig: Partial<
   'doubao-seedream-4-5-251128': {
     supportsSize: true,
   },
-  'seedream-5.0': {
+  'doubao-seedream-5-0-260128': {
     supportsSize: true,
   },
   'lumina-image-v2': {
