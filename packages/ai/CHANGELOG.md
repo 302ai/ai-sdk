@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.17
+
+### Patch Changes
+
+- 07a618e: fix the issue of incorrect model name in the seedream model
+
 ## 0.2.16
 
 ### Patch Changes
