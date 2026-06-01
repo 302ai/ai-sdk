@@ -29,21 +29,21 @@
     }
   },
   "dependencies": {
-    "@ai-sdk/openai-compatible": "^2.0.0",
-    "@ai-sdk/provider": "3.0.0",
-    "@ai-sdk/provider-utils": "4.0.0",
-    "ai": "6.0.1",
+    "@ai-sdk/openai-compatible": "^2.0.48",
+    "@ai-sdk/provider": "^3.0.10",
+    "@ai-sdk/provider-utils": "^4.0.27",
+    "ai": "^6.0.193",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@302ai/ai-tsconfig": "workspace:*",
     "@edge-runtime/vm": "^5.0.0",
-    "@types/node": "^18",
+    "@types/node": "^25.9.1",
     "tsup": "^8.5.1",
-    "typescript": "5.9.3",
-    "vite": "^7.2.4",
-    "vitest": "^4.0.14",
-    "zod": "^4.1.13"
+    "typescript": "6.0.3",
+    "vite": "^8.0.15",
+    "vitest": "^4.1.7",
+    "zod": "^4.4.3"
   },
   "peerDependencies": {
     "zod": "^4.1.13"
