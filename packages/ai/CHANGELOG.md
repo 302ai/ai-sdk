@@ -1,5 +1,11 @@
 # @302ai/ai-sdk
 
+## 0.2.18
+
+### Patch Changes
+
+- 904bea0: chore(deps): upgrade dependencies to latest versions
+
 ## 0.2.17
 
 ### Patch Changes
